@@ -8,7 +8,6 @@
     <script src="States/boot.js"></script>
     <script src="States/preload.js"></script>
     <script src="States/mainmenu.js"></script>
-    <script src = "States/optionsmenu.js"></script>
     <script src = "States/gamestate.js"></script>
     <style>
         body{margin:0}
@@ -19,7 +18,6 @@
             game.state.add("Boot",boot);
             game.state.add("Preload",preload);
             game.state.add("MainMenu",mainMenu);
-            game.state.add("OptionsMenu", optionsMenu);
             game.state.add("GameState", gameState);
             game.state.start("Boot");
         })();
