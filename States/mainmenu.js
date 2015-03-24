@@ -5,9 +5,14 @@ var mainMenu = function(game){}
 
 mainMenu.prototype = {
     create: function(){
-        var mainMenu = this.game.add.sprite(this.game.world.width/2, this.game.world.height/2, "Logo");
-        mainMenu.anchor.setTo(0.5, 0.5);
-        mainMenu.scale.set(0.5, 0.5);
+        var Clouds = this.game.add.sprite(0,0, "Clouds");
+        var Hills = this.game.add.sprite(0,0, "Hills");
+        var Logo = this.game.add.sprite(this.game.world.width/2, this.game.world.height/4, "Logo");
+
+        Logo.anchor.setTo(0.5, 0.5);
+        Logo.scale.set(0.5, 0.5);
+
+
 
     }
 }
