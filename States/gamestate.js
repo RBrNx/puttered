@@ -2,20 +2,18 @@
  * Created by b00231929 on 20/03/2015.
  */
 var gameState = function(game){}
+var Player;
 
 gameState.prototype = {
     preload: function(){
-
+        this.game.load.spritesheet("Shot", "Graphics/Player/Swing.png", 400, 400);
     },
 
-    create: function(){
-        this.game.make.text(this.game.world.centerX, this.game.world.centerY, "Game State", {font: "32px Arial", fill: this.generateHexColor() });
+    create: function() {
+        Player = this.game.add.sprite(0, 880, "Shot");
+        Player.animations.add("Swing");
+        Player.scale.setTo(0.5, 0.5);
 
-    },
-
-    generateHexColor: function(){
-        return "#" + ((0.5 + 0.5 * Math.random()) * 0xFFFFFF << 0).toString(16);
-
+        Player.animations.play("Swing", 10, true);
     }
-
 }

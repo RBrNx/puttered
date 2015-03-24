@@ -11,6 +11,9 @@ var MusicOff;
 var SoundOn;
 var SoundOff;
 
+var Sound;
+var Music;
+
 mainMenu.prototype = {
     create: function(){
         Clouds = this.game.add.tileSprite(0,0, 1920, 1080, "Clouds");
@@ -46,33 +49,37 @@ mainMenu.prototype = {
         Options = this.game.add.button(this.game.world.centerX-200, this.game.world.centerY+200, "Options", this.StartOptions, this, 0 ,0, 1, 0);
 
         Back.destroy();
-        MusicOn.destroy();
-        MusicOff.destroy();
-        SoundOn.destroy();
-        SoundOff.destroy();
+        if (Music == true) {MusicOn.destroy();}
+        if (Music == false) {MusicOff.destroy();}
+        if (Sound == true) {SoundOn.destroy();}
+        if (Sound == false) {SoundOff.destroy();}
     },
 
     TurnMusicOff: function(){
         MusicOff = this.game.add.button(this.game.world.centerX-200, this.game.world.centerY -100, "MusicOff", this.TurnMusicOn, this, 0, 0, 1, 0);
         MusicOn.destroy();
+        Music = false;
         //Turn Music Off here
     },
 
     TurnMusicOn: function(){
         MusicOn = this.game.add.button(this.game.world.centerX-200, this.game.world.centerY - 100, "MusicOn", this.TurnMusicOff, this, 0, 0, 1, 0);
         MusicOff.destroy();
+        Music = true;
         //Turn Music On here
     },
 
     TurnSoundOff: function(){
         SoundOff = this.game.add.button(this.game.world.centerX+50, this.game.world.centerY - 100, "SoundOff", this.TurnSoundOn, this, 0, 0, 1, 0);
         SoundOn.destroy();
+        Sound = false;
         //Turn Sound Off here
     },
 
     TurnSoundOn: function(){
         SoundOn = this.game.add.button(this.game.world.centerX+50, this.game.world.centerY - 100, "SoundOn", this.TurnSoundOff, this, 0, 0, 1, 0);
         SoundOff.destroy();
+        Sound = true;
         //Turn Sound On here
     }
 }
