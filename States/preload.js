@@ -12,11 +12,13 @@ preload.prototype = {
         this.game.load.image("Clouds", "Graphics/Background/Background-Clouds.png");
         this.game.load.image("Hills", "Graphics/Background/Background-Hills.png");
 
-        this.game.load.image("PlayButtonUp", "Graphics/Buttons/Play-Up.png");
-        this.game.load.image("PlayButtonDown", "Graphics/Buttons/Play-Down.png");
-        this.game.load.image("OpButtonUp", "Graphics/Buttons/Options-Up.png");
-        this.game.load.image("OpButtonDown", "Graphics/Buttons/Options-Up.png");
-        this.game.load.image("BackUp", "Graphics/Buttons/Back-Up.png");
+        this.game.load.spritesheet("Play", "Graphics/Buttons/Play-Button.png", 400, 150);
+        this.game.load.spritesheet("Options", "Graphics/Buttons/Options-Button.png", 400, 150);
+        this.game.load.spritesheet("Back", "Graphics/Buttons/Back-Button.png", 400, 150);
+        this.game.load.spritesheet("SoundOn", "Graphics/Buttons/Sound-On-Button.png", 150, 150);
+        this.game.load.spritesheet("SoundOff", "Graphics/Buttons/Sound-Off-Button.png", 150, 150);
+        this.game.load.spritesheet("MusicOn", "Graphics/Buttons/Music-On-Button.png", 150, 150);
+        this.game.load.spritesheet("MusicOff", "Graphics/Buttons/Music-Off-Button.png", 150, 150);
     },
     create: function(){
         this.game.state.start("MainMenu");

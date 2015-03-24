@@ -6,8 +6,10 @@ var Clouds;
 var Play;
 var Options;
 var Back;
-var menuScreen;
-var optionsScreen;
+var MusicOn;
+var MusicOff;
+var SoundOn;
+var SoundOff;
 
 mainMenu.prototype = {
     create: function(){
@@ -17,15 +19,10 @@ mainMenu.prototype = {
         Logo.anchor.setTo(0.5, 0.5);
         Logo.scale.set(0.5, 0.5);
 
-        menuScreen = this.game.add.group();
-        optionsScreen = this.game.add.group();
+        Play = this.game.add.button(this.game.world.centerX-200, this.game.world.centerY, "Play", this.StartGame, this, 0, 0, 1, 0);
+        Options = this.game.add.button(this.game.world.centerX-200, this.game.world.centerY+200, "Options", this.StartOptions, this, 0, 0, 1, 0);
 
-        Play = menuScreen.game.add.button(this.game.world.centerX-200, this.game.world.centerY, "PlayButtonUp", this.StartOptions, this);
-        Options = menuScreen.game.add.button(this.game.world.centerX-200, this.game.world.centerY+200, "OpButtonUp", this.StartGame, this);
 
-        Back = optionsScreen.game.add.button(this.game.world.centerX-200, this.game.world.centerY, "BackUp", this.GoBack, this);
-
-        optionsScreen.setAll("Visible", false);
     },
 
     update: function(){
@@ -33,8 +30,11 @@ mainMenu.prototype = {
     },
 
     StartOptions: function(){
-      this.menuScreen.setAll("Visible", false);
-      this.optionsScreen.setAll("Visible", true);
+        Back = this.game.add.button(this.game.world.centerX-200, this.game.world.centerY + 100, "Back", this.GoBack, this, 0, 0, 1, 0);
+        MusicOn = this.game.add.button(this.game.world.centerX-200, this.game.world.centerY - 100, "MusicOn", this.TurnMusicOff, this, 0, 0, 1, 0);
+        SoundOn = this.game.add.button(this.game.world.centerX + 50, this.game.world.centerY - 100, "SoundOn", this.TurnSoundOff, this, 0, 0, 1, 0);
+        Play.destroy();
+        Options.destroy();
     },
 
     StartGame: function(){
@@ -42,6 +42,37 @@ mainMenu.prototype = {
     },
 
     GoBack: function(){
-        this.game.state.start("MainMenu");
+        Play = this.game.add.button(this.game.world.centerX-200, this.game.world.centerY, "Play", this.StartGame, this, 0, 0, 1, 0);
+        Options = this.game.add.button(this.game.world.centerX-200, this.game.world.centerY+200, "Options", this.StartOptions, this, 0 ,0, 1, 0);
+
+        Back.destroy();
+        MusicOn.destroy();
+        MusicOff.destroy();
+        SoundOn.destroy();
+        SoundOff.destroy();
+    },
+
+    TurnMusicOff: function(){
+        MusicOff = this.game.add.button(this.game.world.centerX-200, this.game.world.centerY -100, "MusicOff", this.TurnMusicOn, this, 0, 0, 1, 0);
+        MusicOn.destroy();
+        //Turn Music Off here
+    },
+
+    TurnMusicOn: function(){
+        MusicOn = this.game.add.button(this.game.world.centerX-200, this.game.world.centerY - 100, "MusicOn", this.TurnMusicOff, this, 0, 0, 1, 0);
+        MusicOff.destroy();
+        //Turn Music On here
+    },
+
+    TurnSoundOff: function(){
+        SoundOff = this.game.add.button(this.game.world.centerX+50, this.game.world.centerY - 100, "SoundOff", this.TurnSoundOn, this, 0, 0, 1, 0);
+        SoundOn.destroy();
+        //Turn Sound Off here
+    },
+
+    TurnSoundOn: function(){
+        SoundOn = this.game.add.button(this.game.world.centerX+50, this.game.world.centerY - 100, "SoundOn", this.TurnSoundOff, this, 0, 0, 1, 0);
+        SoundOff.destroy();
+        //Turn Sound On here
     }
 }
