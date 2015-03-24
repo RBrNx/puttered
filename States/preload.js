@@ -11,6 +11,11 @@ preload.prototype = {
         this.game.load.image("Logo", "Graphics/Logo.png");
         this.game.load.image("Clouds", "Graphics/Background/Background-Clouds.png");
         this.game.load.image("Hills", "Graphics/Background/Background-Hills.png");
+
+        this.game.load.image("PlayButtonUp", "Graphics/Buttons/Play-Up.png")
+        this.game.load.image("PlayButtonDown", "Graphics/Buttons/Play-Down.png")
+        this.game.load.image("OpButtonUp", "Graphics/Buttons/Options-Up.png")
+        this.game.load.image("OpButtonDown", "Graphics/Buttons/Options-Up.png")
     },
     create: function(){
         this.game.state.start("MainMenu");
