@@ -10,7 +10,7 @@ preload.prototype = {
             this.load.setPreloadSprite(loadingBar);
         this.game.load.image("Logo", "Graphics/Logo.png");
         this.game.load.image("Clouds", "Graphics/Background/Background-Clouds.png");
-        this.game.load.image("Hills", "Graphics/Background/Background-Hills.png");
+        this.game.load.image("Hills", "Graphics/Background/Background-Hills3.png");
 
         this.game.load.spritesheet("Play", "Graphics/Buttons/Play-Button.png", 400, 150);
         this.game.load.spritesheet("Options", "Graphics/Buttons/Options-Button.png", 400, 150);

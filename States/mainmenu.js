@@ -13,7 +13,6 @@ var SoundOff;
 var Level1;
 var Level2;
 var RoomNumber;
-var currentX;
 
 var Sound;
 var Music;
@@ -84,7 +83,6 @@ mainMenu.prototype = {
         if(Sound == true) SoundOn = this.game.add.button(this.game.world.centerX + 50, this.game.world.centerY - 100, "SoundOn", this.TurnSoundOff, this, 0, 0, 1, 0);
         if(Music == false) MusicOff = this.game.add.button(this.game.world.centerX-200, this.game.world.centerY - 100, "MusicOff", this.TurnMusicOn, this, 0, 0, 1, 0);
         if(Sound == false) SoundOff = this.game.add.button(this.game.world.centerX + 50, this.game.world.centerY - 100, "SoundOff", this.TurnSoundOn, this, 0, 0, 1, 0);
-
         Play.destroy();
         Options.destroy();
 
@@ -95,8 +93,9 @@ mainMenu.prototype = {
         Play.destroy();
         Options.destroy();
 
-        Level1 = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY+75, "Level1", 0);
-        Level2 = this.game.add.sprite(Level1.x+480, this.game.world.centerY+75, "Level2", 0);
+        Back = this.game.add.button(this.game.world.centerX-200, this.game.world.centerY + 200, "Back", this.GoBack, this, 0, 0, 1, 0);
+        Level1 = this.game.add.button(this.game.world.centerX, this.game.world.centerY+75, "Level1", this.GoToLevel1, this, 0, 0, 1, 0);
+        Level2 = this.game.add.button(Level1.x+480, this.game.world.centerY+75, "Level2", this.GoToLevel2, this, 0, 0, 1, 0);
         Level1.anchor.setTo(0.5, 0.5);
         Level2.anchor.setTo(0.5, 0.5);
         Level1.inputEnabled = true;
@@ -104,7 +103,10 @@ mainMenu.prototype = {
 
         RoomNumber = 3;
 
-        //Level1.events.onInputUp.add()
+        Level1.events.onInputUp.add(this.GoToLevel1);
+        /*Level2.events.onInputOver.add(function(){
+            this.game.state.start("GameState")
+        });*/
 
 
     },
@@ -114,10 +116,12 @@ mainMenu.prototype = {
         Options = this.game.add.button(this.game.world.centerX-200, this.game.world.centerY+200, "Options", this.StartOptions, this, 0 ,0, 1, 0);
 
         Back.destroy();
-        if (Music == true) MusicOn.destroy();
-        if (Music == false) MusicOff.destroy();
-        if (Sound == true) SoundOn.destroy();
-        if (Sound == false) SoundOff.destroy();
+        if (MusicOn != undefined) MusicOn.destroy();
+        if (MusicOff != undefined) MusicOff.destroy();
+        if (SoundOn != undefined) SoundOn.destroy();
+        if (SoundOff != undefined) SoundOff.destroy();
+        if (Level1 != undefined) Level1.destroy();
+        if (Level2 != undefined) Level2.destroy();
 
         RoomNumber = 1;
     },
@@ -148,5 +152,13 @@ mainMenu.prototype = {
         SoundOff.destroy();
         Sound = true;
         //Turn Sound On here
+    },
+
+    GoToLevel1: function(){
+        this.game.state.start("GameState")
+    },
+
+    GoToLevel2: function(){
+        //this.game.state.start("GameState")
     }
 };
