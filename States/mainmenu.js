@@ -13,8 +13,6 @@ var SoundOff;
 var Level1;
 var Level2;
 var RoomNumber;
-var moveLeft = false;
-var moveRight = false;
 
 var Sound;
 var Music;
@@ -45,11 +43,13 @@ mainMenu.prototype = {
                 Level2.x = Level1.x + 480;
 
                 this.game.input.onUp.add(function () {
-                    if (this.game.physics.arcade.distanceBetween(Level1, this.game.world.centerX) < this.game.physics.arcade.distanceBetween(Level2, this.game.world.centerX)) {
-                        Level1.x = this.game.world.centerX;
+                    if (Math.pow(Level1.x - 960, 2) < Math.pow(Level2.x - 960, 2)) {
+                        Level1.x = 960;
+                        console.log("Ping Level1");
                     }
-                    if (this.game.physics.arcade.distanceBetween(Level1, this.game.world.centerX) > this.game.physics.arcade.distanceBetween(Level2, this.game.world.centerX)) {
-                        Level2.x = this.game.world.centerX;
+                    if (Math.pow(Level1.x - 960, 2) > Math.pow(Level2.x - 960, 2)) {
+                        Level1.x = 480;
+                        console.log("Ping Level2");
                     }
 
                 });
