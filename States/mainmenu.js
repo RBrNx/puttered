@@ -13,6 +13,7 @@ var SoundOff;
 var Level1;
 var Level2;
 var RoomNumber;
+var currentX;
 
 var Sound;
 var Music;
@@ -37,26 +38,38 @@ mainMenu.prototype = {
     update: function(){
         Clouds.tilePosition.x += 1;
 
+        currentX = this.game.input.x;
+
         if (RoomNumber = 3) {
             if (Level2 != undefined && Level1 != undefined) {
 
-                Level2.x = Level1.x + 480;
+                //this.game.input.onDown.add(this.updateButtons, this);
 
+                if (this.game.input.activePointer.isDown) {
+                    if (this.game.origDragPoint) {
+                        // move the camera by the amount the mouse has moved since last update
+                        Level1.x -= this.game.origDragPoint.x - this.game.input.activePointer.position.x;
+                        Level2.x -= this.game.origDragPoint.x - this.game.input.activePointer.position.x;
+                    }
+                    // set new drag origin to current position
+                    this.game.origDragPoint = this.game.input.activePointer.position.clone();
+                }
+                else {
+                    this.game.origDragPoint = null;
+                }
                 this.game.input.onUp.add(function () {
                     if (Math.pow(Level1.x - 960, 2) < Math.pow(Level2.x - 960, 2)) {
                         Level1.x = 960;
-                        console.log("Ping Level1");
+                        Level2.x = 1440;
                     }
                     if (Math.pow(Level1.x - 960, 2) > Math.pow(Level2.x - 960, 2)) {
                         Level1.x = 480;
-                        console.log("Ping Level2");
+                        Level2.x = 960
                     }
 
                 });
             }
         }
-
-
 
     },
 
@@ -83,20 +96,15 @@ mainMenu.prototype = {
         Options.destroy();
 
         Level1 = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY+75, "Level1", 0);
-        Level2 = this.game.add.sprite(this.game.world.centerX+480, this.game.world.centerY+75, "Level2", 0);
-
+        Level2 = this.game.add.sprite(Level1.x+480, this.game.world.centerY+75, "Level2", 0);
         Level1.anchor.setTo(0.5, 0.5);
-        Level1.inputEnabled = true;
-        Level1.input.enableDrag();
-        Level1.input.allowVerticalDrag = false;
-
         Level2.anchor.setTo(0.5, 0.5);
+        Level1.inputEnabled = true;
         Level2.inputEnabled = true;
-        Level2.input.enableDrag();
-        Level2.input.allowVerticalDrag = false;
-
 
         RoomNumber = 3;
+
+        //Level1.events.onInputUp.add()
 
 
     },
@@ -140,7 +148,5 @@ mainMenu.prototype = {
         SoundOff.destroy();
         Sound = true;
         //Turn Sound On here
-    },
-
-
+    }
 };
