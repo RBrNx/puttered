@@ -19,6 +19,9 @@ preload.prototype = {
         this.game.load.spritesheet("SoundOff", "Graphics/Buttons/Sound-Off-Button.png", 150, 150);
         this.game.load.spritesheet("MusicOn", "Graphics/Buttons/Music-On-Button.png", 150, 150);
         this.game.load.spritesheet("MusicOff", "Graphics/Buttons/Music-Off-Button.png", 150, 150);
+
+        this.game.load.spritesheet("Level1", "Graphics/Buttons/Level-1-Button.png", 150, 150);
+        this.game.load.spritesheet("Level2", "Graphics/Buttons/Level-2-Button.png", 150, 150);
     },
     create: function(){
         this.game.state.start("MainMenu");
