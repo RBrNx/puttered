@@ -39,26 +39,24 @@ mainMenu.prototype = {
     update: function(){
         Clouds.tilePosition.x += 1;
 
-        if (moveLeft == true) {
-            if (Level1 != undefined) {
+        if (RoomNumber = 3) {
+            if (Level2 != undefined && Level1 != undefined) {
 
-                if (Level1.x > 480) {
-                    Level1.x -= 30;
-                    Level2.x -= 30;
-                    } else { moveLeft = false}
-                }
-        }
+                Level2.x = Level1.x + 480;
 
-        if (moveRight == true) {
-            if (Level1 != undefined) {
-                if (Level1.x < this.game.world.centerX) {
-                    Level1.x += 30;
-                    Level2.x += 30;
-                } else {
-                    moveRight = false
-                }
+                this.game.input.onUp.add(function () {
+                    if (this.game.physics.arcade.distanceBetween(Level1, this.game.world.centerX) < this.game.physics.arcade.distanceBetween(Level2, this.game.world.centerX)) {
+                        Level1.x = this.game.world.centerX;
+                    }
+                    if (this.game.physics.arcade.distanceBetween(Level1, this.game.world.centerX) > this.game.physics.arcade.distanceBetween(Level2, this.game.world.centerX)) {
+                        Level2.x = this.game.world.centerX;
+                    }
+
+                });
             }
         }
+
+
 
     },
 
@@ -84,22 +82,23 @@ mainMenu.prototype = {
         Play.destroy();
         Options.destroy();
 
-        Level1 = this.game.add.button(this.game.world.centerX, this.game.world.centerY+75, "Level1", this.Level1, this, 0, 0, 1, 0);
-        Level2 = this.game.add.button(this.game.world.centerX+480, this.game.world.centerY+75, "Level2", this.Level2, this, 0, 0, 1, 0);
+        Level1 = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY+75, "Level1", 0);
+        Level2 = this.game.add.sprite(this.game.world.centerX+480, this.game.world.centerY+75, "Level2", 0);
+
         Level1.anchor.setTo(0.5, 0.5);
+        Level1.inputEnabled = true;
+        Level1.input.enableDrag();
+        Level1.input.allowVerticalDrag = false;
+
         Level2.anchor.setTo(0.5, 0.5);
+        Level2.inputEnabled = true;
+        Level2.input.enableDrag();
+        Level2.input.allowVerticalDrag = false;
+
 
         RoomNumber = 3;
 
-        this.listenSwipe(function(direction) {
-            if (direction == "left"){
-                 moveLeft = true;
-            }
 
-            if (direction == "right"){
-                moveRight = true;
-            }
-        });
     },
 
     GoBack: function(){
@@ -143,44 +142,5 @@ mainMenu.prototype = {
         //Turn Sound On here
     },
 
-    listenSwipe: function(callback) {
-        var eventDuration;
-        var startPoint = {};
-        var endPoint = {};
-        var direction;
-        var minimum = {
-            duration: 75,
-            distance: 150
-        };
 
-        this.game.input.onDown.add(function (pointer) {
-            startPoint.x = pointer.clientX;
-            startPoint.y = pointer.clientY;
-        }, this);
-
-        this.game.input.onUp.add(function (pointer) {
-            direction = '';
-            eventDuration = this.game.input.activePointer.duration;
-
-            if (eventDuration > minimum.duration) {
-                endPoint.x = pointer.clientX;
-                endPoint.y = pointer.clientY;
-
-                // Check direction
-                if (endPoint.x - startPoint.x > minimum.distance) {
-                    direction = 'right';
-                } else if (startPoint.x - endPoint.x > minimum.distance) {
-                    direction = 'left';
-                } else if (endPoint.y - startPoint.y > minimum.distance) {
-                    direction = 'bottom';
-                } else if (startPoint.y - endPoint.y > minimum.distance) {
-                    direction = 'top';
-                }
-
-                if (direction) {
-                    callback(direction);
-                }
-            }
-        }, this);
-    }
 };
