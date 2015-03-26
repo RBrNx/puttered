@@ -42,6 +42,7 @@ gameState.prototype = {
         Ball = this.game.add.sprite(Player.x + 125, Player.y+98, "Ball");
         Ball.scale.setTo(0.2, 0.2);
         Ball.anchor.setTo(0.5, 0.5);
+        this.game.sound.play("Course1Music");
     },
 
     update: function(){

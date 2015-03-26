@@ -16,6 +16,7 @@ var RoomNumber;
 
 var Sound;
 var Music;
+var MusicControl
 
 mainMenu.prototype = {
     create: function(){
@@ -28,7 +29,7 @@ mainMenu.prototype = {
         Play = this.game.add.button(this.game.world.centerX-200, this.game.world.centerY, "Play", this.LevelSelect, this, 0, 0, 1, 0);
         Options = this.game.add.button(this.game.world.centerX-200, this.game.world.centerY+200, "Options", this.StartOptions, this, 0, 0, 1, 0);
 
-        Music = true;
+        MusicControl = this.game.sound.play("MainMenuMusic");
         Sound = true;
 
         RoomNumber = 1;
@@ -131,13 +132,15 @@ mainMenu.prototype = {
         MusicOn.destroy();
         Music = false;
         //Turn Music Off here
+        MusicControl.stop("MainMenuMusic");
     },
 
     TurnMusicOn: function(){
         MusicOn = this.game.add.button(this.game.world.centerX-200, this.game.world.centerY - 100, "MusicOn", this.TurnMusicOff, this, 0, 0, 1, 0);
         MusicOff.destroy();
-        Music = true;
+        MusicControl = true;
         //Turn Music On here
+        Music.play("MainMenuMusic");
     },
 
     TurnSoundOff: function(){
@@ -155,7 +158,8 @@ mainMenu.prototype = {
     },
 
     GoToLevel1: function(){
-        this.game.state.start("GameState")
+        MusicControl.stop("MainMenuMusic");
+        this.game.state.start("GameState");
     },
 
     GoToLevel2: function(){

@@ -22,6 +22,9 @@ preload.prototype = {
 
         this.game.load.spritesheet("Level1", "Graphics/Buttons/Level-1-Button.png", 150, 150);
         this.game.load.spritesheet("Level2", "Graphics/Buttons/Level-2-Button.png", 150, 150);
+
+        this.game.load.audio("MainMenuMusic", "Music/MainMenu.mp3");
+        this.game.load.audio("Course1Music", "Music/Course1.mp3")
     },
     create: function(){
         this.game.state.start("MainMenu");
