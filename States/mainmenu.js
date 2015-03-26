@@ -30,6 +30,7 @@ mainMenu.prototype = {
         Options = this.game.add.button(this.game.world.centerX-200, this.game.world.centerY+200, "Options", this.StartOptions, this, 0, 0, 1, 0);
 
         MusicControl = this.game.sound.play("MainMenuMusic");
+        Music = true;
         Sound = true;
 
         RoomNumber = 1;
@@ -37,8 +38,6 @@ mainMenu.prototype = {
 
     update: function(){
         Clouds.tilePosition.x += 1;
-
-        currentX = this.game.input.x;
 
         if (RoomNumber = 3) {
             if (Level2 != undefined && Level1 != undefined) {
@@ -138,9 +137,9 @@ mainMenu.prototype = {
     TurnMusicOn: function(){
         MusicOn = this.game.add.button(this.game.world.centerX-200, this.game.world.centerY - 100, "MusicOn", this.TurnMusicOff, this, 0, 0, 1, 0);
         MusicOff.destroy();
-        MusicControl = true;
+        Music = true;
         //Turn Music On here
-        Music.play("MainMenuMusic");
+        MusicControl.play("MainMenuMusic");
     },
 
     TurnSoundOff: function(){
