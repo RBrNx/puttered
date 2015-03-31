@@ -1,0 +1,37 @@
+	{ 
+		
+		"Ball": [
+			
+				{
+					"density": 2, "friction": 0, "bounce": 0, 
+					"filter": { "categoryBits": 1, "maskBits": 65535 },
+					"shape": [   7, 78  ,  0, 60  ,  40, 0  ,  60, 0  ,  100, 40  ,  60, 100  ,  40, 100  ,  22, 93  ]
+				}  ,
+				{
+					"density": 2, "friction": 0, "bounce": 0, 
+					"filter": { "categoryBits": 1, "maskBits": 65535 },
+					"shape": [   22, 7  ,  40, 0  ,  0, 60  ,  0, 40  ,  7, 22  ]
+				}  ,
+				{
+					"density": 2, "friction": 0, "bounce": 0, 
+					"filter": { "categoryBits": 1, "maskBits": 65535 },
+					"shape": [   93, 22  ,  100, 40  ,  60, 0  ,  78, 7  ]
+				}  ,
+				{
+					"density": 2, "friction": 0, "bounce": 0, 
+					"filter": { "categoryBits": 1, "maskBits": 65535 },
+					"shape": [   100, 60  ,  97, 70  ,  90, 80  ,  78, 93  ,  60, 100  ,  100, 40  ]
+				}  ,
+				{
+					"density": 2, "friction": 0, "bounce": 0, 
+					"filter": { "categoryBits": 1, "maskBits": 65535 },
+					"shape": [   90, 80  ,  97, 70  ,  93, 78  ]
+				}  ,
+				{
+					"density": 2, "friction": 0, "bounce": 0, 
+					"filter": { "categoryBits": 1, "maskBits": 65535 },
+					"shape": [   78, 93  ,  90, 80  ,  90, 82  ]
+				}  
+		]
+		
+	}
