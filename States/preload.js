@@ -8,6 +8,8 @@ preload.prototype = {
             var loadingBar = this.add.sprite(this.game.world.width/2, this.game.world.height/2, "Loading");
             loadingBar.anchor.setTo(0.5,0.5);
             this.load.setPreloadSprite(loadingBar);
+        this.game.load.audio("MainMenuMusic", "Music/MainMenu.ogg");
+        this.game.load.audio("Course1Music", "Music/Course1.mp3");
         this.game.load.image("Logo", "Graphics/Logo.png");
         this.game.load.image("Clouds", "Graphics/Background/Background-Clouds.png");
         this.game.load.image("Hills", "Graphics/Background/Background-Hills3.png");
@@ -22,9 +24,6 @@ preload.prototype = {
 
         this.game.load.spritesheet("Level1", "Graphics/Buttons/Level-1-Button.png", 150, 150);
         this.game.load.spritesheet("Level2", "Graphics/Buttons/Level-2-Button.png", 150, 150);
-
-        this.game.load.audio("MainMenuMusic", "Music/MainMenu.mp3");
-        this.game.load.audio("Course1Music", "Music/Course1.mp3")
     },
     create: function(){
         this.game.state.start("MainMenu");
