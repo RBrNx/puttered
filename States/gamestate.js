@@ -154,7 +154,6 @@ gameState.prototype = {
     update: function(){
         Clouds.tilePosition.x += 1;
 
-        console.log(Ball.body.velocity.x, Ball.body.velocity.y);
 
         if (FairwayHole != undefined && Fairway != undefined) {
 
