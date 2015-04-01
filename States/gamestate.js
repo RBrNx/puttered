@@ -154,6 +154,8 @@ gameState.prototype = {
     update: function(){
         Clouds.tilePosition.x += 1;
 
+        console.log(Ball.body.velocity.x, Ball.body.velocity.y);
+
         if (FairwayHole != undefined && Fairway != undefined) {
 
             if (this.game.input.activePointer.isDown) {
@@ -194,13 +196,13 @@ gameState.prototype = {
         }
 
 
-        if (Ball.body.velocity.x < 0.001 && Ball.body.velocity.y < 0.001){
+        if (Ball.body.velocity.x < 0.0015 && Ball.body.velocity.y < 0.0015 && Ball.body.velocity.x > -0.0015 && Ball.body.velocity.y > -0.0015){
             //console.log("Test");
             BallStationary = true;
             Arrow.visible = true;
             Arrow.position.setTo(Ball.x, Ball.y);
         }
-        else if (Ball.body.velocity.x >= 0.001 && Ball.body.velocity.y >= 0.001){
+        else if (Ball.body.velocity.x >= 0.0015 || Ball.body.velocity.y >= 0.0015 || Ball.body.velocity.x <= -0.0015 || Ball.body.velocity.y <= -0.0015 ){
             BallStationary = false;
             Arrow.visible = false;
         }
