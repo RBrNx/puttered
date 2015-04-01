@@ -93,6 +93,15 @@ gameState.prototype = {
         LeftB.inputEnabled = true;
         RightB.inputEnabled = true;
 
+        this.PowerB = this.game.add.sprite(1400, 830, "PowerBar");
+        this.PowerF = this.game.add.sprite(1649, 1080, "PowerFill");
+        this.PowerF.anchor.setTo(0.5, 1);
+        this.PowerB.fixedToCamera = true;
+        this.PowerF.fixedToCamera = true;
+        this.PowerF.rotation = 181 * Radian;
+        this.PowerF.visible = false;
+        this.PowerB.visible = false;
+
         PauseB = this.game.add.button(1720, 50, "Pause", this.Pause, this, 0, 0, 1, 0);
         PauseB.fixedToCamera = true;
 
@@ -105,8 +114,6 @@ gameState.prototype = {
         SwingB = this.game.add.button(1400, 830, "SwingButton", this.Swing, this, 0, 0, 0, 0);
         SwingB.fixedToCamera = true;
 
-
-
         Emitter = this.game.add.emitter(Flag.x, Flag.y);
         Emitter.makeParticles("Star");
         Emitter.minParticleSpeed.setTo(-100, -300);
@@ -118,7 +125,13 @@ gameState.prototype = {
     },
 
     Swing: function() {
-        if (Started == true){
+        if (Started == false) {
+            this.PowerB.visible = true;
+            this.PowerF.visible = true;
+            Power = 0;
+            Started = true;
+        }
+        else if (Started == true){
             //this.game.camera.follow(Ball, Phaser.Camera.FOLLOW_TOPDOWN);
             var VelocityX = (Power * Math.cos((Arrow.angle -90) * Radian) * 10);
             var VelocityY = (Power * Math.sin((Arrow.angle -90) * Radian) * 10);
@@ -129,16 +142,7 @@ gameState.prototype = {
             this.PowerB.visible = false;
 
         }
-        if (Started == false) {
-            this.PowerB = this.game.add.sprite(1400, 830, "PowerBar");
-            this.PowerF = this.game.add.sprite(1649, 1080, "PowerFill");
-            this.PowerF.anchor.setTo(0.5, 1);
-            this.PowerB.fixedToCamera = true;
-            this.PowerF.fixedToCamera = true;
-            this.PowerF.rotation = 181 * Radian;
-            Power = 0;
-            Started = true;
-        }
+
 
         Block.body.onBeginContact.add(this.StartEmitter, this);
     },
@@ -162,7 +166,7 @@ gameState.prototype = {
                 this.game.origDragPoint = null;
             }
         }
-    if (this.PowerF != undefined) {
+    /*if (this.PowerF != undefined) {
         if (this.PowerF.angle <= -179) {
             this.Ticker = 1;
 
@@ -175,7 +179,7 @@ gameState.prototype = {
             this.PowerF.angle += this.Ticker;
             Power += this.Ticker;
         }
-    }
+    }*/
 
         if (Arrow != undefined){
             if (Arrow.visible == true && this.game.input.activePointer.isDown && LeftB.input.checkPointerOver(this.game.input.activePointer)){
