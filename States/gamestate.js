@@ -20,7 +20,7 @@ gameState.prototype = {
         this.game.load.spritesheet("Shot", "Graphics/Player/Swing.png", 400, 400);
         this.game.load.spritesheet("Pause", "Graphics/Buttons/Pause-Button.png", 150, 150);
         this.game.load.image("Ball", "Graphics/Player/Ball.png");
-        this.game.load.physics("Physics", "Graphics/Level_Assets/Level1/Physics2.json");
+        this.game.load.physics("Physics", "Graphics/Level_Assets/Level1/Physics3.json");
         this.game.load.image("Fairway", "Graphics/Level_Assets/Level1/Level1.png");
         this.game.load.image("FairwayHole", "Graphics/Level_Assets/Level1/Level1-Hole.png");
         this.game.load.image("Flag", "Graphics/Player/Flag.png");
