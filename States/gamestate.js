@@ -8,10 +8,11 @@ var Clouds;
 var Fairway;
 var Ball;
 var Hills;
-var Bush;
+var Emitter;
 var Radian = 0.0174532925;
 var Started = false;
 var Power = 0;
+var LevelComplete = false;
 
 gameState.prototype = {
     preload: function(){
@@ -20,7 +21,7 @@ gameState.prototype = {
         this.game.load.image("Ball", "Graphics/Player/Ball.png");
         this.game.load.physics("Physics", "Graphics/Level_Assets/Level1/Physics2.json");
         this.game.load.image("Fairway", "Graphics/Level_Assets/Level1/Level1.png");
-        this.game.load.image("Bushes", "Graphics/Level_Assets/Level1/Level1-Bush.png");
+        this.game.load.image("FairwayHole", "Graphics/Level_Assets/Level1/Level1-Hole.png");
         this.game.load.image("Flag", "Graphics/Player/Flag.png");
         this.game.load.spritesheet("LButton", "Graphics/Buttons/Left-Button.png", 400, 150);
         this.game.load.spritesheet("RButton", "Graphics/Buttons/Right-Button.png", 400, 150);
@@ -28,6 +29,8 @@ gameState.prototype = {
         this.game.load.image("PowerBar", "Graphics/Buttons/Power-Bar.png");
         this.game.load.image("PowerFill", "Graphics/Buttons/Gradient.png");
         this.game.load.image("Arrow", "Graphics/Player/Arrow.png");
+        this.game.load.image("Star", "Graphics/Level_Assets/Star.png");
+        this.game.load.image("Block", "Graphics/Player/Block.png");
 
         this.game.world.setBounds(0, -500, 2500, 1580);
     },
@@ -41,16 +44,15 @@ gameState.prototype = {
         Clouds = this.game.add.tileSprite(0,-500, 2500, 2160, "Clouds");
         Hills = this.game.add.sprite(0,0,"Hills");
         Hills.scale.setTo(2,0.75);
-        Bush = this.game.add.sprite(0,0, "Bushes");
-        Fairway = this.game.add.sprite(this.game.world.centerX, 543, "Fairway");
-        this.game.physics.p2.enable(Fairway);
-        Fairway.body.kinematic = true;
-        Fairway.body.clearShapes();
-        Fairway.body.loadPolygon("Physics", "Level1");
+        FairwayHole = this.game.add.sprite(this.game.world.centerX, 543, "FairwayHole");
+        this.game.physics.p2.enable(FairwayHole);
+        FairwayHole.body.kinematic = true;
+        FairwayHole.body.clearShapes();
+        FairwayHole.body.loadPolygon("Physics", "Level1-Hole");
 
 
-        Flag = this.game.add.sprite(2290, 354, "Flag");
-        Flag.scale.setTo(0.6,0.6);
+        Flag = this.game.add.sprite(2295, 578, "Flag");
+        Flag.anchor.setTo(0.5, 1);
 
         Player = this.game.add.sprite(0, 470, "Shot");
         Player.animations.add("Swing");
@@ -65,9 +67,16 @@ gameState.prototype = {
         Ball.scale.setTo(0.2, 0.2);
         Ball.body.loadPolygon("Physics", "Ball2");
 
+        Block = this.game.add.sprite(Flag.x, Flag.y+10, "Block");
+        this.game.physics.p2.enable(Block);
+        Block.body.static = true;
+
+        Fairway = this.game.add.sprite(this.game.world.centerX, 543, "Fairway");
+        Fairway.anchor.setTo(0.5,0.5);
+
 
         var ballMaterial = this.game.physics.p2.createMaterial("ballMaterial", Ball.body);
-        var groundMaterial = this.game.physics.p2.createMaterial("groundMaterial", Fairway.body);
+        var groundMaterial = this.game.physics.p2.createMaterial("groundMaterial", FairwayHole.body);
         this.game.physics.p2.setWorldMaterial(groundMaterial, true, true, true, true);
         var contactMaterial = this.game.physics.p2.createContactMaterial(ballMaterial, groundMaterial);
 
@@ -95,12 +104,23 @@ gameState.prototype = {
 
         SwingB = this.game.add.button(1400, 830, "SwingButton", this.Swing, this, 0, 0, 0, 0);
         SwingB.fixedToCamera = true;
+
+
+
+        Emitter = this.game.add.emitter(Flag.x, Flag.y);
+        Emitter.makeParticles("Star");
+        Emitter.minParticleSpeed.setTo(-100, -300);
+        Emitter.maxParticleSpeed.setTo(100, -1000);
+        Emitter.minParticleScale = 0.1;
+        Emitter.maxParticleScale = 0.1;
+        Emitter.setAlpha(0.1, 0.6);
+        Emitter.gravity = 250;
     },
 
     Swing: function() {
         if (Started == true){
-            this.PowerF.kill();
-            this.PowerB.kill();
+            this.PowerF.destroy();
+            this.PowerB.destroy();
             //this.game.camera.follow(Ball, Phaser.Camera.FOLLOW_TOPDOWN);
             var VelocityX = (Power * Math.cos((Arrow.angle -90) * Radian) * 10);
             var VelocityY = (Power * Math.sin((Arrow.angle -90) * Radian) * 10);
@@ -119,13 +139,15 @@ gameState.prototype = {
             Power = 0;
             Started = true;
         }
+
+        Block.body.onBeginContact.add(this.StartEmitter, this);
     },
 
 
     update: function(){
         Clouds.tilePosition.x += 1;
 
-        if (Fairway != undefined && Bush != undefined) {
+        if (FairwayHole != undefined && Fairway != undefined) {
 
             if (this.game.input.activePointer.isDown) {
                 if (this.game.origDragPoint) {
@@ -165,14 +187,18 @@ gameState.prototype = {
         }
     },
     render: function(){
-       if (Ball != undefined) {
-           //console.log(Ball.y)
-       }
     },
 
     Pause: function(){
         console.log("Pause Button")
 
+    },
+
+    StartEmitter: function(target){
+        if (LevelComplete != true){
+        Emitter.flow(2000, 250, 5, 50);
+            LevelComplete = true;
+        }
     }
 
 
