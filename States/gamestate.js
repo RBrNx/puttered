@@ -140,6 +140,8 @@ gameState.prototype = {
             Started = false;
             this.PowerF.visible = false;
             this.PowerB.visible = false;
+            Power = 0;
+            this.PowerF.angle = -179;
 
         }
 
@@ -166,7 +168,7 @@ gameState.prototype = {
                 this.game.origDragPoint = null;
             }
         }
-    /*if (this.PowerF != undefined) {
+    if (this.PowerF != undefined) {
         if (this.PowerF.angle <= -179) {
             this.Ticker = 1;
 
@@ -179,7 +181,7 @@ gameState.prototype = {
             this.PowerF.angle += this.Ticker;
             Power += this.Ticker;
         }
-    }*/
+    }
 
         if (Arrow != undefined){
             if (Arrow.visible == true && this.game.input.activePointer.isDown && LeftB.input.checkPointerOver(this.game.input.activePointer)){
