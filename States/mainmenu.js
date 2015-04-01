@@ -159,7 +159,10 @@ mainMenu.prototype = {
 
     GoToLevel1: function(){
         MusicControl.stop();
+        Level1.destroy();
+        Level2.destroy();
         this.game.state.start("GameState");
+
     },
 
     GoToLevel2: function(){
