@@ -118,18 +118,19 @@ gameState.prototype = {
     },
 
     Swing: function() {
-        if (Started == true){
-            this.PowerF.destroy();
-            this.PowerB.destroy();
+        if (Started === true){
             //this.game.camera.follow(Ball, Phaser.Camera.FOLLOW_TOPDOWN);
             var VelocityX = (Power * Math.cos((Arrow.angle -90) * Radian) * 10);
             var VelocityY = (Power * Math.sin((Arrow.angle -90) * Radian) * 10);
             Ball.body.velocity.x += VelocityX;
             Ball.body.velocity.y += VelocityY;
             Started = false;
+            this.PowerF.visible = false;
+            this.PowerB.visible = false;
+            this.SwingB.visible = false;
 
         }
-        if (Started == false) {
+        if (Started === false) {
             this.PowerB = this.game.add.sprite(1400, 830, "PowerBar");
             this.PowerF = this.game.add.sprite(1649, 1080, "PowerFill");
             this.PowerF.anchor.setTo(0.5, 1);
