@@ -11,6 +11,7 @@ var Hills;
 var Bush;
 var Radian = 0.0174532925;
 var Started = false;
+var Power = 0;
 
 gameState.prototype = {
     preload: function(){
@@ -103,8 +104,8 @@ gameState.prototype = {
     Swing: function() {
         if (Started == true){
            //this.game.camera.follow(Ball, Phaser.Camera.FOLLOW_TOPDOWN);
-            var VelocityX = ((this.PowerF.angle + 180) * Math.cos(Arrow.angle) * 10);
-            var VelocityY = ((this.PowerF.angle + 180) * Math.sin(Arrow.angle) * 10);
+            var VelocityX = (Power * Math.cos((Arrow.angle -90) * Radian) * 10);
+            var VelocityY = (Power * Math.sin((Arrow.angle - 90) * Radian) * 10);
             Ball.body.velocity.x = VelocityX;
             Ball.body.velocity.y = VelocityY;
             this.PowerF.visible = false;
@@ -117,6 +118,7 @@ gameState.prototype = {
             this.PowerB.visible = true;
             this.PowerF.visible = true;
             this.PowerF.rotation = 181 * Radian;
+            Power = 0;
             Started = true;
         }
     },
@@ -147,12 +149,15 @@ gameState.prototype = {
     if (this.PowerF != undefined) {
         if (this.PowerF.angle <= -179) {
             this.Ticker = 1;
+
         }
         if (this.PowerF.angle >= 0){
             this.Ticker = -1;
+
         }
         if (this.PowerF.visible == true) {
             this.PowerF.angle += this.Ticker;
+            Power += this.Ticker;
         }
     }
 
@@ -164,6 +169,8 @@ gameState.prototype = {
                 Arrow.angle += 1;
             }
         }
+
+        console.log(Power);
     },
     render: function(){
     }
