@@ -30,7 +30,7 @@ gameState.prototype = {
         this.game.load.image("PowerBar", "Graphics/Buttons/Power-Bar.png");
         this.game.load.image("PowerFill", "Graphics/Buttons/Gradient.png");
         this.game.load.image("Arrow", "Graphics/Player/Arrow.png");
-        this.game.load.image("Star", "Graphics/Level_Assets/Star.png");
+        this.game.load.image("Star", "Graphics/Level_Assets/star.png");
         this.game.load.image("Block", "Graphics/Player/Block.png");
 
         this.game.world.setBounds(0, -500, 2500, 1580);
