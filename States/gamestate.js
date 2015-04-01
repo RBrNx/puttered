@@ -13,6 +13,7 @@ var Radian = 0.0174532925;
 var Started = false;
 var Power = 0;
 var LevelComplete = false;
+var BallStationary;
 
 gameState.prototype = {
     preload: function(){
@@ -80,7 +81,7 @@ gameState.prototype = {
         this.game.physics.p2.setWorldMaterial(groundMaterial, true, true, true, true);
         var contactMaterial = this.game.physics.p2.createContactMaterial(ballMaterial, groundMaterial);
 
-        contactMaterial.friction = 0.1;
+        contactMaterial.friction = 0.5;
         contactMaterial.restitution = 0.5;
 
 
@@ -125,7 +126,7 @@ gameState.prototype = {
     },
 
     Swing: function() {
-        if (Started == false) {
+        if (Started == false && BallStationary == true) {
             this.PowerB.visible = true;
             this.PowerF.visible = true;
             Power = 0;
@@ -191,6 +192,19 @@ gameState.prototype = {
                 Arrow.angle += 1;
             }
         }
+
+
+        if (Ball.body.velocity.x < 0.001 && Ball.body.velocity.y < 0.001){
+            //console.log("Test");
+            BallStationary = true;
+            Arrow.visible = true;
+            Arrow.position.setTo(Ball.x, Ball.y);
+        }
+        else if (Ball.body.velocity.x >= 0.001 && Ball.body.velocity.y >= 0.001){
+            BallStationary = false;
+            Arrow.visible = false;
+        }
+
     },
     render: function(){
     },
