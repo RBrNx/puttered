@@ -14,6 +14,12 @@ var Started = false;
 var Power = 0;
 var LevelComplete = false;
 var BallStationary;
+var Resume;
+var Restart;
+var Menu;
+var Paused;
+var CameraCenterX;
+var CameraCenterY;
 
 gameState.prototype = {
     preload: function(){
@@ -32,15 +38,21 @@ gameState.prototype = {
         this.game.load.image("Arrow", "Graphics/Player/Arrow.png");
         this.game.load.image("Star", "Graphics/Level_Assets/star.png");
         this.game.load.image("Block", "Graphics/Player/Block.png");
+        this.game.load.spritesheet("Resume", "Graphics/Buttons/Resume-Button.png", 400, 150);
+        this.game.load.spritesheet("Menu", "Graphics/Buttons/Menu-Button.png", 400, 150);
+        this.game.load.spritesheet("Restart", "Graphics/Buttons/Restart-Button.png", 400, 150);
+        this.game.load.script("BlurX", "Filters/BlurX.js");
+        this.game.load.script("BlurY", "Filters/BlurY.js");
+        this.game.load.script("Gray", "Filters/Gray.js");
 
         this.game.world.setBounds(0, -500, 2500, 1580);
     },
 
     create: function() {
         //Pause = this.game.add.button(1650, 300, "Pause", this.PauseGame, this, 0, 0, 1, 0);
+        Paused = false;
         this.game.physics.startSystem(Phaser.Physics.P2JS);
         this.game.physics.p2.gravity.y = 1400;
-
 
         Clouds = this.game.add.tileSprite(0,-500, 2500, 2160, "Clouds");
         Hills = this.game.add.sprite(0,0,"Hills");
@@ -84,8 +96,15 @@ gameState.prototype = {
         contactMaterial.friction = 0.5;
         contactMaterial.restitution = 0.5;
 
+        MusicControl = this.game.add.audio("Course1Music");
+        if (Music == true) MusicControl.play();
+        //if (Music == true) this.game.sound.play("Course1Music");
 
-        if (Music == true) this.game.sound.play("Course1Music");
+        Arrow = this.game.add.sprite(Ball.x, Ball.y, "Arrow");
+        Arrow.anchor.setTo(0.5, 1);
+        Arrow.scale.setTo(0.1, 0.1);
+        Arrow.rotation = 181 * Radian;
+        Arrow.angle = 60;
 
         LeftB = this.game.add.sprite(20, 920, "LButton");
         RightB = this.game.add.sprite(470, 920, "RButton");
@@ -106,12 +125,6 @@ gameState.prototype = {
         PauseB = this.game.add.button(1720, 50, "Pause", this.Pause, this, 0, 0, 1, 0);
         PauseB.fixedToCamera = true;
 
-        Arrow = this.game.add.sprite(Ball.x, Ball.y, "Arrow");
-        Arrow.anchor.setTo(0.5, 1);
-        Arrow.scale.setTo(0.1, 0.1);
-        Arrow.rotation = 181 * Radian;
-        Arrow.angle = 60;
-
         SwingB = this.game.add.button(1400, 830, "SwingButton", this.Swing, this, 0, 0, 0, 0);
         SwingB.fixedToCamera = true;
 
@@ -123,10 +136,11 @@ gameState.prototype = {
         Emitter.maxParticleScale = 0.1;
         Emitter.setAlpha(0.1, 0.6);
         Emitter.gravity = 250;
+
     },
 
     Swing: function() {
-        if (Started == false && BallStationary == true) {
+        if (Started == false && BallStationary == true && LevelComplete != true && Paused != true) {
             this.PowerB.visible = true;
             this.PowerF.visible = true;
             Power = 0;
@@ -147,21 +161,25 @@ gameState.prototype = {
         }
 
 
-        Block.body.onBeginContact.add(this.StartEmitter, this);
+        Block.body.onBeginContact.add(this.LevelComplete, this);
     },
 
 
     update: function(){
         Clouds.tilePosition.x += 1;
+        CameraCenterX = this.game.camera.x + this.game.camera.width/2;
+        CameraCenterY = this.game.camera.y + this.game.camera.height/2;
 
 
         if (FairwayHole != undefined && Fairway != undefined) {
 
-            if (this.game.input.activePointer.isDown) {
-                if (this.game.origDragPoint) {
-                    // move the camera by the amount the mouse has moved since last update
+            if (this.game.input.activePointer.isDown && Paused != true) {
+                if (LeftB.input.checkPointerOver(this.game.input.activePointer) != true && RightB.input.checkPointerOver(this.game.input.activePointer) != true && SwingB.input.checkPointerOver(this.game.input.activePointer) != true) {
+                    if (this.game.origDragPoint) {
+                        // move the camera by the amount the mouse has moved since last update
                         this.game.camera.x += this.game.origDragPoint.x - this.game.input.activePointer.x;
                         this.game.camera.y += this.game.origDragPoint.y - this.game.input.activePointer.y;
+                    }
                 }
                 // set new drag origin to current position
                 this.game.origDragPoint = this.game.input.activePointer.position.clone();
@@ -170,7 +188,7 @@ gameState.prototype = {
                 this.game.origDragPoint = null;
             }
         }
-    if (this.PowerF != undefined) {
+    if (this.PowerF != undefined && Paused != true) {
         if (this.PowerF.angle <= -179) {
             this.Ticker = 1;
 
@@ -185,7 +203,7 @@ gameState.prototype = {
         }
     }
 
-        if (Arrow != undefined){
+        if (Arrow != undefined  && Paused != true){
             if (Arrow.visible == true && this.game.input.activePointer.isDown && LeftB.input.checkPointerOver(this.game.input.activePointer)){
                 Arrow.angle -= 1;
             }
@@ -211,17 +229,135 @@ gameState.prototype = {
     },
 
     Pause: function(){
-        console.log("Pause Button")
+        if (!Paused) {
+            Paused = true;
+
+            this.Blur();
+
+            if (Music == true) MusicOn = this.game.add.button(this.game.camera.x - 200, CameraCenterY - 200, "MusicOn", this.TurnMusicOff, this, 0, 0, 1, 0);
+            if (Sound == true) SoundOn = this.game.add.button(this.game.camera.x - 200, CameraCenterY, "SoundOn", this.TurnSoundOff, this, 0, 0, 1, 0);
+            if (Music == false) MusicOff = this.game.add.button(this.game.camera.x - 200, CameraCenterY - 200, "MusicOff", this.TurnMusicOn, this, 0, 0, 1, 0);
+            if (Sound == false) SoundOff = this.game.add.button(this.game.camera.x - 200, CameraCenterY, "SoundOff", this.TurnSoundOn, this, 0, 0, 1, 0);
+            Resume = this.game.add.button(CameraCenterX, this.game.camera.y - 1600, "Resume", this.ResumeGame, this, 0, 0, 1, 0);
+            Resume.anchor.setTo(0.5, 0.5);
+            Restart = this.game.add.button(CameraCenterX, this.game.camera.y - 1400, "Restart", this.RestartCourse, this, 0, 0, 1, 0);
+            Restart.anchor.setTo(0.5, 0.5);
+            Menu = this.game.add.button(CameraCenterX, this.game.camera.y - 1200, "Menu", this.MainMenu, this, 0, 0, 1, 0);
+            Menu.anchor.setTo(0.5, 0.5);
+
+            this.game.add.tween(Resume).to({y: CameraCenterY - 200}, 200, Phaser.Easing.Linear.NONE, true);
+            this.game.add.tween(Restart).to({y: CameraCenterY}, 200, Phaser.Easing.Linear.NONE, true);
+            this.game.add.tween(Menu).to({y: CameraCenterY + 200}, 200, Phaser.Easing.Linear.NONE, true);
+            if (Music == true) this.game.add.tween(MusicOn).to({x: (CameraCenterX) - 400}, 200, Phaser.Easing.Linear.NONE, true);
+            if (Sound == true) this.game.add.tween(SoundOn).to({x: (CameraCenterX) - 400}, 200, Phaser.Easing.Linear.NONE, true);
+            if (Music == false) this.game.add.tween(MusicOff).to({x: (CameraCenterX) - 400}, 200, Phaser.Easing.Linear.NONE, true);
+            if (Sound == false)this.game.add.tween(SoundOff).to({x: (CameraCenterX) - 400}, 200, Phaser.Easing.Linear.NONE, true);
+
+        }
+    },
+
+    ResumeGame: function(){
+        Paused = false;
+
+        this.Blur();
+
+        this.game.add.tween(Resume).to({y: -1600}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(Restart).to({y: -1400}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(Menu).to({y: -1200}, 200, Phaser.Easing.Linear.NONE, true);
+        if(Music == true)this.game.add.tween(MusicOn).to({x: -200}, 200, Phaser.Easing.Linear.NONE, true);
+        if(Sound == true)this.game.add.tween(SoundOn).to({x: -200}, 200, Phaser.Easing.Linear.NONE, true);
+        if(Music == false)this.game.add.tween(MusicOff).to({x: -200}, 200, Phaser.Easing.Linear.NONE, true);
+        if(Sound == false) this.game.add.tween(SoundOff).to({x: -200}, 200, Phaser.Easing.Linear.NONE, true);
 
     },
 
-    StartEmitter: function(target){
+    LevelComplete: function(){
         if (LevelComplete != true){
         Emitter.flow(2000, 250, 5, 50);
             LevelComplete = true;
+            Arrow.visible = false;
+        }
+    },
+
+    TurnMusicOff: function(){
+        MusicOff = this.game.add.button(CameraCenterX - 400, CameraCenterY - 200, "MusicOff", this.TurnMusicOn, this, 0, 0, 1, 0);
+        MusicOn.destroy();
+        Music = false;
+        //Turn Music Off here
+        MusicControl.pause();
+    },
+
+    TurnMusicOn: function(){
+        MusicOn = this.game.add.button(CameraCenterX - 400, CameraCenterY - 200, "MusicOn", this.TurnMusicOff, this, 0, 0, 1, 0);
+        MusicOff.destroy();
+        Music = true;
+        //Turn Music On here
+        MusicControl.resume();
+    },
+
+    TurnSoundOff: function(){
+        SoundOff = this.game.add.button(CameraCenterX - 400, CameraCenterY, "SoundOff", this.TurnSoundOn, this, 0, 0, 1, 0);
+        SoundOn.destroy();
+        Sound = false;
+        //Turn Sound Off here
+    },
+
+    TurnSoundOn: function() {
+        SoundOn = this.game.add.button(CameraCenterX - 400, CameraCenterY, "SoundOn", this.TurnSoundOff, this, 0, 0, 1, 0);
+        SoundOff.destroy();
+        Sound = true;
+        //Turn Sound On here
+    },
+
+    MainMenu: function(){
+        this.game.state.start("MainMenu");
+        MusicControl.stop();
+    },
+
+    RestartCourse: function(){
+        this.game.state.start("GameState");
+        MusicControl.stop();
+    },
+
+    Blur: function(){
+        if (Paused == true) {
+            var BlurX = this.game.add.filter("BlurX");
+            var BlurY = this.game.add.filter("BlurY");
+            var Gray = this.game.add.filter("Gray");
+            /*Fairway.filters = [BlurX, BlurY];
+            Clouds.filters = [BlurX, BlurY];
+            Ball.filters = [BlurX, BlurY];
+            Player.filters = [BlurX, BlurY];
+            LeftB.filters = [BlurX, BlurY];
+            RightB.filters = [BlurX, BlurY];
+            SwingB.filters = [BlurX, BlurY];
+            Flag.filters = [BlurX, BlurY];
+            Hills.filters = [BlurX, BlurY];
+            Arrow.filters = [BlurX, BlurY];*/
+            Fairway.filters = [Gray];
+            Clouds.filters = [Gray];
+            Ball.filters = [Gray];
+            Player.filters = [Gray];
+            LeftB.filters = [Gray];
+            RightB.filters = [Gray];
+            SwingB.filters = [Gray];
+            Flag.filters = [Gray];
+            Hills.filters = [Gray];
+            Arrow.filters = [Gray];
+        }
+
+        else if (Paused == false){
+            Fairway.filters = null;
+            Clouds.filters = null;
+            Ball.filters = null;
+            Player.filters = null;
+            LeftB.filters = null;
+            RightB.filters = null;
+            SwingB.filters = null;
+            Flag.filters = null;
+            Hills.filters = null;
+            Arrow.filters = null;
         }
     }
-
-
 
 };

@@ -14,14 +14,15 @@ var Level1;
 var Level2;
 var RoomNumber;
 
-var Sound;
-var Music;
+var Sound = true;
+var Music = true;
 var MusicControl;
 
 mainMenu.prototype = {
     create: function(){
+        this.game.world.setBounds(0, 0, 1920, 1080);
         MusicControl = this.game.add.audio("MainMenuMusic");
-        MusicControl.play();
+        if (Music == true) MusicControl.play();
         Clouds = this.game.add.tileSprite(0,0, 1920, 1080, "Clouds");
         var Hills = this.game.add.sprite(0,0,"Hills");
         var Logo = this.game.add.sprite(this.game.world.width/2, this.game.world.height/4, "Logo");
@@ -30,9 +31,6 @@ mainMenu.prototype = {
 
         Play = this.game.add.button(this.game.world.centerX-200, this.game.world.centerY, "Play", this.LevelSelect, this, 0, 0, 1, 0);
         Options = this.game.add.button(this.game.world.centerX-200, this.game.world.centerY+200, "Options", this.StartOptions, this, 0, 0, 1, 0);
-
-        Music = true;
-        Sound = true;
 
         RoomNumber = 1;
     },
@@ -140,7 +138,9 @@ mainMenu.prototype = {
         MusicOff.destroy();
         Music = true;
         //Turn Music On here
+        //MusicControl.play();
         MusicControl.resume();
+
     },
 
     TurnSoundOff: function(){
