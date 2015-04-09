@@ -19,6 +19,7 @@ var Menu;
 var Paused;
 var CameraCenterX;
 var CameraCenterY;
+var BackgroundP;
 
 gameState.prototype = {
     preload: function(){
@@ -35,8 +36,7 @@ gameState.prototype = {
         this.game.load.image("Arrow", "Graphics/Player/Arrow.png");
         this.game.load.image("Star", "Graphics/Level_Assets/star.png");
         this.game.load.image("Block", "Graphics/Player/Block.png");
-        this.game.load.script("BlurX", "Filters/BlurX.js");
-        this.game.load.script("BlurY", "Filters/BlurY.js");
+        this.game.load.image("BackgroundP", "Graphics/Background/Background-Pause.png");
 
         this.game.world.setBounds(0, -500, 2500, 1580);
     },
@@ -234,7 +234,7 @@ gameState.prototype = {
         if (!Paused) {
             Paused = true;
 
-            this.Blur();
+            BackgroundP = this.game.add.sprite(0, 0, "BackgroundP");
 
             if (Music == true) MusicOn = this.game.add.button(this.game.camera.x - 200, CameraCenterY - 200, "MusicOn", this.TurnMusicOff, this, 0, 0, 1, 0);
             if (Sound == true) SoundOn = this.game.add.button(this.game.camera.x - 200, CameraCenterY, "SoundOn", this.TurnSoundOff, this, 0, 0, 1, 0);
@@ -273,7 +273,7 @@ gameState.prototype = {
     ResumeGame: function(){
         Paused = false;
 
-        this.Blur();
+        BackgroundP.destroy();
 
         this.game.add.tween(Resume).to({y: -1600}, 200, Phaser.Easing.Linear.NONE, true);
         this.game.add.tween(ResumeText).to({y: -1600}, 200, Phaser.Easing.Linear.NONE, true);
@@ -335,36 +335,6 @@ gameState.prototype = {
     RestartCourse: function(){
         this.game.state.start("GameState");
         MusicControl.stop();
-    },
-
-    Blur: function(){
-        if (Paused == true) {
-            var BlurX = this.game.add.filter("BlurX");
-            var BlurY = this.game.add.filter("BlurY");
-            Fairway.filters = [BlurX, BlurY];
-            Clouds.filters = [BlurX, BlurY];
-            Ball.filters = [BlurX, BlurY];
-            Player.filters = [BlurX, BlurY];
-            LeftB.filters = [BlurX, BlurY];
-            RightB.filters = [BlurX, BlurY];
-            SwingB.filters = [BlurX, BlurY];
-            Flag.filters = [BlurX, BlurY];
-            Hills.filters = [BlurX, BlurY];
-            Arrow.filters = [BlurX, BlurY];
-        }
-
-        else if (Paused == false){
-            Fairway.filters = null;
-            Clouds.filters = null;
-            Ball.filters = null;
-            Player.filters = null;
-            LeftB.filters = null;
-            RightB.filters = null;
-            SwingB.filters = null;
-            Flag.filters = null;
-            Hills.filters = null;
-            Arrow.filters = null;
-        }
     }
 
 };
