@@ -235,32 +235,39 @@ gameState.prototype = {
 
             BackgroundP = this.game.add.sprite(this.game.camera.x, this.game.camera.y, "BackgroundP");
 
-            if (Music == true) MusicOn = this.game.add.button(this.game.camera.x - 200, CameraCenterY - 200, "MusicOn", this.TurnMusicOff, this, 0, 0, 1, 0);
-            if (Sound == true) SoundOn = this.game.add.button(this.game.camera.x - 200, CameraCenterY, "SoundOn", this.TurnSoundOff, this, 0, 0, 1, 0);
-            if (Music == false) MusicOff = this.game.add.button(this.game.camera.x - 200, CameraCenterY - 200, "MusicOff", this.TurnMusicOn, this, 0, 0, 1, 0);
-            if (Sound == false) SoundOff = this.game.add.button(this.game.camera.x - 200, CameraCenterY, "SoundOff", this.TurnSoundOn, this, 0, 0, 1, 0);
+            if (Music == true) MusicOn = this.game.add.button(this.game.camera.x - 200, CameraCenterY - 175, "MusicOn", this.TurnMusicOff, this, 0, 0, 1, 0);
+            if (Sound == true) SoundOn = this.game.add.button(this.game.camera.x - 200, CameraCenterY + 25, "SoundOn", this.TurnSoundOff, this, 0, 0, 1, 0);
+            if (Music == false) MusicOff = this.game.add.button(this.game.camera.x - 200, CameraCenterY - 175, "MusicOff", this.TurnMusicOn, this, 0, 0, 1, 0);
+            if (Sound == false) SoundOff = this.game.add.button(this.game.camera.x - 200, CameraCenterY + 25, "SoundOff", this.TurnSoundOn, this, 0, 0, 1, 0);
 
-            Resume = this.game.add.button(CameraCenterX, this.game.camera.y - 1600, "Button", this.ResumeGame, this, 0, 0, 1, 0);
+            Resume = this.game.add.button(CameraCenterX, this.game.camera.y - 1700, "Button", this.ResumeGame, this, 0, 0, 1, 0);
             Resume.anchor.setTo(0.5, 0.5);
             ResumeText = this.game.add.bitmapText(Resume.x, Resume.y - 10, "8Bit", "Resume", 56);
             ResumeText.anchor.setTo(0.5, 0.5);
 
-            Restart = this.game.add.button(CameraCenterX, this.game.camera.y - 1400, "Button", this.RestartCourse, this, 0, 0, 1, 0);
+            Restart = this.game.add.button(CameraCenterX, this.game.camera.y - 1500, "Button", this.RestartCourse, this, 0, 0, 1, 0);
             Restart.anchor.setTo(0.5, 0.5);
             RestartText = this.game.add.bitmapText(Restart.x, Restart.y - 10, "8Bit", "Restart\n Course", 50);
             RestartText.anchor.setTo(0.5, 0.5);
 
-            Menu = this.game.add.button(CameraCenterX, this.game.camera.y - 1200, "Button", this.MainMenu, this, 0, 0, 1, 0);
+            Fullscreen = this.game.add.button(CameraCenterX, this.game.camera.y - 1300, "Button", this.Fullscreen, this, 0 ,0 ,1, 0);
+            Fullscreen.anchor.setTo(0.5, 0.5);
+            FullscreenText = this.game.add.bitmapText(Fullscreen.x, Fullscreen.y - 10, "8Bit", "Fullscreen", 36);
+            FullscreenText.anchor.setTo(0.5, 0.5);
+
+            Menu = this.game.add.button(CameraCenterX, this.game.camera.y - 1100, "Button", this.MainMenu, this, 0, 0, 1, 0);
             Menu.anchor.setTo(0.5, 0.5);
             MenuText = this.game.add.bitmapText(Menu.x, Menu.y - 10, "8Bit", "Menu", 72);
             MenuText.anchor.setTo(0.5, 0.5);
 
-            this.game.add.tween(Resume).to({y: CameraCenterY - 200}, 200, Phaser.Easing.Linear.NONE, true);
-            this.game.add.tween(ResumeText).to({y: CameraCenterY - 205}, 200, Phaser.Easing.Linear.NONE, true);
-            this.game.add.tween(Restart).to({y: CameraCenterY}, 200, Phaser.Easing.Linear.NONE, true);
-            this.game.add.tween(RestartText).to({y: CameraCenterY - 5}, 200, Phaser.Easing.Linear.NONE, true);
-            this.game.add.tween(Menu).to({y: CameraCenterY + 200}, 200, Phaser.Easing.Linear.NONE, true);
-            this.game.add.tween(MenuText).to({y: CameraCenterY + 195}, 200, Phaser.Easing.Linear.NONE, true);
+            this.game.add.tween(Resume).to({y: CameraCenterY - 300}, 200, Phaser.Easing.Linear.NONE, true);
+            this.game.add.tween(ResumeText).to({y: CameraCenterY - 305}, 200, Phaser.Easing.Linear.NONE, true);
+            this.game.add.tween(Restart).to({y: CameraCenterY - 100}, 200, Phaser.Easing.Linear.NONE, true);
+            this.game.add.tween(RestartText).to({y: CameraCenterY - 105}, 200, Phaser.Easing.Linear.NONE, true);
+            this.game.add.tween(Fullscreen).to({y: CameraCenterY + 100}, 200, Phaser.Easing.Linear.NONE, true);
+            this.game.add.tween(FullscreenText).to({y: CameraCenterY + 95}, 200, Phaser.Easing.Linear.NONE, true);
+            this.game.add.tween(Menu).to({y: CameraCenterY + 300}, 200, Phaser.Easing.Linear.NONE, true);
+            this.game.add.tween(MenuText).to({y: CameraCenterY + 295}, 200, Phaser.Easing.Linear.NONE, true);
             if (Music == true) this.game.add.tween(MusicOn).to({x: (CameraCenterX) - 400}, 200, Phaser.Easing.Linear.NONE, true);
             if (Sound == true) this.game.add.tween(SoundOn).to({x: (CameraCenterX) - 400}, 200, Phaser.Easing.Linear.NONE, true);
             if (Music == false) this.game.add.tween(MusicOff).to({x: (CameraCenterX) - 400}, 200, Phaser.Easing.Linear.NONE, true);
@@ -297,7 +304,7 @@ gameState.prototype = {
     },
 
     TurnMusicOff: function(){
-        MusicOff = this.game.add.button(CameraCenterX - 400, CameraCenterY - 200, "MusicOff", this.TurnMusicOn, this, 0, 0, 1, 0);
+        MusicOff = this.game.add.button(CameraCenterX - 400, CameraCenterY - 175, "MusicOff", this.TurnMusicOn, this, 0, 0, 1, 0);
         MusicOn.destroy();
         Music = false;
         //Turn Music Off here
@@ -305,7 +312,7 @@ gameState.prototype = {
     },
 
     TurnMusicOn: function(){
-        MusicOn = this.game.add.button(CameraCenterX - 400, CameraCenterY - 200, "MusicOn", this.TurnMusicOff, this, 0, 0, 1, 0);
+        MusicOn = this.game.add.button(CameraCenterX - 400, CameraCenterY - 175, "MusicOn", this.TurnMusicOff, this, 0, 0, 1, 0);
         MusicOff.destroy();
         Music = true;
         //Turn Music On here
@@ -313,14 +320,14 @@ gameState.prototype = {
     },
 
     TurnSoundOff: function(){
-        SoundOff = this.game.add.button(CameraCenterX - 400, CameraCenterY, "SoundOff", this.TurnSoundOn, this, 0, 0, 1, 0);
+        SoundOff = this.game.add.button(CameraCenterX - 400, CameraCenterY + 25, "SoundOff", this.TurnSoundOn, this, 0, 0, 1, 0);
         SoundOn.destroy();
         Sound = false;
         //Turn Sound Off here
     },
 
     TurnSoundOn: function() {
-        SoundOn = this.game.add.button(CameraCenterX - 400, CameraCenterY, "SoundOn", this.TurnSoundOff, this, 0, 0, 1, 0);
+        SoundOn = this.game.add.button(CameraCenterX - 400, CameraCenterY + 25, "SoundOn", this.TurnSoundOff, this, 0, 0, 1, 0);
         SoundOff.destroy();
         Sound = true;
         //Turn Sound On here
@@ -334,6 +341,17 @@ gameState.prototype = {
     RestartCourse: function(){
         this.game.state.start("GameState");
         MusicControl.stop();
+    },
+
+    Fullscreen: function () {
+        this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
+        this.game.scale.refresh();
+
+        if (this.game.scale.isFullScreen) {
+            this.game.scale.stopFullScreen();
+        } else {
+            this.game.scale.startFullScreen();
+        }
     }
 
 };

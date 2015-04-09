@@ -223,7 +223,6 @@ mainMenu.prototype = {
 
     Fullscreen: function () {
         this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
-        //this.game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
         this.game.scale.refresh();
 
         if (this.game.scale.isFullScreen) {
