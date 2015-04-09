@@ -43,7 +43,6 @@ gameState.prototype = {
         this.game.load.spritesheet("Restart", "Graphics/Buttons/Restart-Button.png", 400, 150);
         this.game.load.script("BlurX", "Filters/BlurX.js");
         this.game.load.script("BlurY", "Filters/BlurY.js");
-        this.game.load.script("Gray", "Filters/Gray.js");
 
         this.game.world.setBounds(0, -500, 2500, 1580);
     },
@@ -276,6 +275,7 @@ gameState.prototype = {
         Emitter.flow(2000, 250, 5, 50);
             LevelComplete = true;
             Arrow.visible = false;
+
         }
     },
 
@@ -323,8 +323,7 @@ gameState.prototype = {
         if (Paused == true) {
             var BlurX = this.game.add.filter("BlurX");
             var BlurY = this.game.add.filter("BlurY");
-            var Gray = this.game.add.filter("Gray");
-            /*Fairway.filters = [BlurX, BlurY];
+            Fairway.filters = [BlurX, BlurY];
             Clouds.filters = [BlurX, BlurY];
             Ball.filters = [BlurX, BlurY];
             Player.filters = [BlurX, BlurY];
@@ -333,17 +332,7 @@ gameState.prototype = {
             SwingB.filters = [BlurX, BlurY];
             Flag.filters = [BlurX, BlurY];
             Hills.filters = [BlurX, BlurY];
-            Arrow.filters = [BlurX, BlurY];*/
-            Fairway.filters = [Gray];
-            Clouds.filters = [Gray];
-            Ball.filters = [Gray];
-            Player.filters = [Gray];
-            LeftB.filters = [Gray];
-            RightB.filters = [Gray];
-            SwingB.filters = [Gray];
-            Flag.filters = [Gray];
-            Hills.filters = [Gray];
-            Arrow.filters = [Gray];
+            Arrow.filters = [BlurX, BlurY];
         }
 
         else if (Paused == false){
