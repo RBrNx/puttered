@@ -2,7 +2,7 @@
  * Created by b00231929 on 20/03/2015.
  */
        var boot = function(game){
-        console.log("%cStarting the game", "color:white; background:red");
+        console.log("%cStarting the Game", "color:white; background:red");
 };
 
 boot.prototype = {
@@ -15,4 +15,4 @@ boot.prototype = {
         this.scale.setScreenSize();
         this.game.state.start("Preload");
     }
-}
+};

@@ -215,7 +215,6 @@ gameState.prototype = {
 
 
         if (Ball.body.velocity.x < 0.0015 && Ball.body.velocity.y < 0.0015 && Ball.body.velocity.x > -0.0015 && Ball.body.velocity.y > -0.0015){
-            //console.log("Test");
             BallStationary = true;
             Arrow.visible = true;
             Arrow.position.setTo(Ball.x, Ball.y);
@@ -234,7 +233,7 @@ gameState.prototype = {
         if (!Paused) {
             Paused = true;
 
-            BackgroundP = this.game.add.sprite(0, 0, "BackgroundP");
+            BackgroundP = this.game.add.sprite(this.game.camera.x, this.game.camera.y, "BackgroundP");
 
             if (Music == true) MusicOn = this.game.add.button(this.game.camera.x - 200, CameraCenterY - 200, "MusicOn", this.TurnMusicOff, this, 0, 0, 1, 0);
             if (Sound == true) SoundOn = this.game.add.button(this.game.camera.x - 200, CameraCenterY, "SoundOn", this.TurnSoundOff, this, 0, 0, 1, 0);
