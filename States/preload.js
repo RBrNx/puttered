@@ -9,6 +9,8 @@ preload.prototype = {
         loadingBar.anchor.setTo(0.5,0.5);
         this.load.setPreloadSprite(loadingBar);
 
+        this.game.time.advancedTiming = true;
+
         this.game.load.audio("MainMenuMusic", "Music/MainMenu.ogg");
         this.game.load.audio("Course1Music", "Music/Course1.mp3");
         this.game.load.image("Logo", "Graphics/Logo.png");

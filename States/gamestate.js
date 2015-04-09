@@ -3,7 +3,6 @@
  */
 var gameState = function(game){};
 var Player;
-var Pause;
 var Clouds;
 var Fairway;
 var Ball;
@@ -23,24 +22,19 @@ var CameraCenterY;
 
 gameState.prototype = {
     preload: function(){
+        this.game.load.spritesheet("ButtonSq", "Graphics/Buttons/Button-Square.png", 150, 150);
         this.game.load.spritesheet("Shot", "Graphics/Player/Swing.png", 400, 400);
-        this.game.load.spritesheet("Pause", "Graphics/Buttons/Pause-Button.png", 150, 150);
         this.game.load.image("Ball", "Graphics/Player/Ball.png");
-        this.game.load.physics("Physics", "Graphics/Level_Assets/Level1/Physics3.json");
+        this.game.load.physics("Physics", "Graphics/Level_Assets/Level1/Physics.json");
         this.game.load.image("Fairway", "Graphics/Level_Assets/Level1/Level1.png");
         this.game.load.image("FairwayHole", "Graphics/Level_Assets/Level1/Level1-Hole.png");
         this.game.load.image("Flag", "Graphics/Player/Flag.png");
-        this.game.load.spritesheet("LButton", "Graphics/Buttons/Left-Button.png", 400, 150);
-        this.game.load.spritesheet("RButton", "Graphics/Buttons/Right-Button.png", 400, 150);
         this.game.load.image("SwingButton", "Graphics/Buttons/Swing-Button.png");
         this.game.load.image("PowerBar", "Graphics/Buttons/Power-Bar.png");
         this.game.load.image("PowerFill", "Graphics/Buttons/Gradient.png");
         this.game.load.image("Arrow", "Graphics/Player/Arrow.png");
         this.game.load.image("Star", "Graphics/Level_Assets/star.png");
         this.game.load.image("Block", "Graphics/Player/Block.png");
-        this.game.load.spritesheet("Resume", "Graphics/Buttons/Resume-Button.png", 400, 150);
-        this.game.load.spritesheet("Menu", "Graphics/Buttons/Menu-Button.png", 400, 150);
-        this.game.load.spritesheet("Restart", "Graphics/Buttons/Restart-Button.png", 400, 150);
         this.game.load.script("BlurX", "Filters/BlurX.js");
         this.game.load.script("BlurY", "Filters/BlurY.js");
 
@@ -99,17 +93,32 @@ gameState.prototype = {
         if (Music == true) MusicControl.play();
         //if (Music == true) this.game.sound.play("Course1Music");
 
+        Emitter = this.game.add.emitter(Flag.x, Flag.y);
+        Emitter.makeParticles("Star");
+        Emitter.minParticleSpeed.setTo(-100, -300);
+        Emitter.maxParticleSpeed.setTo(100, -1000);
+        Emitter.minParticleScale = 0.1;
+        Emitter.maxParticleScale = 0.1;
+        Emitter.setAlpha(0.1, 0.6);
+        Emitter.gravity = 250;
+
+        //Set up GUI - Arrow, Left + Right Buttons, Swing Button, Pause Button, Power Bar
         Arrow = this.game.add.sprite(Ball.x, Ball.y, "Arrow");
         Arrow.anchor.setTo(0.5, 1);
         Arrow.scale.setTo(0.1, 0.1);
         Arrow.rotation = 181 * Radian;
         Arrow.angle = 60;
 
-        LeftB = this.game.add.sprite(20, 920, "LButton");
-        RightB = this.game.add.sprite(470, 920, "RButton");
+        LeftB = this.game.add.sprite(20, 920, "Button");
+        LeftBText = this.game.add.bitmapText(LeftB.x + 160, LeftB.y + 15, "8Bit", "<", 100);
+        LeftBText.fixedToCamera = true;
         LeftB.fixedToCamera = true;
-        RightB.fixedToCamera = true;
         LeftB.inputEnabled = true;
+
+        RightB = this.game.add.sprite(470, 920, "Button");
+        RightBText = this.game.add.bitmapText(RightB.x + 180, RightB.y + 15, "8Bit", ">", 100);
+        RightBText.fixedToCamera = true;
+        RightB.fixedToCamera = true;
         RightB.inputEnabled = true;
 
         this.PowerB = this.game.add.sprite(1400, 830, "PowerBar");
@@ -121,20 +130,13 @@ gameState.prototype = {
         this.PowerF.visible = false;
         this.PowerB.visible = false;
 
-        PauseB = this.game.add.button(1720, 50, "Pause", this.Pause, this, 0, 0, 1, 0);
+        PauseB = this.game.add.button(1720, 50, "ButtonSq", this.Pause, this, 0, 0, 1, 0);
+        PauseBText = this.game.add.bitmapText(PauseB.x + 30, PauseB.y + 15, "8Bit", "II", 100);
         PauseB.fixedToCamera = true;
+        PauseBText.fixedToCamera = true;
 
         SwingB = this.game.add.button(1400, 830, "SwingButton", this.Swing, this, 0, 0, 0, 0);
         SwingB.fixedToCamera = true;
-
-        Emitter = this.game.add.emitter(Flag.x, Flag.y);
-        Emitter.makeParticles("Star");
-        Emitter.minParticleSpeed.setTo(-100, -300);
-        Emitter.maxParticleSpeed.setTo(100, -1000);
-        Emitter.minParticleScale = 0.1;
-        Emitter.maxParticleScale = 0.1;
-        Emitter.setAlpha(0.1, 0.6);
-        Emitter.gravity = 250;
 
     },
 
@@ -225,6 +227,7 @@ gameState.prototype = {
 
     },
     render: function(){
+        this.game.debug.text(this.game.time.fps || '--', 2, 14, "#00ff00");
     },
 
     Pause: function(){
@@ -237,16 +240,28 @@ gameState.prototype = {
             if (Sound == true) SoundOn = this.game.add.button(this.game.camera.x - 200, CameraCenterY, "SoundOn", this.TurnSoundOff, this, 0, 0, 1, 0);
             if (Music == false) MusicOff = this.game.add.button(this.game.camera.x - 200, CameraCenterY - 200, "MusicOff", this.TurnMusicOn, this, 0, 0, 1, 0);
             if (Sound == false) SoundOff = this.game.add.button(this.game.camera.x - 200, CameraCenterY, "SoundOff", this.TurnSoundOn, this, 0, 0, 1, 0);
-            Resume = this.game.add.button(CameraCenterX, this.game.camera.y - 1600, "Resume", this.ResumeGame, this, 0, 0, 1, 0);
+
+            Resume = this.game.add.button(CameraCenterX, this.game.camera.y - 1600, "Button", this.ResumeGame, this, 0, 0, 1, 0);
             Resume.anchor.setTo(0.5, 0.5);
-            Restart = this.game.add.button(CameraCenterX, this.game.camera.y - 1400, "Restart", this.RestartCourse, this, 0, 0, 1, 0);
+            ResumeText = this.game.add.bitmapText(Resume.x, Resume.y - 10, "8Bit", "Resume", 56);
+            ResumeText.anchor.setTo(0.5, 0.5);
+
+            Restart = this.game.add.button(CameraCenterX, this.game.camera.y - 1400, "Button", this.RestartCourse, this, 0, 0, 1, 0);
             Restart.anchor.setTo(0.5, 0.5);
-            Menu = this.game.add.button(CameraCenterX, this.game.camera.y - 1200, "Menu", this.MainMenu, this, 0, 0, 1, 0);
+            RestartText = this.game.add.bitmapText(Restart.x, Restart.y - 10, "8Bit", "Restart\n Course", 50);
+            RestartText.anchor.setTo(0.5, 0.5);
+
+            Menu = this.game.add.button(CameraCenterX, this.game.camera.y - 1200, "Button", this.MainMenu, this, 0, 0, 1, 0);
             Menu.anchor.setTo(0.5, 0.5);
+            MenuText = this.game.add.bitmapText(Menu.x, Menu.y - 10, "8Bit", "Menu", 72);
+            MenuText.anchor.setTo(0.5, 0.5);
 
             this.game.add.tween(Resume).to({y: CameraCenterY - 200}, 200, Phaser.Easing.Linear.NONE, true);
+            this.game.add.tween(ResumeText).to({y: CameraCenterY - 205}, 200, Phaser.Easing.Linear.NONE, true);
             this.game.add.tween(Restart).to({y: CameraCenterY}, 200, Phaser.Easing.Linear.NONE, true);
+            this.game.add.tween(RestartText).to({y: CameraCenterY - 5}, 200, Phaser.Easing.Linear.NONE, true);
             this.game.add.tween(Menu).to({y: CameraCenterY + 200}, 200, Phaser.Easing.Linear.NONE, true);
+            this.game.add.tween(MenuText).to({y: CameraCenterY + 195}, 200, Phaser.Easing.Linear.NONE, true);
             if (Music == true) this.game.add.tween(MusicOn).to({x: (CameraCenterX) - 400}, 200, Phaser.Easing.Linear.NONE, true);
             if (Sound == true) this.game.add.tween(SoundOn).to({x: (CameraCenterX) - 400}, 200, Phaser.Easing.Linear.NONE, true);
             if (Music == false) this.game.add.tween(MusicOff).to({x: (CameraCenterX) - 400}, 200, Phaser.Easing.Linear.NONE, true);
@@ -261,8 +276,11 @@ gameState.prototype = {
         this.Blur();
 
         this.game.add.tween(Resume).to({y: -1600}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(ResumeText).to({y: -1600}, 200, Phaser.Easing.Linear.NONE, true);
         this.game.add.tween(Restart).to({y: -1400}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(RestartText).to({y: -1400}, 200, Phaser.Easing.Linear.NONE, true);
         this.game.add.tween(Menu).to({y: -1200}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(MenuText).to({y: -1200}, 200, Phaser.Easing.Linear.NONE, true);
         if(Music == true)this.game.add.tween(MusicOn).to({x: -200}, 200, Phaser.Easing.Linear.NONE, true);
         if(Sound == true)this.game.add.tween(SoundOn).to({x: -200}, 200, Phaser.Easing.Linear.NONE, true);
         if(Music == false)this.game.add.tween(MusicOff).to({x: -200}, 200, Phaser.Easing.Linear.NONE, true);

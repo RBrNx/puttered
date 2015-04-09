@@ -90,7 +90,7 @@ mainMenu.prototype = {
     },
 
     render: function(){
-        //this.game.debug.inputInfo(32, 32);
+        this.game.debug.text(this.game.time.fps || '--', 2, 14, "#00ff00");
     },
 
     StartOptions: function(){
