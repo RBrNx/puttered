@@ -20,7 +20,16 @@ var Paused;
 var CameraCenterX;
 var CameraCenterY;
 var BackgroundP;
+var Timer;
+var Scoreboard;
+var ScoreboardShown = false;
+var ShotCount = 0;
+var SavedBallVelX;
+var SavedBallVelY;
 
+var ballMaterial;
+var groundMaterial;
+var contactMaterial;
 gameState.prototype = {
     preload: function(){
         this.game.load.spritesheet("ButtonSq", "Graphics/Buttons/Button-Square.png", 150, 150);
@@ -37,13 +46,14 @@ gameState.prototype = {
         this.game.load.image("Star", "Graphics/Level_Assets/star.png");
         this.game.load.image("Block", "Graphics/Player/Block.png");
         this.game.load.image("BackgroundP", "Graphics/Background/Background-Pause.png");
+        this.game.load.image("Scoreboard", "Graphics/Background/Scoreboard.png");
 
         this.game.world.setBounds(0, -500, 2500, 1580);
     },
 
     create: function() {
-        //Pause = this.game.add.button(1650, 300, "Pause", this.PauseGame, this, 0, 0, 1, 0);
         Paused = false;
+        Timer = 0;
         this.game.physics.startSystem(Phaser.Physics.P2JS);
         this.game.physics.p2.gravity.y = 1400;
 
@@ -68,10 +78,12 @@ gameState.prototype = {
 
         Ball = this.game.add.sprite(Player.x + 125, 550, "Ball");
         Ball.anchor.setTo(0.5, 0.5);
+        Ball.scale.setTo(0.2, 0.2);
         this.game.physics.p2.enable(Ball);
         Ball.body.clearShapes();
-        Ball.scale.setTo(0.2, 0.2);
         Ball.body.loadPolygon("Physics", "Ball2");
+
+        //this.TurnOnCollisions();
 
         Block = this.game.add.sprite(Flag.x, Flag.y+10, "Block");
         this.game.physics.p2.enable(Block);
@@ -81,17 +93,16 @@ gameState.prototype = {
         Fairway.anchor.setTo(0.5,0.5);
 
 
-        var ballMaterial = this.game.physics.p2.createMaterial("ballMaterial", Ball.body);
-        var groundMaterial = this.game.physics.p2.createMaterial("groundMaterial", FairwayHole.body);
+        /*ballMaterial = this.game.physics.p2.createMaterial("ballMaterial", Ball.body);
+        groundMaterial = this.game.physics.p2.createMaterial("groundMaterial", FairwayHole.body);
         this.game.physics.p2.setWorldMaterial(groundMaterial, true, true, true, true);
-        var contactMaterial = this.game.physics.p2.createContactMaterial(ballMaterial, groundMaterial);
+        contactMaterial = this.game.physics.p2.createContactMaterial(ballMaterial, groundMaterial);
 
         contactMaterial.friction = 0.5;
-        contactMaterial.restitution = 0.5;
+        contactMaterial.restitution = 0.5;*/
 
         MusicControl = this.game.add.audio("Course1Music");
-        if (Music == true) MusicControl.play();
-        //if (Music == true) this.game.sound.play("Course1Music");
+        if (Music == true) MusicControl.play();;
 
         Emitter = this.game.add.emitter(Flag.x, Flag.y);
         Emitter.makeParticles("Star");
@@ -158,6 +169,7 @@ gameState.prototype = {
             this.PowerB.visible = false;
             Power = 0;
             this.PowerF.angle = -179;
+            ShotCount += 1;
 
         }
 
@@ -171,10 +183,9 @@ gameState.prototype = {
         CameraCenterX = this.game.camera.x + this.game.camera.width/2;
         CameraCenterY = this.game.camera.y + this.game.camera.height/2;
 
-
         if (FairwayHole != undefined && Fairway != undefined) {
 
-            if (this.game.input.activePointer.isDown && Paused != true) {
+            if (this.game.input.activePointer.isDown && Paused != true && LevelComplete != true) {
                 if (LeftB.input.checkPointerOver(this.game.input.activePointer) != true && RightB.input.checkPointerOver(this.game.input.activePointer) != true && SwingB.input.checkPointerOver(this.game.input.activePointer) != true) {
                     if (this.game.origDragPoint) {
                         // move the camera by the amount the mouse has moved since last update
@@ -224,6 +235,13 @@ gameState.prototype = {
             Arrow.visible = false;
         }
 
+        if (LevelComplete == true && Timer < 300 && ScoreboardShown == false){
+            Timer += 1;
+        }
+        if (Timer == 300){
+            this.ShowScoreboard();
+        }
+
     },
     render: function(){
         this.game.debug.text(this.game.time.fps || '--', 2, 14, "#00ff00");
@@ -232,6 +250,7 @@ gameState.prototype = {
     Pause: function(){
         if (!Paused) {
             Paused = true;
+            this.TurnOffCollisions();
 
             BackgroundP = this.game.add.sprite(this.game.camera.x, this.game.camera.y, "BackgroundP");
 
@@ -278,15 +297,17 @@ gameState.prototype = {
 
     ResumeGame: function(){
         Paused = false;
-
+        this.TurnOnCollisions();
         BackgroundP.destroy();
 
-        this.game.add.tween(Resume).to({y: -1600}, 200, Phaser.Easing.Linear.NONE, true);
-        this.game.add.tween(ResumeText).to({y: -1600}, 200, Phaser.Easing.Linear.NONE, true);
-        this.game.add.tween(Restart).to({y: -1400}, 200, Phaser.Easing.Linear.NONE, true);
-        this.game.add.tween(RestartText).to({y: -1400}, 200, Phaser.Easing.Linear.NONE, true);
-        this.game.add.tween(Menu).to({y: -1200}, 200, Phaser.Easing.Linear.NONE, true);
-        this.game.add.tween(MenuText).to({y: -1200}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(Resume).to({y: -1700}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(ResumeText).to({y: -1700}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(Restart).to({y: -1500}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(RestartText).to({y: -1500}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(Fullscreen).to({y: -1300}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(FullscreenText).to({y: -1300}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(Menu).to({y: -1100}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(MenuText).to({y: -1100}, 200, Phaser.Easing.Linear.NONE, true);
         if(Music == true)this.game.add.tween(MusicOn).to({x: -200}, 200, Phaser.Easing.Linear.NONE, true);
         if(Sound == true)this.game.add.tween(SoundOn).to({x: -200}, 200, Phaser.Easing.Linear.NONE, true);
         if(Music == false)this.game.add.tween(MusicOff).to({x: -200}, 200, Phaser.Easing.Linear.NONE, true);
@@ -296,11 +317,29 @@ gameState.prototype = {
 
     LevelComplete: function(){
         if (LevelComplete != true){
-        Emitter.flow(2000, 250, 5, 50);
+            Emitter.flow(2000, 250, 5, 50);
             LevelComplete = true;
             Arrow.visible = false;
-
+            this.TurnOffCollisions();
         }
+    },
+
+    ShowScoreboard: function(){
+        Timer = 0;
+        ScoreboardShown = true;
+        BackgroundP = this.game.add.sprite(this.game.camera.x, this.game.camera.y, "BackgroundP");
+        Scoreboard = this.game.add.sprite(CameraCenterX, this.game.camera.y - 500, "Scoreboard");
+        Scoreboard.anchor.setTo(0.5, 0.5);
+        var CourseTitle = this.game.add.bitmapText(Scoreboard.x, Scoreboard.y + 50, "8Bit", "Grass Land", 72);
+        CourseTitle.anchor.setTo(0.5);
+
+
+
+
+
+        this.game.add.tween(Scoreboard).to({y: CameraCenterY}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(CourseTitle).to({y: CameraCenterY - 375}, 200, Phaser.Easing.Linear.NONE, true);
+
     },
 
     TurnMusicOff: function(){
@@ -343,7 +382,7 @@ gameState.prototype = {
         MusicControl.stop();
     },
 
-    Fullscreen: function () {
+    Fullscreen: function() {
         this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.game.scale.refresh();
 
@@ -352,6 +391,37 @@ gameState.prototype = {
         } else {
             this.game.scale.startFullScreen();
         }
+    },
+
+    TurnOffCollisions: function() {
+        SavedBallVelX = Ball.body.velocity.x;
+        SavedBallVelY = Ball.body.velocity.y;
+        Ball.body.velocity.x = 0;
+        Ball.body.velocity.y = 0;
+        this.game.physics.p2.gravity.y = 0;
+        FairwayHole.body.clearCollision();
+        Ball.body.clearCollision();
+        FairwayHole.body.clearShapes();
+        Ball.body.clearShapes();
+
+    },
+
+    TurnOnCollisions: function() {
+        this.game.physics.p2.enable(FairwayHole);
+        FairwayHole.body.loadPolygon("Physics", "Level1-Hole");
+        FairwayHole.kinematic = true;
+        this.game.physics.p2.enable(Ball);
+        Ball.body.loadPolygon("Physics", "Ball2");
+        Ball.body.velocity.x = SavedBallVelX;
+        Ball.body.velocity.y = SavedBallVelY;
+        this.game.physics.p2.gravity.y = 1400;
+        ballMaterial = this.game.physics.p2.createMaterial("ballMaterial", Ball.body);
+        groundMaterial = this.game.physics.p2.createMaterial("groundMaterial", FairwayHole.body);
+        this.game.physics.p2.setWorldMaterial(groundMaterial, true, true, true, true);
+        contactMaterial = this.game.physics.p2.createContactMaterial(ballMaterial, groundMaterial);
+        contactMaterial.friction = 0.5;
+        contactMaterial.restitution = 0.5;
+
     }
 
 };
