@@ -12,13 +12,12 @@ preload.prototype = {
         this.game.time.advancedTiming = true;
 
         this.game.load.audio("MainMenuMusic", "Music/MainMenu.ogg");
-        this.game.load.audio("Course1Music", "Music/Course1.mp3");
+        this.game.load.audio("Course1Music", "Music/Course1.ogg");
         this.game.load.image("Logo", "Graphics/Logo.png");
         this.game.load.image("Clouds", "Graphics/Background/Background-Clouds.png");
         this.game.load.image("Hills", "Graphics/Background/Background-Hills4.png");
 
         this.game.load.spritesheet("Button", "Graphics/Buttons/Button.png", 400, 150);
-        this.game.load.spritesheet("Back", "Graphics/Buttons/Back-Button.png", 400, 150);
         this.game.load.spritesheet("SoundOn", "Graphics/Buttons/Sound-On-Button.png", 150, 150);
         this.game.load.spritesheet("SoundOff", "Graphics/Buttons/Sound-Off-Button.png", 150, 150);
         this.game.load.spritesheet("MusicOn", "Graphics/Buttons/Music-On-Button.png", 150, 150);
