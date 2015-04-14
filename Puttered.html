@@ -8,9 +8,9 @@
     <script src="States/boot.js"></script>
     <script src="States/preload.js"></script>
     <script src="States/mainmenu.js"></script>
-    <script src = "States/Levels/Grass%20Land/Level1.js"></script>
-    <!--<script src = "States/Levels/Grass%20Land/Level2.js"></script>
-    <script src = "States/Levels/Grass%20Land/Level3.js"></script>
+    <script src = "States/Levels/Grass_Land/Level1.js"></script>
+    <script src = "States/Levels/Grass_Land/Level2.js"></script>
+    <!--<script src = "States/Levels/Grass%20Land/Level3.js"></script>
     <script src = "States/Levels/Grass%20Land/Level4.js"></script>
     <script src = "States/Levels/Grass%20Land/Level5.js"></script>
     <script src = "States/Levels/Grass%20Land/Level6.js"></script>
@@ -24,12 +24,12 @@
 
         (function() {
             var game = new Phaser.Game(1920, 1080, Phaser.AUTO, "game");
-            game.state.add("Boot",boot);
-            game.state.add("Preload",preload);
-            game.state.add("MainMenu",mainMenu);
-            game.state.add("Level1", Level1);
-            /*game.state.add("Level2", Level2);
-            game.state.add("Level3", Level3);
+            game.state.add("Boot", boot);
+            game.state.add("Preload", preload);
+            game.state.add("MainMenu", mainMenu);
+            game.state.add("Level1", level1);
+            game.state.add("Level2", level2);
+            /*game.state.add("Level3", Level3);
             game.state.add("Level4", Level4);
             game.state.add("Level5", Level5);
             game.state.add("Level6", Level6);
