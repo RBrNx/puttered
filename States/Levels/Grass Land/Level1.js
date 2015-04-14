@@ -1,7 +1,7 @@
 /**
  * Created by b00231929 on 20/03/2015.
  */
-var gameState = function(game){};
+var Level1 = function(game){};
 var Player;
 var Clouds;
 var Fairway;
@@ -22,7 +22,6 @@ var CameraCenterX;
 var CameraCenterY;
 var BackgroundP;
 var Timer;
-var Timer2;
 var Scoreboard;
 var ScoreboardShown = false;
 var StrokeArray;
@@ -36,7 +35,7 @@ var groundMaterial;
 var contactMaterial;
 
 //TODO Clean up this code
-gameState.prototype = {
+Level1.prototype = {
     preload: function(){
         this.game.load.spritesheet("ButtonSq", "Graphics/Buttons/Button-Square.png", 150, 150);
         this.game.load.spritesheet("Shot", "Graphics/Player/Swing.png", 400, 400);
@@ -60,7 +59,6 @@ gameState.prototype = {
     create: function() {
         Paused = false;
         Timer = 0;
-        Timer2 = 0;
         this.game.physics.startSystem(Phaser.Physics.P2JS);
         this.game.physics.p2.gravity.y = 1400;
 
@@ -250,8 +248,6 @@ gameState.prototype = {
         else{
             Player.scale.x = -0.5;
         }
-
-        console.log(restarttest)
 
     },
     render: function(){
