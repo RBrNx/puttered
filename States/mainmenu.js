@@ -188,8 +188,7 @@ mainMenu.prototype = {
         MusicOff.destroy();
         Music = true;
         //Turn Music On here
-        //MusicControl.play();
-        MusicControl.resume();
+        MusicControl.play();
 
     },
 
