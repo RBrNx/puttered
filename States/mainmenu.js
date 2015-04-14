@@ -61,8 +61,6 @@ mainMenu.prototype = {
         if (RoomNumber = 3) {
             if (Level2 != undefined && Level1 != undefined) {
 
-                //this.game.input.onDown.add(this.updateButtons, this);
-
                 if (this.game.input.activePointer.isDown) {
                     if (this.game.origDragPoint) {
                         // move the camera by the amount the mouse has moved since last update

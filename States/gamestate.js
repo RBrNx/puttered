@@ -29,13 +29,13 @@ var StrokeArray;
 var StrokeCount = 0;
 var SavedBallVelX;
 var SavedBallVelY;
-var LastPlayerX;
-var LastPlayerY;
 var HoleNumber = 0;
-
+var FinishSwing = false;
 var ballMaterial;
 var groundMaterial;
 var contactMaterial;
+
+//TODO Clean up this code
 gameState.prototype = {
     preload: function(){
         this.game.load.spritesheet("ButtonSq", "Graphics/Buttons/Button-Square.png", 150, 150);
@@ -111,6 +111,7 @@ gameState.prototype = {
 
         MusicControl = this.game.add.audio("Course1Music");
         if (Music == true) MusicControl.play();
+        //TODO Add game Sounds
 
         Emitter = this.game.add.emitter(Flag.x, Flag.y);
         Emitter.makeParticles("Star");
@@ -120,6 +121,7 @@ gameState.prototype = {
         Emitter.maxParticleScale = 0.1;
         Emitter.setAlpha(0.1, 0.6);
         Emitter.gravity = 250;
+        //TODO Change emitter colour
 
         //Set up GUI - Arrow, Left + Right Buttons, Swing Button, Pause Button, Power Bar
         Arrow = this.game.add.sprite(Ball.x, Ball.y, "Arrow");
@@ -181,20 +183,29 @@ gameState.prototype = {
                 this.game.origDragPoint = null;
             }
         }
-    if (this.PowerF != undefined && Paused != true) {
-        if (this.PowerF.angle <= -179) {
-            this.Ticker = 1;
 
+        if (this.game.input.activePointer.isDown && Paused != true && Scoreboard != undefined) {
+            if (Scoreboard.input.checkPointerOver(this.game.input.activePointer)){
+                this.game.state.start("GameState");
+                //console.log("Level2");
+            }
         }
-        if (this.PowerF.angle >= 0){
-            this.Ticker = -1;
 
+
+        if (this.PowerF != undefined && Paused != true) {
+            if (this.PowerF.angle <= -179) {
+                this.Ticker = 1;
+
+            }
+            if (this.PowerF.angle >= 0){
+                this.Ticker = -1;
+
+            }
+            if (this.PowerF.visible == true) {
+                this.PowerF.angle += this.Ticker;
+                Power += this.Ticker;
+            }
         }
-        if (this.PowerF.visible == true) {
-            this.PowerF.angle += this.Ticker;
-            Power += this.Ticker;
-        }
-    }
 
         if (Arrow != undefined  && Paused != true){
             if (Arrow.visible == true && this.game.input.activePointer.isDown && LeftB.input.checkPointerOver(this.game.input.activePointer)){
@@ -208,9 +219,10 @@ gameState.prototype = {
 
         if (Ball.body.velocity.x < 0.002 && Ball.body.velocity.y < 0.002 && Ball.body.velocity.x > -0.002 && Ball.body.velocity.y > -0.002){
             BallStationary = true;
-            Arrow.visible = true;
+            if (LevelComplete != true) Arrow.visible = true;
             Arrow.position.setTo(Ball.x, Ball.y);
-            Player.position.setTo(Ball.x - 25, Ball.y - 90);
+            if (LevelComplete != true) Player.position.setTo(Ball.x - 25, Ball.y - 90);
+            if (LevelComplete != true) FinishSwing = false;
         }
         else if (Ball.body.velocity.x >= 0.002 || Ball.body.velocity.y >= 0.002 || Ball.body.velocity.x <= -0.002 || Ball.body.velocity.y <= -0.002 ){
             BallStationary = false;
@@ -224,7 +236,7 @@ gameState.prototype = {
             this.ShowScoreboard();
         }
 
-        if (Player.animations.currentAnim.frame == 12){
+        if (Player.animations.currentAnim.frame == 12 && FinishSwing == false){
             this.FinishSwing();
         }
 
@@ -238,6 +250,8 @@ gameState.prototype = {
         else{
             Player.scale.x = -0.5;
         }
+
+        console.log(restarttest)
 
     },
     render: function(){
@@ -254,7 +268,7 @@ gameState.prototype = {
         }
         else if (Started == "true"){
             Player.animations.play("Swing", 10, false);
-            //this.game.camera.follow(Ball, Phaser.Camera.FOLLOW_TOPDOWN);
+            this.game.camera.follow(Ball, Phaser.Camera.FOLLOW_TOPDOWN);
             this.PowerF.visible = false;
             this.PowerB.visible = false;
             Started = "false";
@@ -273,10 +287,11 @@ gameState.prototype = {
         Power = 0;
         this.PowerF.angle = -179;
         StrokeCount += 1;
+        FinishSwing = true;
     },
 
     Pause: function(){
-        if (!Paused) {
+        if (!Paused && LevelComplete != true) {
             Paused = true;
             this.TurnOffCollisions();
 
@@ -358,28 +373,33 @@ gameState.prototype = {
         ScoreboardShown = true;
         BackgroundP = this.game.add.sprite(this.game.camera.x, this.game.camera.y, "BackgroundP");
         Scoreboard = this.game.add.sprite(CameraCenterX, this.game.camera.y - 500, "Scoreboard");
+        Scoreboard.inputEnabled = true;
         Scoreboard.anchor.setTo(0.5, 0.5);
-        var CourseTitle = this.game.add.bitmapText(Scoreboard.x, Scoreboard.y + 50, "8Bit", "Grass Land", 72);
+        var CourseTitle = this.game.add.bitmapText(Scoreboard.x, Scoreboard.y - 385, "8Bit", "Grass Land", 72);
         CourseTitle.anchor.setTo(0.5);
 
-        var Hole = this.game.add.bitmapText(Scoreboard.x - 300, Scoreboard.y + 300, "8Bit", "Hole\n\n\n   1\n\n   2\n\n   3\n\n   4\n\n " +
+        var Hole = this.game.add.bitmapText(Scoreboard.x - 290, Scoreboard.y + 15, "8Bit", "Hole\n\n\n   1\n\n   2\n\n   3\n\n   4\n\n " +
            "  5\n\n   6\n\n   7\n\n   8\n\n   9");
-        var Par = this.game.add.bitmapText (Scoreboard.x - 60, Scoreboard.y + 300, "8Bit", "Par\n\n\n  3\n\n  1\n\n  1\n\n  1\n\n  1\n\n" +
+        var Par = this.game.add.bitmapText (Scoreboard.x - 30, Scoreboard.y + 15, "8Bit", "Par\n\n\n  3\n\n  1\n\n  1\n\n  1\n\n  1\n\n" +
         "  1\n\n  1\n\n  1\n\n  1");
-        var Score = this.game.add.bitmapText(Scoreboard.x + 220, Scoreboard.y + 300, "8Bit",
+        var Score = this.game.add.bitmapText(Scoreboard.x + 240, Scoreboard.y + 15, "8Bit",
             "Strokes\n\n\n      " + StrokeArray[0] + "\n\n      " + StrokeArray[1] + "\n\n      " + StrokeArray[2] +
             "\n\n      " + StrokeArray[3] + "\n\n      " + StrokeArray[4] + "\n\n      " + StrokeArray[5] + "\n\n      "
             + StrokeArray[6] + "\n\n      " + StrokeArray[7] + "\n\n      " + StrokeArray[8]);
+
+        var Continue = this.game.add.bitmapText(Scoreboard.x, Scoreboard.y + 400, "8Bit", "Tap Here to Continue", 30);
         Hole.anchor.setTo(0.5);
         Par.anchor.setTo(0.5);
         Score.anchor.setTo(0.5);
-
+        Continue.anchor.setTo(0.5);
+        Continue.tint = 0x191919;
 
         this.game.add.tween(Scoreboard).to({y: CameraCenterY}, 200, Phaser.Easing.Linear.NONE, true);
-        this.game.add.tween(CourseTitle).to({y: CameraCenterY - 375}, 200, Phaser.Easing.Linear.NONE, true);
-        this.game.add.tween(Hole).to({y: CameraCenterY + 50}, 200, Phaser.Easing.Linear.NONE, true);
-        this.game.add.tween(Par).to({y: CameraCenterY + 50}, 200, Phaser.Easing.Linear.NONE, true);
-        this.game.add.tween(Score).to({y: CameraCenterY + 50}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(CourseTitle).to({y: CameraCenterY - 385}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(Hole).to({y: CameraCenterY + 15}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(Par).to({y: CameraCenterY + 15}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(Score).to({y: CameraCenterY + 15}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(Continue).to({y: CameraCenterY + 400}, 200, Phaser.Easing.Linear.NONE, true);
 
     },
 
