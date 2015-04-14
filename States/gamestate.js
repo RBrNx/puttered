@@ -10,7 +10,7 @@ var Ball;
 var Hills;
 var Emitter;
 var Radian = 0.0174532925;
-var Started = false;
+var Started = "false";
 var Power = 0;
 var LevelComplete = false;
 var BallStationary;
@@ -29,6 +29,8 @@ var StrokeArray;
 var StrokeCount = 0;
 var SavedBallVelX;
 var SavedBallVelY;
+var LastPlayerX;
+var LastPlayerY;
 var HoleNumber = 0;
 
 var ballMaterial;
@@ -77,13 +79,13 @@ gameState.prototype = {
         Flag = this.game.add.sprite(2295, 578, "Flag");
         Flag.anchor.setTo(0.5, 1);
 
-        Player = this.game.add.sprite(0, 470, "Shot");
+        Player = this.game.add.sprite(200, 470, "Shot");
         Player.animations.add("Swing");
         Player.scale.setTo(0.5, 0.5);
-        Player.anchor.setTo(0, 0.5);
+        Player.anchor.setTo(0.5, 0.5);
 
 
-        Ball = this.game.add.sprite(Player.x + 125, 550, "Ball");
+        Ball = this.game.add.sprite(Player.x, 550, "Ball");
         Ball.anchor.setTo(0.5, 0.5);
         Ball.scale.setTo(0.2, 0.2);
         this.game.physics.p2.enable(Ball);
@@ -157,33 +159,6 @@ gameState.prototype = {
 
     },
 
-    Swing: function() {
-        if (Started == false && BallStationary == true && LevelComplete != true && Paused != true) {
-            this.PowerB.visible = true;
-            this.PowerF.visible = true;
-            Power = 0;
-            Started = true;
-        }
-        else if (Started == true){
-            Player.animations.play("Swing", 10, false);
-            //this.game.camera.follow(Ball, Phaser.Camera.FOLLOW_TOPDOWN);
-            var VelocityX = (Power * Math.cos((Arrow.angle -90) * Radian) * 10);
-            var VelocityY = (Power * Math.sin((Arrow.angle -90) * Radian) * 10);
-            Ball.body.velocity.x += VelocityX;
-            Ball.body.velocity.y += VelocityY;
-            Started = false;
-            this.PowerF.visible = false;
-            this.PowerB.visible = false;
-            Power = 0;
-            this.PowerF.angle = -179;
-            StrokeCount += 1;
-        }
-
-
-        Block.body.onBeginContact.add(this.LevelComplete, this);
-    },
-
-
     update: function(){
         Clouds.tilePosition.x += 1;
         CameraCenterX = this.game.camera.x + this.game.camera.width/2;
@@ -231,13 +206,13 @@ gameState.prototype = {
         }
 
 
-        if (Ball.body.velocity.x < 0.0015 && Ball.body.velocity.y < 0.0015 && Ball.body.velocity.x > -0.0015 && Ball.body.velocity.y > -0.0015){
+        if (Ball.body.velocity.x < 0.002 && Ball.body.velocity.y < 0.002 && Ball.body.velocity.x > -0.002 && Ball.body.velocity.y > -0.002){
             BallStationary = true;
             Arrow.visible = true;
             Arrow.position.setTo(Ball.x, Ball.y);
-            Player.position.setTo(Ball.x - 125, Ball.y - 90);
+            Player.position.setTo(Ball.x - 25, Ball.y - 90);
         }
-        else if (Ball.body.velocity.x >= 0.0015 || Ball.body.velocity.y >= 0.0015 || Ball.body.velocity.x <= -0.0015 || Ball.body.velocity.y <= -0.0015 ){
+        else if (Ball.body.velocity.x >= 0.002 || Ball.body.velocity.y >= 0.002 || Ball.body.velocity.x <= -0.002 || Ball.body.velocity.y <= -0.002 ){
             BallStationary = false;
             Arrow.visible = false;
         }
@@ -249,10 +224,55 @@ gameState.prototype = {
             this.ShowScoreboard();
         }
 
+        if (Player.animations.currentAnim.frame == 12){
+            this.FinishSwing();
+        }
+
+        Player.events.onAnimationComplete.add(function() {
+            Player.animations.stop("Swing", true);
+        }, this);
+
+        if (Arrow.angle >= 0 && Arrow.angle <= 180){
+            Player.scale.x = 0.5;
+        }
+        else{
+            Player.scale.x = -0.5;
+        }
+
     },
     render: function(){
         this.game.debug.text(this.game.time.fps || '--', 2, 14, "#00ff00");
         if (Ball != undefined) this.game.debug.spriteInfo(Ball, 32, 32);
+    },
+
+    Swing: function() {
+        if (Started == "false" && BallStationary == true && LevelComplete != true && Paused != true) {
+            this.PowerB.visible = true;
+            this.PowerF.visible = true;
+            Power = 0;
+            Started = "true";
+        }
+        else if (Started == "true"){
+            Player.animations.play("Swing", 10, false);
+            //this.game.camera.follow(Ball, Phaser.Camera.FOLLOW_TOPDOWN);
+            this.PowerF.visible = false;
+            this.PowerB.visible = false;
+            Started = "false";
+
+        }
+
+        Block.body.onBeginContact.add(this.LevelComplete, this);
+    },
+
+    FinishSwing: function() {
+        var VelocityX = (Power * Math.cos((Arrow.angle -90) * Radian) * 10);
+        var VelocityY = (Power * Math.sin((Arrow.angle -90) * Radian) * 10);
+        Ball.body.velocity.x += VelocityX;
+        Ball.body.velocity.y += VelocityY;
+
+        Power = 0;
+        this.PowerF.angle = -179;
+        StrokeCount += 1;
     },
 
     Pause: function(){
