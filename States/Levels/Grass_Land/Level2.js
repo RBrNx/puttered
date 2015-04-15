@@ -197,8 +197,10 @@ level2.prototype = {
             BallStationary = true;
             if (LevelComplete != true) Arrow.visible = true;
             Arrow.position.setTo(Ball.x, Ball.y);
-            if (LevelComplete != true) Player.position.setTo(Ball.x - 25, Ball.y - 90);
-            if (LevelComplete != true) FinishSwing = false;
+            if (LevelComplete != true) {
+                Player.position.setTo(Ball.x - 25, Ball.y - 90);
+                FinishSwing = false;
+            }
         }
         else if (Ball.body.velocity.x >= 0.002 || Ball.body.velocity.y >= 0.002 || Ball.body.velocity.x <= -0.002 || Ball.body.velocity.y <= -0.002 ){
             BallStationary = false;

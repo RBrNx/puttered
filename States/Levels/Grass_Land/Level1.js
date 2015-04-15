@@ -205,12 +205,14 @@ level1.prototype = {
         }
 
 
-        if (Ball.body.velocity.x < 0.002 && Ball.body.velocity.y < 0.002 && Ball.body.velocity.x > -0.002 && Ball.body.velocity.y > -0.002){
+        if (Ball.body.velocity.x < 0.002 && Ball.body.velocity.y < 0.002 && Ball.body.velocity.x > -0.002 && Ball.body.velocity.y > -0.002) {
             BallStationary = true;
             if (LevelComplete != true) Arrow.visible = true;
             Arrow.position.setTo(Ball.x, Ball.y);
-            if (LevelComplete != true) Player.position.setTo(Ball.x - 25, Ball.y - 90);
-            if (LevelComplete != true) FinishSwing = false;
+            if (LevelComplete != true){
+                Player.position.setTo(Ball.x - 25, Ball.y - 90);
+                FinishSwing = false;
+            }
         }
         else if (Ball.body.velocity.x >= 0.002 || Ball.body.velocity.y >= 0.002 || Ball.body.velocity.x <= -0.002 || Ball.body.velocity.y <= -0.002 ){
             BallStationary = false;
@@ -244,7 +246,8 @@ level1.prototype = {
     },
     render: function(){
         this.game.debug.text(this.game.time.fps || '--', 2, 14, "#00ff00");
-        if (Block != undefined) this.game.debug.spriteInfo(Block, 32, 32);
+        //if (Block != undefined) this.game.debug.spriteInfo(Block, 32, 32);
+        this.game.debug.inputInfo(32, 32);
     },
 
     Swing: function() {
