@@ -21,6 +21,8 @@ level2.prototype = {
         this.game.load.image("Block", "Graphics/Player/Block.png");
         this.game.load.image("BackgroundP", "Graphics/Background/Background-Pause.png");
         this.game.load.image("Scoreboard", "Graphics/Background/Scoreboard.png");
+        this.game.load.audio("GolfClap", "Music/GolfClap.ogg");
+        this.game.load.audio("GolfSwing", "Music/GolfSwing.ogg");
 
         this.game.world.setBounds(0, -500, 3000, 1580);
     },
@@ -84,7 +86,7 @@ level2.prototype = {
         contactMaterial.friction = 0.5;
         contactMaterial.restitution = 0.5;
 
-        MusicControl = this.game.add.audio("Course1Music");
+        MusicControl = this.game.add.audio("Course2Music", 1, true);
         if (Music == true) MusicControl.play();
         //TODO Add game Sounds
 
@@ -261,6 +263,7 @@ level2.prototype = {
         this.PowerF.angle = -179;
         StrokeCount += 1;
         FinishSwing = true;
+        if(Sound == true)GolfSwing.play();
     },
 
     Pause: function(){
@@ -338,6 +341,7 @@ level2.prototype = {
             Arrow.visible = false;
             //this.TurnOffCollisions();
             StrokeArray[HoleNumber] = StrokeCount;
+            if(Sound == true)GolfClap.play();
         }
     },
 

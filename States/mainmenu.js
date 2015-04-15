@@ -29,7 +29,7 @@ mainMenu.prototype = {
         this.game.world.setBounds(0, 0, 1920, 1080);
 
         //Start Menu Music
-        MusicControl = this.game.add.audio("MainMenuMusic");
+        MusicControl = this.game.add.audio("MainMenuMusic", 1, true);
         if (Music == true) MusicControl.play();
 
         //Load Background and Logo
