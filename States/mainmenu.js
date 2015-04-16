@@ -46,7 +46,7 @@ mainMenu.prototype = {
         Play = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 75, "Button", this.LevelSelect, this, 0, 0, 1, 0);
         Play.anchor.setTo(0.5, 0.5);
         Play.scale.setTo(0.67);
-        PlayText = this.game.add.bitmapText(Play.x, Play.y-10, "8Bit", "Play", 84);
+        PlayText = this.game.add.bitmapText(Play.x, Play.y-8, "8Bit", "Play", 84);
         PlayText.anchor.setTo(0.5, 0.5);
         PlayText.scale.setTo(0.67);
 
@@ -54,7 +54,7 @@ mainMenu.prototype = {
         Options = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 200, "Button", this.StartOptions, this, 0, 0, 1, 0);
         Options.anchor.setTo(0.5, 0.5);
         Options.scale.setTo(0.67);
-        OptionsText = this.game.add.bitmapText(Options.x, Options.y-10, "8Bit", "Options", 52);
+        OptionsText = this.game.add.bitmapText(Options.x, Options.y-5, "8Bit", "Options", 52);
         OptionsText.anchor.setTo(0.5, 0.5);
         OptionsText.scale.setTo(0.67);
 
@@ -153,19 +153,19 @@ mainMenu.prototype = {
         BackText.anchor.setTo(0.5, 0.5);
         BackText.scale.setTo(0.67);
 
-        Level1 = this.game.add.button(this.game.world.centerX, this.game.world.centerY +75, "Level1", this.GoToLevel1, this, 0, 0, 1, 0);
-        Level2 = this.game.add.button(Level1.x+320, this.game.world.centerY+75, "Level2", this.GoToLevel2, this, 0, 0, 1, 0);
+        Level1 = this.game.add.button(this.game.world.centerX, this.game.world.centerY +75, "Level1", this.GoToCourse1, this, 0, 0, 1, 0);
+        Level2 = this.game.add.button(Level1.x+320, this.game.world.centerY+75, "Level2", this.GoToCourse2, this, 0, 0, 1, 0);
         Level1.anchor.setTo(0.5, 0.5);
         Level1.scale.setTo(0.67);
         Level2.anchor.setTo(0.5, 0.5);
         Level2.scale.setTo(0.67);
         Level1.inputEnabled = true;
-        Level2.inputEnabled = true;
+        //Level2.inputEnabled = true;
 
         //Set Room Number to Level Select
         RoomNumber = 3;
 
-        Level1.events.onInputUp.add(this.GoToLevel1);
+        Level1.events.onInputUp.add(this.GoToCourse1);
         /*Level2.events.onInputOver.add(function(){
             this.game.state.start("GameState")
         });*/
@@ -178,7 +178,7 @@ mainMenu.prototype = {
         Play = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 75, "Button", this.LevelSelect, this, 0, 0, 1, 0);
         Play.anchor.setTo(0.5, 0.5);
         Play.scale.setTo(0.67);
-        PlayText = this.game.add.bitmapText(Play.x, Play.y-10, "8Bit", "Play", 84);
+        PlayText = this.game.add.bitmapText(Play.x, Play.y-8, "8Bit", "Play", 84);
         PlayText.anchor.setTo(0.5, 0.5);
         PlayText.scale.setTo(0.67);
 
@@ -186,7 +186,7 @@ mainMenu.prototype = {
         Options = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 200, "Button", this.StartOptions, this, 0, 0, 1, 0);
         Options.anchor.setTo(0.5, 0.5);
         Options.scale.setTo(0.67);
-        OptionsText = this.game.add.bitmapText(Options.x, Options.y-10, "8Bit", "Options", 52);
+        OptionsText = this.game.add.bitmapText(Options.x, Options.y - 5, "8Bit", "Options", 52);
         OptionsText.anchor.setTo(0.5, 0.5);
         OptionsText.scale.setTo(0.67);
 
@@ -235,7 +235,7 @@ mainMenu.prototype = {
         //Turn Sound On here
     },
 
-    GoToLevel1: function(){
+    GoToCourse1: function(){
         MusicControl.stop();
         Level1.destroy();
         Level2.destroy();
@@ -244,7 +244,7 @@ mainMenu.prototype = {
         this.game.state.start("Level1");
     },
 
-    GoToLevel2: function(){
+    GoToCourse2: function(){
         //this.game.state.start("GameState")
     },
 

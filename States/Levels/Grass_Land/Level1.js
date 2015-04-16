@@ -8,6 +8,10 @@ var StrokeArray = ["-","-","-","-","-","-","-","-","-"];
 //TODO Clean up this code
 level1.prototype = {
     preload: function(){
+        var loadingBar = this.add.sprite(this.game.camera.width/2, this.game.camera.height/2, "Loading");
+        loadingBar.anchor.setTo(0.5,0.5);
+        this.load.setPreloadSprite(loadingBar);
+
         this.game.load.spritesheet("ButtonSq", "Graphics/Buttons/Button-Square.png", 150, 150);
         this.game.load.spritesheet("Shot", "Graphics/Player/Swing.png", 400, 400);
         this.game.load.image("Ball", "Graphics/Player/Ball.png");
@@ -75,8 +79,8 @@ level1.prototype = {
         Ball.body.clearShapes();
         Ball.body.loadPolygon("Physics", "Ball");
 
-        Block = this.game.add.sprite(2345, 400, "Block");
-        Block.scale.setTo(0.67);
+        Block = this.game.add.sprite(2345, 415, "Block");
+        Block.scale.setTo(2);
         this.game.physics.p2.enable(Block);
         Block.body.static = true;
 
@@ -93,11 +97,8 @@ level1.prototype = {
 
         MusicControl = this.game.add.audio("Course1Music", 1, true);
         if (Music == true) MusicControl.play();
-
         GolfClap = this.game.add.audio("GolfClap");
         GolfSwing = this.game.add.audio("GolfSwing");
-
-        //TODO Add game Sounds
 
         Emitter = this.game.add.emitter(Block.x, Block.y);
         Emitter.makeParticles("Star");
@@ -167,6 +168,7 @@ level1.prototype = {
                 if (LeftB.input.checkPointerOver(this.game.input.activePointer) != true && RightB.input.checkPointerOver(this.game.input.activePointer) != true && SwingB.input.checkPointerOver(this.game.input.activePointer) != true) {
                     if (this.game.origDragPoint) {
                         // move the camera by the amount the mouse has moved since last update
+                        this.game.camera.follow(null);
                         this.game.camera.x += this.game.origDragPoint.x - this.game.input.activePointer.x;
                         this.game.camera.y += this.game.origDragPoint.y - this.game.input.activePointer.y;
                     }
@@ -254,8 +256,9 @@ level1.prototype = {
     },
     render: function(){
         this.game.debug.text(this.game.time.fps || '--', 2, 14, "#00ff00");
-        //if (Block != undefined) this.game.debug.spriteInfo(Block, 32, 32);
-        //if (Block != undefined) this.game.debug.body(Block);
+        //if (Block != undefined) this.game.debug.spriteInfo(Ball, 32, 32);
+        //if (Block != undefined) this.game.debug.spriteBounds(Block);
+        //if (Ball != undefined) this.game.debug.body(Ball);
         this.game.debug.inputInfo(32, 32);
     },
 
@@ -277,7 +280,6 @@ level1.prototype = {
 
     FinishSwing: function() {
         this.game.camera.follow(Ball, Phaser.Camera.FOLLOW_TOPDOWN);
-        //TODO Fix Camera Movement bug
         var VelocityX = (Power * Math.cos((Arrow.angle -90) * Radian) * 10);
         var VelocityY = (Power * Math.sin((Arrow.angle -90) * Radian) * 10);
         Ball.body.velocity.x += VelocityX;
@@ -404,7 +406,7 @@ level1.prototype = {
 
         var Hole = this.game.add.bitmapText(Scoreboard.x - 210, Scoreboard.y + 15, "8Bit", "Hole\n\n\n   1\n\n   2\n\n   3\n\n   4\n\n " +
            "  5\n\n   6\n\n   7\n\n   8\n\n   9", 22);
-        var Par = this.game.add.bitmapText (Scoreboard.x - 10, Scoreboard.y + 15, "8Bit", "Par\n\n\n  3\n\n  1\n\n  1\n\n  1\n\n  1\n\n" +
+        var Par = this.game.add.bitmapText (Scoreboard.x - 10, Scoreboard.y + 15, "8Bit", "Par\n\n\n  2\n\n  3\n\n  1\n\n  1\n\n  1\n\n" +
         "  1\n\n  1\n\n  1\n\n  1", 22);
         var Score = this.game.add.bitmapText(Scoreboard.x + 190, Scoreboard.y + 15, "8Bit",
             "Strokes\n\n\n      " + StrokeArray[0] + "\n\n      " + StrokeArray[1] + "\n\n      " + StrokeArray[2] +
