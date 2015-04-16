@@ -111,7 +111,7 @@ mainMenu.prototype = {
         Fullscreen = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 75, "Button", this.Fullscreen, this, 0 ,0 ,1, 0);
         Fullscreen.anchor.setTo(0.5, 0.5);
         Fullscreen.scale.setTo(0.67);
-        FullscreenText = this.game.add.bitmapText(Fullscreen.x, Fullscreen.y-10, "8Bit", "Fullscreen", 36);
+        FullscreenText = this.game.add.bitmapText(Fullscreen.x, Fullscreen.y-5, "8Bit", "Fullscreen", 36);
         FullscreenText.anchor.setTo(0.5, 0.5);
         FullscreenText.scale.setTo(0.67);
 
@@ -154,7 +154,7 @@ mainMenu.prototype = {
         BackText.scale.setTo(0.67);
 
         Level1 = this.game.add.button(this.game.world.centerX, this.game.world.centerY +75, "Level1", this.GoToLevel1, this, 0, 0, 1, 0);
-        Level2 = this.game.add.button(Level1.x+350, this.game.world.centerY+75, "Level2", this.GoToLevel2, this, 0, 0, 1, 0);
+        Level2 = this.game.add.button(Level1.x+320, this.game.world.centerY+75, "Level2", this.GoToLevel2, this, 0, 0, 1, 0);
         Level1.anchor.setTo(0.5, 0.5);
         Level1.scale.setTo(0.67);
         Level2.anchor.setTo(0.5, 0.5);

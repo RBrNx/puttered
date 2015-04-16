@@ -14,7 +14,6 @@ level1.prototype = {
         this.game.load.physics("Physics", "Graphics/Level_Assets/Grass_Land/Physics.json");
         this.game.load.image("Fairway", "Graphics/Level_Assets/Grass_Land/Level1/Level1.png");
         this.game.load.image("FairwayHole", "Graphics/Level_Assets/Grass_Land/Level1/Level1-Hole.png");
-        this.game.load.image("Flag", "Graphics/Player/Flag.png");
         this.game.load.image("SwingButton", "Graphics/Buttons/Swing-Button.png");
         this.game.load.image("PowerBar", "Graphics/Buttons/Power-Bar.png");
         this.game.load.image("PowerFill", "Graphics/Buttons/Gradient.png");
@@ -26,7 +25,7 @@ level1.prototype = {
         this.game.load.audio("GolfClap", "Music/GolfClap.ogg");
         this.game.load.audio("GolfSwing", "Music/GolfSwing.ogg");
 
-        this.game.world.setBounds(0, -500, 2500, 1580);
+        this.game.world.setBounds(0, -500, 2500, 1220);
     },
 
     create: function() {
@@ -54,34 +53,34 @@ level1.prototype = {
         this.game.physics.startSystem(Phaser.Physics.P2JS);
         this.game.physics.p2.gravity.y = 1400;
 
-        Clouds = this.game.add.tileSprite(0,-500, 2500, 2160, "Clouds");
-        Hills = this.game.add.sprite(0,0,"Hills");
-        Hills.scale.setTo(2,0.75);
-        FairwayHole = this.game.add.sprite(this.game.world.centerX, 543, "FairwayHole");
+        Clouds = this.game.add.tileSprite(0, -1000, 5000, 2440, "Clouds"); //Values are doubled so that scale is still correct
+        Clouds.scale.setTo(0.67);
+        Hills = this.game.add.sprite(0,-200,"Hills");
+        Hills.scale.setTo(1.67,0.75);
+        FairwayHole = this.game.add.sprite(this.game.world.centerX, 360, "FairwayHole");
         this.game.physics.p2.enable(FairwayHole);
         FairwayHole.body.kinematic = true;
         FairwayHole.body.clearShapes();
         FairwayHole.body.loadPolygon("Physics", "Level1-Hole");
 
-        Flag = this.game.add.sprite(2295, 578, "Flag");
-        Flag.anchor.setTo(0.5, 1);
-
-        Player = this.game.add.sprite(200, 470, "Shot");
+        Player = this.game.add.sprite(100, 360, "Shot");
+        Player.scale.setTo(0.35);
         Player.animations.add("Swing");
-        Player.scale.setTo(0.5, 0.5);
         Player.anchor.setTo(0.5, 0.5);
 
-        Ball = this.game.add.sprite(Player.x, 550, "Ball");
+        //TODO fix ball size
+        Ball = this.game.add.sprite(Player.x, 365, "Ball");
         Ball.anchor.setTo(0.5, 0.5);
         this.game.physics.p2.enable(Ball);
         Ball.body.clearShapes();
         Ball.body.loadPolygon("Physics", "Ball");
 
-        Block = this.game.add.sprite(Flag.x, Flag.y+10, "Block");
+        Block = this.game.add.sprite(2345, 400, "Block");
+        Block.scale.setTo(0.67);
         this.game.physics.p2.enable(Block);
         Block.body.static = true;
 
-        Fairway = this.game.add.sprite(this.game.world.centerX, 543, "Fairway");
+        Fairway = this.game.add.sprite(this.game.world.centerX, 360, "Fairway");
         Fairway.anchor.setTo(0.5,0.5);
 
         ballMaterial = this.game.physics.p2.createMaterial("ballMaterial", Ball.body);
@@ -100,7 +99,7 @@ level1.prototype = {
 
         //TODO Add game Sounds
 
-        Emitter = this.game.add.emitter(Flag.x, Flag.y);
+        Emitter = this.game.add.emitter(Block.x, Block.y);
         Emitter.makeParticles("Star");
         Emitter.minParticleSpeed.setTo(-100, -300);
         Emitter.maxParticleSpeed.setTo(100, -1000);
@@ -113,24 +112,30 @@ level1.prototype = {
         //Set up GUI - Arrow, Left + Right Buttons, Swing Button, Pause Button, Power Bar
         Arrow = this.game.add.sprite(Ball.x, Ball.y, "Arrow");
         Arrow.anchor.setTo(0.5, 1);
-        Arrow.scale.setTo(0.1, 0.1);
+        Arrow.scale.setTo(0.07, 0.07);
         Arrow.rotation = 181 * Radian;
         Arrow.angle = 60;
 
-        LeftB = this.game.add.sprite(20, 920, "Button");
-        LeftBText = this.game.add.bitmapText(LeftB.x + 160, LeftB.y + 15, "8Bit", "<", 100);
+        LeftB = this.game.add.sprite(20, 610, "Button");
+        LeftB.scale.setTo(0.67);
+        LeftBText = this.game.add.bitmapText(LeftB.x + 115, LeftB.y + 10, "8Bit", "<", 100);
+        LeftBText.scale.setTo(0.67);
         LeftBText.fixedToCamera = true;
         LeftB.fixedToCamera = true;
         LeftB.inputEnabled = true;
 
-        RightB = this.game.add.sprite(470, 920, "Button");
-        RightBText = this.game.add.bitmapText(RightB.x + 180, RightB.y + 15, "8Bit", ">", 100);
+        RightB = this.game.add.sprite(300, 610, "Button");
+        RightB.scale.setTo(0.67);
+        RightBText = this.game.add.bitmapText(RightB.x + 125, RightB.y + 10, "8Bit", ">", 100);
+        RightBText.scale.setTo(0.67);
         RightBText.fixedToCamera = true;
         RightB.fixedToCamera = true;
         RightB.inputEnabled = true;
 
-        this.PowerB = this.game.add.sprite(1400, 830, "PowerBar");
-        this.PowerF = this.game.add.sprite(1649, 1080, "PowerFill");
+        this.PowerB = this.game.add.sprite(950, 555, "PowerBar");
+        this.PowerB.scale.setTo(0.67);
+        this.PowerF = this.game.add.sprite(1117, 722, "PowerFill");
+        this.PowerF.scale.setTo(0.67);
         this.PowerF.anchor.setTo(0.5, 1);
         this.PowerB.fixedToCamera = true;
         this.PowerF.fixedToCamera = true;
@@ -138,12 +143,15 @@ level1.prototype = {
         this.PowerF.visible = false;
         this.PowerB.visible = false;
 
-        PauseB = this.game.add.button(1720, 50, "ButtonSq", this.Pause, this, 0, 0, 1, 0);
-        PauseBText = this.game.add.bitmapText(PauseB.x + 30, PauseB.y + 15, "8Bit", "II", 100);
+        PauseB = this.game.add.button(1140, 30, "ButtonSq", this.Pause, this, 0, 0, 1, 0);
+        PauseB.scale.setTo(0.67);
+        PauseBText = this.game.add.bitmapText(PauseB.x + 21, PauseB.y + 10, "8Bit", "II", 100);
+        PauseBText.scale.setTo(0.67);
         PauseB.fixedToCamera = true;
         PauseBText.fixedToCamera = true;
 
-        SwingB = this.game.add.button(1400, 830, "SwingButton", this.Swing, this, 0, 0, 0, 0);
+        SwingB = this.game.add.button(950, 555, "SwingButton", this.Swing, this, 0, 0, 0, 0);
+        SwingB.scale.setTo(0.67);
         SwingB.fixedToCamera = true;
 
     },
@@ -210,7 +218,7 @@ level1.prototype = {
             if (LevelComplete != true) Arrow.visible = true;
             Arrow.position.setTo(Ball.x, Ball.y);
             if (LevelComplete != true){
-                Player.position.setTo(Ball.x - 25, Ball.y - 90);
+                Player.position.setTo(Ball.x - 25, Ball.y - 61);
                 FinishSwing = false;
             }
         }
@@ -235,10 +243,10 @@ level1.prototype = {
         }, this);
 
         if (Arrow.angle >= 0 && Arrow.angle <= 180){
-            Player.scale.x = 0.5;
+            Player.scale.x = 0.35;
         }
         else{
-            Player.scale.x = -0.5;
+            Player.scale.x = -0.35;
         }
 
         Block.body.onBeginContact.add(this.LevelComplete, this);
@@ -247,6 +255,7 @@ level1.prototype = {
     render: function(){
         this.game.debug.text(this.game.time.fps || '--', 2, 14, "#00ff00");
         //if (Block != undefined) this.game.debug.spriteInfo(Block, 32, 32);
+        //if (Block != undefined) this.game.debug.body(Block);
         this.game.debug.inputInfo(32, 32);
     },
 
@@ -259,7 +268,6 @@ level1.prototype = {
         }
         else if (Started == "true"){
             Player.animations.play("Swing", 20, false);
-            this.game.camera.follow(Ball, Phaser.Camera.FOLLOW_TOPDOWN);
             this.PowerF.visible = false;
             this.PowerB.visible = false;
             Started = "false";
@@ -268,6 +276,8 @@ level1.prototype = {
     },
 
     FinishSwing: function() {
+        this.game.camera.follow(Ball, Phaser.Camera.FOLLOW_TOPDOWN);
+        //TODO Fix Camera Movement bug
         var VelocityX = (Power * Math.cos((Arrow.angle -90) * Radian) * 10);
         var VelocityY = (Power * Math.sin((Arrow.angle -90) * Radian) * 10);
         Ball.body.velocity.x += VelocityX;
@@ -288,43 +298,63 @@ level1.prototype = {
 
             BackgroundP = this.game.add.sprite(this.game.camera.x, this.game.camera.y, "BackgroundP");
 
-            if (Music == true) MusicOn = this.game.add.button(this.game.camera.x - 200, CameraCenterY - 175, "MusicOn", this.TurnMusicOff, this, 0, 0, 1, 0);
-            if (Sound == true) SoundOn = this.game.add.button(this.game.camera.x - 200, CameraCenterY + 25, "SoundOn", this.TurnSoundOff, this, 0, 0, 1, 0);
-            if (Music == false) MusicOff = this.game.add.button(this.game.camera.x - 200, CameraCenterY - 175, "MusicOff", this.TurnMusicOn, this, 0, 0, 1, 0);
-            if (Sound == false) SoundOff = this.game.add.button(this.game.camera.x - 200, CameraCenterY + 25, "SoundOff", this.TurnSoundOn, this, 0, 0, 1, 0);
+            if (Music == true) {
+                MusicOn = this.game.add.button(this.game.camera.x - 100, CameraCenterY - 113, "MusicOn", this.TurnMusicOff, this, 0, 0, 1, 0);
+                MusicOn.scale.setTo(0.67);
+            }
+            if (Sound == true) {
+                SoundOn = this.game.add.button(this.game.camera.x - 100, CameraCenterY + 8, "SoundOn", this.TurnSoundOff, this, 0, 0, 1, 0);
+                SoundOn.scale.setTo(0.67);
+            }
+            if (Music == false) {
+                MusicOff = this.game.add.button(this.game.camera.x - 100, CameraCenterY - 113, "MusicOff", this.TurnMusicOn, this, 0, 0, 1, 0);
+                MusicOff.scale.setTo(0.67);
+            }
+            if (Sound == false) {
+                SoundOff = this.game.add.button(this.game.camera.x - 100, CameraCenterY + 8, "SoundOff", this.TurnSoundOn, this, 0, 0, 1, 0);
+                SoundOff.scale.setTo(0.67);
+            }
 
             Resume = this.game.add.button(CameraCenterX, this.game.camera.y - 1700, "Button", this.ResumeGame, this, 0, 0, 1, 0);
+            Resume.scale.setTo(0.67);
             Resume.anchor.setTo(0.5, 0.5);
             ResumeText = this.game.add.bitmapText(Resume.x, Resume.y - 10, "8Bit", "Resume", 56);
+            ResumeText.scale.setTo(0.67);
             ResumeText.anchor.setTo(0.5, 0.5);
 
             Restart = this.game.add.button(CameraCenterX, this.game.camera.y - 1500, "Button", this.RestartCourse, this, 0, 0, 1, 0);
+            Restart.scale.setTo(0.67);
             Restart.anchor.setTo(0.5, 0.5);
             RestartText = this.game.add.bitmapText(Restart.x, Restart.y - 10, "8Bit", "Restart\n Course", 50);
+            RestartText.scale.setTo(0.67);
             RestartText.anchor.setTo(0.5, 0.5);
 
             Fullscreen = this.game.add.button(CameraCenterX, this.game.camera.y - 1300, "Button", this.Fullscreen, this, 0 ,0 ,1, 0);
+            Fullscreen.scale.setTo(0.67);
             Fullscreen.anchor.setTo(0.5, 0.5);
             FullscreenText = this.game.add.bitmapText(Fullscreen.x, Fullscreen.y - 10, "8Bit", "Fullscreen", 36);
+            FullscreenText.scale.setTo(0.67);
             FullscreenText.anchor.setTo(0.5, 0.5);
 
             Menu = this.game.add.button(CameraCenterX, this.game.camera.y - 1100, "Button", this.MainMenu, this, 0, 0, 1, 0);
+            Menu.scale.setTo(0.67);
             Menu.anchor.setTo(0.5, 0.5);
             MenuText = this.game.add.bitmapText(Menu.x, Menu.y - 10, "8Bit", "Menu", 72);
+            MenuText.scale.setTo(0.67);
             MenuText.anchor.setTo(0.5, 0.5);
 
-            this.game.add.tween(Resume).to({y: CameraCenterY - 300}, 200, Phaser.Easing.Linear.NONE, true);
-            this.game.add.tween(ResumeText).to({y: CameraCenterY - 305}, 200, Phaser.Easing.Linear.NONE, true);
-            this.game.add.tween(Restart).to({y: CameraCenterY - 100}, 200, Phaser.Easing.Linear.NONE, true);
-            this.game.add.tween(RestartText).to({y: CameraCenterY - 105}, 200, Phaser.Easing.Linear.NONE, true);
-            this.game.add.tween(Fullscreen).to({y: CameraCenterY + 100}, 200, Phaser.Easing.Linear.NONE, true);
-            this.game.add.tween(FullscreenText).to({y: CameraCenterY + 95}, 200, Phaser.Easing.Linear.NONE, true);
-            this.game.add.tween(Menu).to({y: CameraCenterY + 300}, 200, Phaser.Easing.Linear.NONE, true);
-            this.game.add.tween(MenuText).to({y: CameraCenterY + 295}, 200, Phaser.Easing.Linear.NONE, true);
-            if (Music == true) this.game.add.tween(MusicOn).to({x: (CameraCenterX) - 400}, 200, Phaser.Easing.Linear.NONE, true);
-            if (Sound == true) this.game.add.tween(SoundOn).to({x: (CameraCenterX) - 400}, 200, Phaser.Easing.Linear.NONE, true);
-            if (Music == false) this.game.add.tween(MusicOff).to({x: (CameraCenterX) - 400}, 200, Phaser.Easing.Linear.NONE, true);
-            if (Sound == false)this.game.add.tween(SoundOff).to({x: (CameraCenterX) - 400}, 200, Phaser.Easing.Linear.NONE, true);
+            this.game.add.tween(Resume).to({y: CameraCenterY - 180}, 200, Phaser.Easing.Linear.NONE, true);
+            this.game.add.tween(ResumeText).to({y: CameraCenterY - 185}, 200, Phaser.Easing.Linear.NONE, true);
+            this.game.add.tween(Restart).to({y: CameraCenterY - 60}, 200, Phaser.Easing.Linear.NONE, true);
+            this.game.add.tween(RestartText).to({y: CameraCenterY - 65}, 200, Phaser.Easing.Linear.NONE, true);
+            this.game.add.tween(Fullscreen).to({y: CameraCenterY + 60}, 200, Phaser.Easing.Linear.NONE, true);
+            this.game.add.tween(FullscreenText).to({y: CameraCenterY + 55}, 200, Phaser.Easing.Linear.NONE, true);
+            this.game.add.tween(Menu).to({y: CameraCenterY + 180}, 200, Phaser.Easing.Linear.NONE, true);
+            this.game.add.tween(MenuText).to({y: CameraCenterY + 175}, 200, Phaser.Easing.Linear.NONE, true);
+            if (Music == true) this.game.add.tween(MusicOn).to({x: (CameraCenterX) - 260}, 200, Phaser.Easing.Linear.NONE, true);
+            if (Sound == true) this.game.add.tween(SoundOn).to({x: (CameraCenterX) - 260}, 200, Phaser.Easing.Linear.NONE, true);
+            if (Music == false) this.game.add.tween(MusicOff).to({x: (CameraCenterX) - 260}, 200, Phaser.Easing.Linear.NONE, true);
+            if (Sound == false)this.game.add.tween(SoundOff).to({x: (CameraCenterX) - 260}, 200, Phaser.Easing.Linear.NONE, true);
 
         }
     },
@@ -364,22 +394,24 @@ level1.prototype = {
         Timer = 0;
         ScoreboardShown = true;
         BackgroundP = this.game.add.sprite(this.game.camera.x, this.game.camera.y, "BackgroundP");
+        BackgroundP.scale.setTo(0.67);
         Scoreboard = this.game.add.sprite(CameraCenterX, this.game.camera.y - 500, "Scoreboard");
+        Scoreboard.scale.setTo(0.67);
         Scoreboard.inputEnabled = true;
         Scoreboard.anchor.setTo(0.5, 0.5);
-        var CourseTitle = this.game.add.bitmapText(Scoreboard.x, Scoreboard.y - 385, "8Bit", "Grass Land", 72);
+        var CourseTitle = this.game.add.bitmapText(Scoreboard.x, Scoreboard.y - 200, "8Bit", "Grass Land", 50);
         CourseTitle.anchor.setTo(0.5);
 
-        var Hole = this.game.add.bitmapText(Scoreboard.x - 290, Scoreboard.y + 15, "8Bit", "Hole\n\n\n   1\n\n   2\n\n   3\n\n   4\n\n " +
-           "  5\n\n   6\n\n   7\n\n   8\n\n   9");
-        var Par = this.game.add.bitmapText (Scoreboard.x - 30, Scoreboard.y + 15, "8Bit", "Par\n\n\n  3\n\n  1\n\n  1\n\n  1\n\n  1\n\n" +
-        "  1\n\n  1\n\n  1\n\n  1");
-        var Score = this.game.add.bitmapText(Scoreboard.x + 240, Scoreboard.y + 15, "8Bit",
+        var Hole = this.game.add.bitmapText(Scoreboard.x - 210, Scoreboard.y + 15, "8Bit", "Hole\n\n\n   1\n\n   2\n\n   3\n\n   4\n\n " +
+           "  5\n\n   6\n\n   7\n\n   8\n\n   9", 22);
+        var Par = this.game.add.bitmapText (Scoreboard.x - 10, Scoreboard.y + 15, "8Bit", "Par\n\n\n  3\n\n  1\n\n  1\n\n  1\n\n  1\n\n" +
+        "  1\n\n  1\n\n  1\n\n  1", 22);
+        var Score = this.game.add.bitmapText(Scoreboard.x + 190, Scoreboard.y + 15, "8Bit",
             "Strokes\n\n\n      " + StrokeArray[0] + "\n\n      " + StrokeArray[1] + "\n\n      " + StrokeArray[2] +
             "\n\n      " + StrokeArray[3] + "\n\n      " + StrokeArray[4] + "\n\n      " + StrokeArray[5] + "\n\n      "
-            + StrokeArray[6] + "\n\n      " + StrokeArray[7] + "\n\n      " + StrokeArray[8]);
+            + StrokeArray[6] + "\n\n      " + StrokeArray[7] + "\n\n      " + StrokeArray[8], 22);
 
-        var Continue = this.game.add.bitmapText(Scoreboard.x, Scoreboard.y + 400, "8Bit", "Tap Here to Continue", 30);
+        var Continue = this.game.add.bitmapText(Scoreboard.x, Scoreboard.y + 430, "8Bit", "Tap Here to Continue", 16);
         Hole.anchor.setTo(0.5);
         Par.anchor.setTo(0.5);
         Score.anchor.setTo(0.5);
@@ -387,16 +419,17 @@ level1.prototype = {
         Continue.tint = 0x191919;
 
         this.game.add.tween(Scoreboard).to({y: CameraCenterY}, 200, Phaser.Easing.Linear.NONE, true);
-        this.game.add.tween(CourseTitle).to({y: CameraCenterY - 385}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(CourseTitle).to({y: CameraCenterY - 265}, 200, Phaser.Easing.Linear.NONE, true);
         this.game.add.tween(Hole).to({y: CameraCenterY + 15}, 200, Phaser.Easing.Linear.NONE, true);
         this.game.add.tween(Par).to({y: CameraCenterY + 15}, 200, Phaser.Easing.Linear.NONE, true);
         this.game.add.tween(Score).to({y: CameraCenterY + 15}, 200, Phaser.Easing.Linear.NONE, true);
-        this.game.add.tween(Continue).to({y: CameraCenterY + 400}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(Continue).to({y: CameraCenterY + 265}, 200, Phaser.Easing.Linear.NONE, true);
 
     },
 
     TurnMusicOff: function(){
-        MusicOff = this.game.add.button(CameraCenterX - 400, CameraCenterY - 175, "MusicOff", this.TurnMusicOn, this, 0, 0, 1, 0);
+        MusicOff = this.game.add.button(CameraCenterX - 260, CameraCenterY - 113, "MusicOff", this.TurnMusicOn, this, 0, 0, 1, 0);
+        MusicOff.scale.setTo(0.67);
         MusicOn.destroy();
         Music = false;
         //Turn Music Off here
@@ -404,23 +437,26 @@ level1.prototype = {
     },
 
     TurnMusicOn: function(){
-        MusicOn = this.game.add.button(CameraCenterX - 400, CameraCenterY - 175, "MusicOn", this.TurnMusicOff, this, 0, 0, 1, 0);
+        MusicOn = this.game.add.button(CameraCenterX - 260, CameraCenterY - 113, "MusicOn", this.TurnMusicOff, this, 0, 0, 1, 0);
         MusicOff.destroy();
+        MusicOn.scale.setTo(0.67);
         Music = true;
         //Turn Music On here
         MusicControl.play();
     },
 
     TurnSoundOff: function(){
-        SoundOff = this.game.add.button(CameraCenterX - 400, CameraCenterY + 25, "SoundOff", this.TurnSoundOn, this, 0, 0, 1, 0);
+        SoundOff = this.game.add.button(CameraCenterX - 260, CameraCenterY + 8, "SoundOff", this.TurnSoundOn, this, 0, 0, 1, 0);
         SoundOn.destroy();
+        SoundOff.scale.setTo(0.67);
         Sound = false;
         //Turn Sound Off here
     },
 
     TurnSoundOn: function() {
-        SoundOn = this.game.add.button(CameraCenterX - 400, CameraCenterY + 25, "SoundOn", this.TurnSoundOff, this, 0, 0, 1, 0);
+        SoundOn = this.game.add.button(CameraCenterX - 260, CameraCenterY + 8, "SoundOn", this.TurnSoundOff, this, 0, 0, 1, 0);
         SoundOff.destroy();
+        SoundOn.scale.setTo(0.67);
         Sound = true;
         //Turn Sound On here
     },
@@ -431,7 +467,7 @@ level1.prototype = {
     },
 
     RestartCourse: function(){
-        this.game.state.start("GameState");
+        this.game.state.start("Level1");
         MusicControl.stop();
     },
 
