@@ -182,11 +182,11 @@ level2.prototype = {
 
         if (this.PowerF != undefined && Paused != true) {
             if (this.PowerF.angle <= -179) {
-                this.Ticker = 1;
+                this.Ticker = 1.5;
 
             }
             if (this.PowerF.angle >= 0){
-                this.Ticker = -1;
+                this.Ticker = -1.5;
 
             }
             if (this.PowerF.visible == true) {
