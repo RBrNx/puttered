@@ -109,9 +109,16 @@ level3.prototype = {
         fairwayMaterial.restitution = 0.5;
 
         sandMaterial = this.game.physics.p2.createMaterial("sandMaterial", Sand.body);
+        sandMaterial2 = this.game.physics.p2.createMaterial("sandMaterial2", Sand2.body);
+
         bunkerMaterial = this.game.physics.p2.createContactMaterial(ballMaterial, sandMaterial);
         bunkerMaterial.friction = 30;
         bunkerMaterial.restitution = 0;
+
+        bunkerMaterial2 = this.game.physics.p2.createContactMaterial(ballMaterial, sandMaterial2);
+        bunkerMaterial2.friction = 30;
+        bunkerMaterial2.restitution = 0;
+
 
         MusicControl = this.game.add.audio("Course1Music", 1, true);
         if (Music == true) MusicControl.play();
@@ -172,11 +179,11 @@ level3.prototype = {
         SwingB.scale.setTo(0.67);
         SwingB.fixedToCamera = true;
 
-        HoleText = this.game.add.bitmapText(15, 15, "8Bit", "Hole\n  " + HoleNumber + 1, 32);
+        HoleText = this.game.add.bitmapText(15, 15, "8Bit", "Hole\n   " + (HoleNumber + 1), 32);
         HoleText.scale.setTo(0.67);
         HoleText.fixedToCamera = true;
 
-        ParText = this.game.add.bitmapText(115, 16, "8Bit", "Par: 2", 24);
+        ParText = this.game.add.bitmapText(115, 16, "8Bit", "Par: 4", 24);
         ParText.scale.setTo(0.67);
         ParText.fixedToCamera = true;
 
@@ -482,7 +489,7 @@ level3.prototype = {
 
         var Hole = this.game.add.bitmapText(Scoreboard.x - 210, Scoreboard.y + 15, "8Bit", "Hole\n\n\n   1\n\n   2\n\n   3\n\n   4\n\n " +
         "  5\n\n   6\n\n   7\n\n   8\n\n   9", 22);
-        var Par = this.game.add.bitmapText (Scoreboard.x - 10, Scoreboard.y + 15, "8Bit", "Par\n\n\n  2\n\n  3\n\n  4\n\n  1\n\n  1\n\n" +
+        var Par = this.game.add.bitmapText (Scoreboard.x - 10, Scoreboard.y + 15, "8Bit", "Par\n\n\n  2\n\n  3\n\n  4\n\n  4\n\n  3\n\n" +
         "  1\n\n  1\n\n  1\n\n  1", 22);
         var Score = this.game.add.bitmapText(Scoreboard.x + 190, Scoreboard.y + 15, "8Bit",
             "Strokes\n\n\n      " + StrokeArray[0] + "\n\n      " + StrokeArray[1] + "\n\n      " + StrokeArray[2] +

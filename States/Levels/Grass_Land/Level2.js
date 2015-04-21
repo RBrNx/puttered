@@ -147,11 +147,11 @@ level2.prototype = {
         SwingB.scale.setTo(0.67);
         SwingB.fixedToCamera = true;
 
-        HoleText = this.game.add.bitmapText(15, 15, "8Bit", "Hole\n  " + HoleNumber + 1, 32);
+        HoleText = this.game.add.bitmapText(15, 15, "8Bit", "Hole\n   " + (HoleNumber + 1), 32);
         HoleText.scale.setTo(0.67);
         HoleText.fixedToCamera = true;
 
-        ParText = this.game.add.bitmapText(115, 16, "8Bit", "Par: 2", 24);
+        ParText = this.game.add.bitmapText(115, 16, "8Bit", "Par: 3", 24);
         ParText.scale.setTo(0.67);
         ParText.fixedToCamera = true;
 

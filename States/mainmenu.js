@@ -20,7 +20,7 @@ var Level2;
 var RoomNumber;
 
 var Sound = true;
-var Music = true;
+var Music = false;
 var MusicControl;
 
 mainMenu.prototype = {
