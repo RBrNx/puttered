@@ -192,11 +192,11 @@ level1.prototype = {
 
         if (this.PowerF != undefined && Paused != true) {
             if (this.PowerF.angle <= -179) {
-                this.Ticker = 1;
+                this.Ticker = 1.5;
 
             }
             if (this.PowerF.angle >= 0){
-                this.Ticker = -1;
+                this.Ticker = -1.5;
 
             }
             if (this.PowerF.visible == true) {
@@ -215,7 +215,7 @@ level1.prototype = {
         }
 
 
-        if (Ball.body.velocity.x < 0.15 && Ball.body.velocity.y < 0.15 && Ball.body.velocity.x > -0.15 && Ball.body.velocity.y > -0.15 && WaterHazard){
+        if (Ball.body.velocity.x < 0.15 && Ball.body.velocity.y < 0.15 && Ball.body.velocity.x > -0.15 && Ball.body.velocity.y > -0.15){
             Ball.body.velocity.x = 0;
             Ball.body.velocity.y = 0;
             BallStationary = true;
@@ -282,8 +282,8 @@ level1.prototype = {
 
     FinishSwing: function() {
         this.game.camera.follow(Ball, Phaser.Camera.FOLLOW_TOPDOWN);
-        var VelocityX = (Power * Math.cos((Arrow.angle -90) * Radian) * 10);
-        var VelocityY = (Power * Math.sin((Arrow.angle -90) * Radian) * 10);
+        var VelocityX = ((Power * Math.cos((Arrow.angle -90) * Radian) * 10)) * 1.1;
+        var VelocityY = ((Power * Math.sin((Arrow.angle -90) * Radian) * 10)) * 1.1;
         Ball.body.velocity.x += VelocityX;
         Ball.body.velocity.y += VelocityY;
 

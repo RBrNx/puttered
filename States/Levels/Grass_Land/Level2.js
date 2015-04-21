@@ -270,8 +270,8 @@ level2.prototype = {
 
     FinishSwing: function() {
         this.game.camera.follow(Ball, Phaser.Camera.FOLLOW_TOPDOWN);
-        var VelocityX = (Power * Math.cos((Arrow.angle -90) * Radian) * 10);
-        var VelocityY = (Power * Math.sin((Arrow.angle -90) * Radian) * 10);
+        var VelocityX = ((Power * Math.cos((Arrow.angle -90) * Radian) * 10)) * 1.1;
+        var VelocityY = ((Power * Math.sin((Arrow.angle -90) * Radian) * 10)) * 1.1;
         Ball.body.velocity.x += VelocityX;
         Ball.body.velocity.y += VelocityY;
 
