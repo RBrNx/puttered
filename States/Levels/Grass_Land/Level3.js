@@ -50,6 +50,8 @@ level3.prototype = {
         groundMaterial = null;
         fairwayMaterial = null;
         Radian = 0.0174532925;
+        WaterHazard = false;
+        BackgroundP = null;
 
         this.game.physics.startSystem(Phaser.Physics.P2JS);
         this.game.physics.p2.gravity.y = 1400;
@@ -108,7 +110,7 @@ level3.prototype = {
 
         sandMaterial = this.game.physics.p2.createMaterial("sandMaterial", Sand.body);
         bunkerMaterial = this.game.physics.p2.createContactMaterial(ballMaterial, sandMaterial);
-        bunkerMaterial.friction = 20;
+        bunkerMaterial.friction = 30;
         bunkerMaterial.restitution = 0;
 
         MusicControl = this.game.add.audio("Course1Music", 1, true);
@@ -184,7 +186,7 @@ level3.prototype = {
 
         if (FairwayHole != undefined && Fairway != undefined) {
 
-            if (this.game.input.activePointer.isDown && Paused != true && LevelComplete != true) {
+            if (this.game.input.activePointer.isDown && Paused != true && LevelComplete != true && WaterHazard != true) {
                 if (LeftB.input.checkPointerOver(this.game.input.activePointer) != true && RightB.input.checkPointerOver(this.game.input.activePointer) != true && SwingB.input.checkPointerOver(this.game.input.activePointer) != true) {
                     if (this.game.origDragPoint) {
                         // move the camera by the amount the mouse has moved since last update
@@ -233,7 +235,9 @@ level3.prototype = {
         }
 
 
-        if (Ball.body.velocity.x < 0.15 && Ball.body.velocity.y < 0.15 && Ball.body.velocity.x > -0.15 && Ball.body.velocity.y > -0.15){
+        if (Ball.body.velocity.x < 0.15 && Ball.body.velocity.y < 0.15 && Ball.body.velocity.x > -0.15 && Ball.body.velocity.y > -0.15 && WaterHazard == false){
+            Ball.body.velocity.x = 0;
+            Ball.body.velocity.y = 0;
             BallStationary = true;
             prevBallX = Ball.x;
             prevBallY = Ball.y;
@@ -249,18 +253,24 @@ level3.prototype = {
             Arrow.visible = false;
         }
 
-        if (Ball.x >= Water.x && Ball.x <= Water.x + Water.width && Ball.y >= Water.y && Ball.y <= Water.y + Water.height){
-            console.log("Test");
+        if (Ball.x >= Water.x && Ball.x <= Water.x + Water.width && Ball.y >= Water.y && Ball.y <= Water.y + Water.height && WaterHazard == false){
             this.WaterHazard();
         }
-
-        console.log(prevBallY, prevBallX);
 
         if (LevelComplete == true && Timer < 300 && ScoreboardShown == false){
             Timer += 1;
         }
-        if (Timer == 300){
+
+        if (WaterHazard == true && Timer < 240){
+            Timer += 1;
+        }
+
+        if (Timer == 300 && LevelComplete == true){
             this.ShowScoreboard();
+        }
+
+        if (Timer == 240 && WaterHazard == true){
+            this.WaterHazard();
         }
 
         if (Player.animations.currentAnim.frame == 12 && FinishSwing == false){
@@ -318,8 +328,25 @@ level3.prototype = {
     },
 
     WaterHazard: function() {
-        Ball.position.setTo(prevBallX, prevBallY);
-        StrokeCount += 1;
+        if (WaterHazard == true) {
+            this.game.camera.follow(Ball, Phaser.Camera.FOLLOW_TOPDOWN);
+            Timer = 0;
+            Ball.reset(prevBallX, prevBallY);
+            StrokeCount += 1;
+            PenaltyStroke.destroy();
+            BackgroundP.destroy();
+            WaterHazard = false;
+        }
+        else if (WaterHazard == false) {
+            this.game.camera.follow(null);
+            WaterHazard = true;
+            Ball.body.velocity.x = 7;
+            Ball.body.velocity.y = 7;
+            BackgroundP = this.game.add.sprite(this.game.camera.x, this.game.camera.y, "BackgroundP");
+            PenaltyStroke = this.game.add.bitmapText(CameraCenterX, CameraCenterY, "8Bit", "      Water Hazard!\n   +1 Penalty Stroke!", 50);
+            PenaltyStroke.anchor.setTo(0.5);
+
+        }
     },
 
     Pause: function(){
@@ -435,7 +462,7 @@ level3.prototype = {
 
         var Hole = this.game.add.bitmapText(Scoreboard.x - 210, Scoreboard.y + 15, "8Bit", "Hole\n\n\n   1\n\n   2\n\n   3\n\n   4\n\n " +
         "  5\n\n   6\n\n   7\n\n   8\n\n   9", 22);
-        var Par = this.game.add.bitmapText (Scoreboard.x - 10, Scoreboard.y + 15, "8Bit", "Par\n\n\n  3\n\n  1\n\n  1\n\n  1\n\n  1\n\n" +
+        var Par = this.game.add.bitmapText (Scoreboard.x - 10, Scoreboard.y + 15, "8Bit", "Par\n\n\n  2\n\n  3\n\n  4\n\n  1\n\n  1\n\n" +
         "  1\n\n  1\n\n  1\n\n  1", 22);
         var Score = this.game.add.bitmapText(Scoreboard.x + 190, Scoreboard.y + 15, "8Bit",
             "Strokes\n\n\n      " + StrokeArray[0] + "\n\n      " + StrokeArray[1] + "\n\n      " + StrokeArray[2] +

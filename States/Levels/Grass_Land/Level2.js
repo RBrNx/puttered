@@ -205,7 +205,9 @@ level2.prototype = {
         }
 
 
-        if (Ball.body.velocity.x < 0.002 && Ball.body.velocity.y < 0.002 && Ball.body.velocity.x > -0.002 && Ball.body.velocity.y > -0.002){
+        if (Ball.body.velocity.x < 0.15 && Ball.body.velocity.y < 0.15 && Ball.body.velocity.x > -0.15 && Ball.body.velocity.y > -0.15 && WaterHazard == false){
+            Ball.body.velocity.x = 0;
+            Ball.body.velocity.y = 0;
             BallStationary = true;
             if (LevelComplete != true) Arrow.visible = true;
             Arrow.position.setTo(Ball.x, Ball.y);
@@ -214,7 +216,7 @@ level2.prototype = {
                 FinishSwing = false;
             }
         }
-        else if (Ball.body.velocity.x >= 0.002 || Ball.body.velocity.y >= 0.002 || Ball.body.velocity.x <= -0.002 || Ball.body.velocity.y <= -0.002 ){
+        else if (Ball.body.velocity.x >= 0.15 || Ball.body.velocity.y >= 0.15 || Ball.body.velocity.x <= -0.15 || Ball.body.velocity.y <= -0.15 ){
             BallStationary = false;
             Arrow.visible = false;
         }
@@ -393,7 +395,7 @@ level2.prototype = {
 
         var Hole = this.game.add.bitmapText(Scoreboard.x - 210, Scoreboard.y + 15, "8Bit", "Hole\n\n\n   1\n\n   2\n\n   3\n\n   4\n\n " +
         "  5\n\n   6\n\n   7\n\n   8\n\n   9", 22);
-        var Par = this.game.add.bitmapText (Scoreboard.x - 10, Scoreboard.y + 15, "8Bit", "Par\n\n\n  3\n\n  1\n\n  1\n\n  1\n\n  1\n\n" +
+        var Par = this.game.add.bitmapText (Scoreboard.x - 10, Scoreboard.y + 15, "8Bit", "Par\n\n\n  2\n\n  3\n\n  4\n\n  1\n\n  1\n\n" +
         "  1\n\n  1\n\n  1\n\n  1", 22);
         var Score = this.game.add.bitmapText(Scoreboard.x + 190, Scoreboard.y + 15, "8Bit",
             "Strokes\n\n\n      " + StrokeArray[0] + "\n\n      " + StrokeArray[1] + "\n\n      " + StrokeArray[2] +
