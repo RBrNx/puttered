@@ -172,6 +172,18 @@ level3.prototype = {
         SwingB.scale.setTo(0.67);
         SwingB.fixedToCamera = true;
 
+        HoleText = this.game.add.bitmapText(15, 15, "8Bit", "Hole\n  " + HoleNumber + 1, 32);
+        HoleText.scale.setTo(0.67);
+        HoleText.fixedToCamera = true;
+
+        ParText = this.game.add.bitmapText(115, 16, "8Bit", "Par: 2", 24);
+        ParText.scale.setTo(0.67);
+        ParText.fixedToCamera = true;
+
+        ScoreText = this.game.add.bitmapText(115, 43, "8Bit", "Strokes: " + StrokeCount, 24);
+        ScoreText.scale.setTo(0.67);
+        ScoreText.fixedToCamera = true;
+
         this.game.camera.x = 0;
         this.game.camera.y = 500;
 
@@ -323,8 +335,16 @@ level3.prototype = {
         Power = 0;
         this.PowerF.angle = -179;
         StrokeCount += 1;
+        this.UpdateScore();
         FinishSwing = true;
         if(Sound == true)GolfSwing.play();
+    },
+
+    UpdateScore: function() {
+        ScoreText.destroy();
+        ScoreText = this.game.add.bitmapText(115, 43, "8Bit", "Strokes: " + StrokeCount, 24);
+        ScoreText.scale.setTo(0.67);
+        ScoreText.fixedToCamera = true;
     },
 
     WaterHazard: function() {
