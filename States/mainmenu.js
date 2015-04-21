@@ -241,7 +241,7 @@ mainMenu.prototype = {
         Level2.destroy();
         Back.destroy();
         BackText.destroy();
-        this.game.state.start("Level3");
+        this.game.state.start("Level1");
     },
 
     GoToCourse2: function(){
