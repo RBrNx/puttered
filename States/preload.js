@@ -13,7 +13,7 @@ preload.prototype = {
 
         this.game.load.audio("MainMenuMusic", "Music/MainMenu.ogg");
         this.game.load.audio("Course1Music", "Music/Course1.ogg");
-        this.game.load.image("Logo", "Graphics/Logo.png");
+        this.game.load.image("Logo", "Graphics/Logo-Resized.png");
         this.game.load.image("Clouds", "Graphics/Background/Background-Clouds.png");
         this.game.load.image("Hills", "Graphics/Background/Background-Hills4.png");
 

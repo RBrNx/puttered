@@ -1,17 +1,17 @@
 /**
  * Created by Conor on 14/04/2015.
  */
-var level6 = function(game){};
+var level8 = function(game){};
 
 //TODO Clean up this code
-level6.prototype = {
+level8.prototype = {
     preload: function(){
         this.game.load.spritesheet("ButtonSq", "Graphics/Buttons/Button-Square.png", 150, 150);
         this.game.load.spritesheet("Shot", "Graphics/Player/Swing.png", 400, 400);
         this.game.load.image("Ball", "Graphics/Player/Ball.png");
         this.game.load.physics("Physics", "Graphics/Level_Assets/Grass_Land/Physics.json");
-        this.game.load.image("Fairway", "Graphics/Level_Assets/Grass_Land/Level6/Level6.png");
-        this.game.load.image("FairwayHole", "Graphics/Level_Assets/Grass_Land/Level6/Level6-Hole.png");
+        this.game.load.image("Fairway", "Graphics/Level_Assets/Grass_Land/Level8/Level8.png");
+        this.game.load.image("FairwayHole", "Graphics/Level_Assets/Grass_Land/Level8/Level8-Hole.png");
         this.game.load.image("Sand", "Graphics/Level_Assets/Sand.png");
         this.game.load.spritesheet("Water", "Graphics/Level_Assets/Wave2.png", 640, 360);
         this.game.load.image("SwingButton", "Graphics/Buttons/Swing-Button.png");
@@ -25,7 +25,7 @@ level6.prototype = {
         this.game.load.audio("GolfClap", "Music/GolfClap.ogg");
         this.game.load.audio("GolfSwing", "Music/GolfSwing.ogg");
 
-        this.game.world.setBounds(0, -500, 2500, 1580);
+        this.game.world.setBounds(0, -500, 3000, 3000);
     },
 
     create: function() {
@@ -43,7 +43,7 @@ level6.prototype = {
         SavedBallVelY = 0;
         prevBallX = 0;
         prevBallY = 0;
-        HoleNumber = 5;
+        HoleNumber = 7;
         FinishSwing = false;
         Paused = false;
         ballMaterial = null;
@@ -56,39 +56,49 @@ level6.prototype = {
         this.game.physics.startSystem(Phaser.Physics.P2JS);
         this.game.physics.p2.gravity.y = 1400;
 
-        Clouds = this.game.add.tileSprite(0,-1000, 5000, 3160, "Clouds"); //Values are doubled so that scale is still correct
+        Clouds = this.game.add.tileSprite(0,-1000, 6000, 6000, "Clouds"); //Values are doubled so that scale is still correct
         Clouds.scale.setTo(0.67);
-        Hills = this.game.add.sprite(0,0,"Hills");
-        Hills.scale.setTo(2,2);
+        Hills = this.game.add.sprite(0,1450,"Hills");
+        Hills.scale.setTo(2,1);
 
-        Player = this.game.add.sprite(2390, 1000, "Shot");
+        Player = this.game.add.sprite(150, 885, "Shot");
         Player.scale.setTo(0.35);
         Player.animations.add("Swing");
         Player.anchor.setTo(0.5, 0.5);
 
-        Ball = this.game.add.sprite(Player.x, 1000, "Ball");
+        Ball = this.game.add.sprite(Player.x, 885, "Ball");
         Ball.anchor.setTo(0.5, 0.5);
         this.game.physics.p2.enable(Ball);
         Ball.body.clearShapes();
         Ball.body.loadPolygon("Physics", "Ball");
 
-        Water = this.game.add.sprite(1000, 900, "Water");
+        Water = this.game.add.sprite(2810, 395, "Water");
         Water.scale.setTo(0.6);
         Water.animations.add("Water");
         Water.animations.play("Water", 5, true);
 
-        FairwayHole = this.game.add.sprite(this.game.world.centerX, 550, "FairwayHole");
+        Sand = this.game.add.sprite(1150, 2250, "Sand");
+        Sand.scale.setTo(0.3, 0.3);
+        this.game.physics.p2.enable(Sand);
+        Sand.body.static = true;
+
+        Sand2 = this.game.add.sprite(1900, 2100, "Sand");
+        Sand2.scale.setTo(0.3, 0.3);
+        this.game.physics.p2.enable(Sand2);
+        Sand2.body.static = true;
+
+        FairwayHole = this.game.add.sprite(this.game.world.centerX, 1250, "FairwayHole");
         this.game.physics.p2.enable(FairwayHole);
         FairwayHole.body.kinematic = true;
         FairwayHole.body.clearShapes();
-        FairwayHole.body.loadPolygon("Physics", "Level6-Hole");
+        FairwayHole.body.loadPolygon("Physics", "Level8-Hole");
 
-        Block = this.game.add.sprite(325, 360, "Block");
-        Block.scale.setTo(4);
+        Block = this.game.add.sprite(2470, 2355, "Block");
+        Block.scale.setTo(6);
         this.game.physics.p2.enable(Block);
         Block.body.static = true;
 
-        Fairway = this.game.add.sprite(this.game.world.centerX, 550, "Fairway");
+        Fairway = this.game.add.sprite(this.game.world.centerX, 1250, "Fairway");
         Fairway.anchor.setTo(0.5,0.5);
 
         ballMaterial = this.game.physics.p2.createMaterial("ballMaterial", Ball.body);
@@ -97,6 +107,18 @@ level6.prototype = {
         fairwayMaterial = this.game.physics.p2.createContactMaterial(ballMaterial, groundMaterial);
         fairwayMaterial.friction = 0.5;
         fairwayMaterial.restitution = 0.5;
+
+        sandMaterial = this.game.physics.p2.createMaterial("sandMaterial", Sand.body);
+        sandMaterial2 = this.game.physics.p2.createMaterial("sandMaterial2", Sand2.body);
+
+        bunkerMaterial = this.game.physics.p2.createContactMaterial(ballMaterial, sandMaterial);
+        bunkerMaterial.friction = 30;
+        bunkerMaterial.restitution = 0;
+
+        bunkerMaterial2 = this.game.physics.p2.createContactMaterial(ballMaterial, sandMaterial2);
+        bunkerMaterial2.friction = 30;
+        bunkerMaterial2.restitution = 0;
+
 
         MusicControl = this.game.add.audio("Course1Music", 1, true);
         if (Music == true) MusicControl.play();
@@ -117,7 +139,7 @@ level6.prototype = {
         Arrow.anchor.setTo(0.5, 1);
         Arrow.scale.setTo(0.07, 0.07);
         Arrow.rotation = 181 * Radian;
-        Arrow.angle = -60;
+        Arrow.angle = 60;
 
         LeftB = this.game.add.sprite(20, 610, "Button");
         LeftB.scale.setTo(0.67);
@@ -169,8 +191,8 @@ level6.prototype = {
         ScoreText.scale.setTo(0.67);
         ScoreText.fixedToCamera = true;
 
-        this.game.camera.x = 2500;
-        this.game.camera.y = 1080;
+        this.game.camera.x = 0;
+        this.game.camera.y = 500;
 
     },
 
@@ -202,7 +224,7 @@ level6.prototype = {
 
         if (this.game.input.activePointer.isDown && Paused != true && Scoreboard != undefined) {
             if (Scoreboard.input.checkPointerOver(this.game.input.activePointer)){
-                this.game.state.start("Level7");
+                this.game.state.start("Level9");
                 MusicControl.stop();
             }
         }
@@ -312,8 +334,8 @@ level6.prototype = {
 
     FinishSwing: function() {
         this.game.camera.follow(Ball, Phaser.Camera.FOLLOW_TOPDOWN);
-        var VelocityX = ((Power * Math.cos((Arrow.angle -90) * Radian) * 10)) * 1.1;
-        var VelocityY = ((Power * Math.sin((Arrow.angle -90) * Radian) * 10)) * 1.1;
+        var VelocityX = ((Power * Math.cos((Arrow.angle -90) * Radian) * 10)) * 1.2;
+        var VelocityY = ((Power * Math.sin((Arrow.angle -90) * Radian) * 10)) * 1.2;
         Ball.body.velocity.x += VelocityX;
         Ball.body.velocity.y += VelocityY;
 
@@ -468,7 +490,7 @@ level6.prototype = {
         var Hole = this.game.add.bitmapText(Scoreboard.x - 210, Scoreboard.y + 15, "8Bit", "Hole\n\n\n   1\n\n   2\n\n   3\n\n   4\n\n " +
         "  5\n\n   6\n\n   7\n\n   8\n\n   9", 22);
         var Par = this.game.add.bitmapText (Scoreboard.x - 10, Scoreboard.y + 15, "8Bit", "Par\n\n\n  2\n\n  3\n\n  4\n\n  4\n\n  3\n\n" +
-        "  4\n\n  1\n\n  1\n\n  1", 22);
+        "  1\n\n  1\n\n  1\n\n  1", 22);
         var Score = this.game.add.bitmapText(Scoreboard.x + 190, Scoreboard.y + 15, "8Bit",
             "Strokes\n\n\n      " + StrokeArray[0] + "\n\n      " + StrokeArray[1] + "\n\n      " + StrokeArray[2] +
             "\n\n      " + StrokeArray[3] + "\n\n      " + StrokeArray[4] + "\n\n      " + StrokeArray[5] + "\n\n      "
@@ -566,7 +588,7 @@ level6.prototype = {
         this.game.physics.p2.enable(FairwayHole);
         this.game.physics.p2.enable(Ball);
         this.game.physics.p2.enable(Block);
-        FairwayHole.body.loadPolygon("Physics", "Level6-Hole");
+        FairwayHole.body.loadPolygon("Physics", "Level8-Hole");
         FairwayHole.kinematic = true;
         Ball.body.loadPolygon("Physics", "Ball");
         Ball.body.velocity.x = SavedBallVelX;

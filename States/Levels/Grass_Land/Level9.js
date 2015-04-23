@@ -1,23 +1,23 @@
 /**
  * Created by Conor on 14/04/2015.
  */
-var level6 = function(game){};
+var level9 = function(game){};
 
 //TODO Clean up this code
-level6.prototype = {
+level9.prototype = {
     preload: function(){
         this.game.load.spritesheet("ButtonSq", "Graphics/Buttons/Button-Square.png", 150, 150);
-        this.game.load.spritesheet("Shot", "Graphics/Player/Swing.png", 400, 400);
+        this.game.load.spritesheet("Shot", "Graphics/Player/Swing.png", 140, 140);
         this.game.load.image("Ball", "Graphics/Player/Ball.png");
         this.game.load.physics("Physics", "Graphics/Level_Assets/Grass_Land/Physics.json");
-        this.game.load.image("Fairway", "Graphics/Level_Assets/Grass_Land/Level6/Level6.png");
-        this.game.load.image("FairwayHole", "Graphics/Level_Assets/Grass_Land/Level6/Level6-Hole.png");
+        this.game.load.image("Fairway", "Graphics/Level_Assets/Grass_Land/Level9/Level9.png");
+        this.game.load.image("FairwayHole", "Graphics/Level_Assets/Grass_Land/Level9/Level9-Hole.png");
         this.game.load.image("Sand", "Graphics/Level_Assets/Sand.png");
         this.game.load.spritesheet("Water", "Graphics/Level_Assets/Wave2.png", 640, 360);
         this.game.load.image("SwingButton", "Graphics/Buttons/Swing-Button.png");
         this.game.load.image("PowerBar", "Graphics/Buttons/Power-Bar.png");
         this.game.load.image("PowerFill", "Graphics/Buttons/Gradient.png");
-        this.game.load.image("Arrow", "Graphics/Player/Arrow.png");
+        this.game.load.image("Arrow", "Graphics/Player/Arrow2.png");
         this.game.load.image("Star", "Graphics/Level_Assets/star.png");
         this.game.load.image("Block", "Graphics/Player/Block.png");
         this.game.load.image("BackgroundP", "Graphics/Background/Background-Pause.png");
@@ -25,7 +25,7 @@ level6.prototype = {
         this.game.load.audio("GolfClap", "Music/GolfClap.ogg");
         this.game.load.audio("GolfSwing", "Music/GolfSwing.ogg");
 
-        this.game.world.setBounds(0, -500, 2500, 1580);
+        this.game.world.setBounds(0, -500, 2000, 5500);
     },
 
     create: function() {
@@ -43,7 +43,7 @@ level6.prototype = {
         SavedBallVelY = 0;
         prevBallX = 0;
         prevBallY = 0;
-        HoleNumber = 5;
+        HoleNumber = 8;
         FinishSwing = false;
         Paused = false;
         ballMaterial = null;
@@ -56,40 +56,36 @@ level6.prototype = {
         this.game.physics.startSystem(Phaser.Physics.P2JS);
         this.game.physics.p2.gravity.y = 1400;
 
-        Clouds = this.game.add.tileSprite(0,-1000, 5000, 3160, "Clouds"); //Values are doubled so that scale is still correct
+        Clouds = this.game.add.tileSprite(0,-1000, 4000, 11000, "Clouds"); //Values are doubled so that scale is still correct
         Clouds.scale.setTo(0.67);
-        Hills = this.game.add.sprite(0,0,"Hills");
-        Hills.scale.setTo(2,2);
+        Hills = this.game.add.sprite(0,3500,"Hills");
+        Hills.scale.setTo(2,1);
 
-        Player = this.game.add.sprite(2390, 1000, "Shot");
-        Player.scale.setTo(0.35);
+        Player = this.game.add.sprite(1000, 4480, "Shot");
+        //Player.scale.setTo(0.35);
         Player.animations.add("Swing");
         Player.anchor.setTo(0.5, 0.5);
 
-        Ball = this.game.add.sprite(Player.x, 1000, "Ball");
+        Ball = this.game.add.sprite(Player.x, 4480, "Ball");
         Ball.anchor.setTo(0.5, 0.5);
         this.game.physics.p2.enable(Ball);
         Ball.body.clearShapes();
         Ball.body.loadPolygon("Physics", "Ball");
 
-        Water = this.game.add.sprite(1000, 900, "Water");
-        Water.scale.setTo(0.6);
-        Water.animations.add("Water");
-        Water.animations.play("Water", 5, true);
-
-        FairwayHole = this.game.add.sprite(this.game.world.centerX, 550, "FairwayHole");
+        FairwayHole = this.game.add.sprite(this.game.world.centerX, 2750, "FairwayHole");
         this.game.physics.p2.enable(FairwayHole);
         FairwayHole.body.kinematic = true;
         FairwayHole.body.clearShapes();
-        FairwayHole.body.loadPolygon("Physics", "Level6-Hole");
+        FairwayHole.body.loadPolygon("Physics", "Level9-Hole");
 
-        Block = this.game.add.sprite(325, 360, "Block");
-        Block.scale.setTo(4);
+        Block = this.game.add.sprite(1565, 1210, "Block");
+        Block.scale.setTo(5);
         this.game.physics.p2.enable(Block);
         Block.body.static = true;
 
-        Fairway = this.game.add.sprite(this.game.world.centerX, 550, "Fairway");
+        Fairway = this.game.add.sprite(this.game.world.centerX, 2750, "Fairway");
         Fairway.anchor.setTo(0.5,0.5);
+        Fairway.visible = false;
 
         ballMaterial = this.game.physics.p2.createMaterial("ballMaterial", Ball.body);
         groundMaterial = this.game.physics.p2.createMaterial("groundMaterial", FairwayHole.body);
@@ -115,9 +111,9 @@ level6.prototype = {
         //Set up GUI - Arrow, Left + Right Buttons, Swing Button, Pause Button, Power Bar
         Arrow = this.game.add.sprite(Ball.x, Ball.y, "Arrow");
         Arrow.anchor.setTo(0.5, 1);
-        Arrow.scale.setTo(0.07, 0.07);
+        //Arrow.scale.setTo(0.07, 0.07);
         Arrow.rotation = 181 * Radian;
-        Arrow.angle = -60;
+        Arrow.angle = 60;
 
         LeftB = this.game.add.sprite(20, 610, "Button");
         LeftB.scale.setTo(0.67);
@@ -161,7 +157,7 @@ level6.prototype = {
         HoleText.scale.setTo(0.67);
         HoleText.fixedToCamera = true;
 
-        ParText = this.game.add.bitmapText(115, 16, "8Bit", "Par: 4", 24);
+        ParText = this.game.add.bitmapText(115, 16, "8Bit", "Par: 6", 24);
         ParText.scale.setTo(0.67);
         ParText.fixedToCamera = true;
 
@@ -169,8 +165,8 @@ level6.prototype = {
         ScoreText.scale.setTo(0.67);
         ScoreText.fixedToCamera = true;
 
-        this.game.camera.x = 2500;
-        this.game.camera.y = 1080;
+        this.game.camera.x = 500;
+        this.game.camera.y = 4000;
 
     },
 
@@ -183,7 +179,7 @@ level6.prototype = {
 
         if (FairwayHole != undefined && Fairway != undefined) {
 
-            if (this.game.input.activePointer.isDown && Paused != true && LevelComplete != true && WaterHazard != true) {
+            if (this.game.input.activePointer.isDown && Paused != true && LevelComplete != true) {
                 if (LeftB.input.checkPointerOver(this.game.input.activePointer) != true && RightB.input.checkPointerOver(this.game.input.activePointer) != true && SwingB.input.checkPointerOver(this.game.input.activePointer) != true) {
                     if (this.game.origDragPoint) {
                         // move the camera by the amount the mouse has moved since last update
@@ -202,7 +198,7 @@ level6.prototype = {
 
         if (this.game.input.activePointer.isDown && Paused != true && Scoreboard != undefined) {
             if (Scoreboard.input.checkPointerOver(this.game.input.activePointer)){
-                this.game.state.start("Level7");
+                this.game.state.start("MainMenu");
                 MusicControl.stop();
             }
         }
@@ -250,10 +246,6 @@ level6.prototype = {
             Arrow.visible = false;
         }
 
-        if (Ball.x >= Water.x && Ball.x <= Water.x + Water.width && Ball.y >= Water.y && Ball.y <= Water.y + Water.height && WaterHazard == false){
-            this.WaterHazard();
-        }
-
         if (LevelComplete == true && Timer < 300 && ScoreboardShown == false){
             Timer += 1;
         }
@@ -266,10 +258,6 @@ level6.prototype = {
             this.ShowScoreboard();
         }
 
-        if (Timer == 240 && WaterHazard == true){
-            this.WaterHazard();
-        }
-
         if (Player.animations.currentAnim.frame == 12 && FinishSwing == false){
             this.FinishSwing();
         }
@@ -279,10 +267,10 @@ level6.prototype = {
         }, this);
 
         if (Arrow.angle >= 0 && Arrow.angle <= 180){
-            Player.scale.x = 0.35;
+            Player.scale.x = 1;
         }
         else{
-            Player.scale.x = -0.35;
+            Player.scale.x = -1;
         }
 
         Block.body.onBeginContact.add(this.LevelComplete, this);
@@ -312,8 +300,8 @@ level6.prototype = {
 
     FinishSwing: function() {
         this.game.camera.follow(Ball, Phaser.Camera.FOLLOW_TOPDOWN);
-        var VelocityX = ((Power * Math.cos((Arrow.angle -90) * Radian) * 10)) * 1.1;
-        var VelocityY = ((Power * Math.sin((Arrow.angle -90) * Radian) * 10)) * 1.1;
+        var VelocityX = ((Power * Math.cos((Arrow.angle -90) * Radian) * 10)) * 1.5;
+        var VelocityY = ((Power * Math.sin((Arrow.angle -90) * Radian) * 10)) * 1.5;
         Ball.body.velocity.x += VelocityX;
         Ball.body.velocity.y += VelocityY;
 
@@ -330,28 +318,6 @@ level6.prototype = {
         ScoreText = this.game.add.bitmapText(115, 43, "8Bit", "Strokes: " + StrokeCount, 24);
         ScoreText.scale.setTo(0.67);
         ScoreText.fixedToCamera = true;
-    },
-
-    WaterHazard: function() {
-        if (WaterHazard == true) {
-            this.game.camera.follow(Ball, Phaser.Camera.FOLLOW_TOPDOWN);
-            Timer = 0;
-            Ball.reset(prevBallX, prevBallY);
-            StrokeCount += 1;
-            PenaltyStroke.destroy();
-            BackgroundP.destroy();
-            WaterHazard = false;
-        }
-        else if (WaterHazard == false) {
-            this.game.camera.follow(null);
-            WaterHazard = true;
-            Ball.body.velocity.x = 7;
-            Ball.body.velocity.y = 7;
-            BackgroundP = this.game.add.sprite(this.game.camera.x, this.game.camera.y, "BackgroundP");
-            PenaltyStroke = this.game.add.bitmapText(CameraCenterX, CameraCenterY, "8Bit", "      Water Hazard!\n   +1 Penalty Stroke!", 50);
-            PenaltyStroke.anchor.setTo(0.5);
-
-        }
     },
 
     Pause: function(){
@@ -468,7 +434,7 @@ level6.prototype = {
         var Hole = this.game.add.bitmapText(Scoreboard.x - 210, Scoreboard.y + 15, "8Bit", "Hole\n\n\n   1\n\n   2\n\n   3\n\n   4\n\n " +
         "  5\n\n   6\n\n   7\n\n   8\n\n   9", 22);
         var Par = this.game.add.bitmapText (Scoreboard.x - 10, Scoreboard.y + 15, "8Bit", "Par\n\n\n  2\n\n  3\n\n  4\n\n  4\n\n  3\n\n" +
-        "  4\n\n  1\n\n  1\n\n  1", 22);
+        "  1\n\n  1\n\n  1\n\n  1", 22);
         var Score = this.game.add.bitmapText(Scoreboard.x + 190, Scoreboard.y + 15, "8Bit",
             "Strokes\n\n\n      " + StrokeArray[0] + "\n\n      " + StrokeArray[1] + "\n\n      " + StrokeArray[2] +
             "\n\n      " + StrokeArray[3] + "\n\n      " + StrokeArray[4] + "\n\n      " + StrokeArray[5] + "\n\n      "
@@ -566,7 +532,7 @@ level6.prototype = {
         this.game.physics.p2.enable(FairwayHole);
         this.game.physics.p2.enable(Ball);
         this.game.physics.p2.enable(Block);
-        FairwayHole.body.loadPolygon("Physics", "Level6-Hole");
+        FairwayHole.body.loadPolygon("Physics", "Level9-Hole");
         FairwayHole.kinematic = true;
         Ball.body.loadPolygon("Physics", "Ball");
         Ball.body.velocity.x = SavedBallVelX;

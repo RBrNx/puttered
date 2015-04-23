@@ -39,7 +39,7 @@ mainMenu.prototype = {
         Hills.scale.setTo(0.67);
         var Logo = this.game.add.sprite(this.game.world.width/2, this.game.world.height/5, "Logo");
         Logo.anchor.setTo(0.5, 0.5);
-        Logo.scale.set(0.34);
+        //Logo.scale.set(0.34);
 
 
         //Create Play Button
@@ -241,7 +241,7 @@ mainMenu.prototype = {
         Level2.destroy();
         Back.destroy();
         BackText.destroy();
-        this.game.state.start("Level6");
+        this.game.state.start("Level9");
     },
 
     GoToCourse2: function(){
