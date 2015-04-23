@@ -7,7 +7,7 @@ var level2 = function(game){};
 level2.prototype = {
     preload: function(){
         this.game.load.spritesheet("ButtonSq", "Graphics/Buttons/Button-Square.png", 150, 150);
-        this.game.load.spritesheet("Shot", "Graphics/Player/Swing.png", 400, 400);
+        this.game.load.spritesheet("Shot", "Graphics/Player/Swing.png", 140, 140);
         this.game.load.image("Ball", "Graphics/Player/Ball.png");
         this.game.load.physics("Physics", "Graphics/Level_Assets/Grass_Land/Physics.json");
         this.game.load.image("Fairway", "Graphics/Level_Assets/Grass_Land/Level2/Level2.png");
@@ -46,6 +46,7 @@ level2.prototype = {
         groundMaterial = null;
         fairwayMaterial = null;
         Radian = 0.0174532925;
+        Par = 3;
 
         this.game.physics.startSystem(Phaser.Physics.P2JS);
         this.game.physics.p2.gravity.y = 1400;
@@ -149,7 +150,7 @@ level2.prototype = {
         HoleText.scale.setTo(0.67);
         HoleText.fixedToCamera = true;
 
-        ParText = this.game.add.bitmapText(115, 16, "8Bit", "Par: 3", 24);
+        ParText = this.game.add.bitmapText(115, 16, "8Bit", "Par: " + ParArray[HoleNumber], 24);
         ParText.scale.setTo(0.67);
         ParText.fixedToCamera = true;
 
@@ -185,7 +186,8 @@ level2.prototype = {
 
         if (this.game.input.activePointer.isDown && Paused != true && Scoreboard != undefined) {
             if (Scoreboard.input.checkPointerOver(this.game.input.activePointer)){
-                this.game.state.start("Level3");
+                this.game.state.start("MainMenu");
+                CourseEnded = true;
                 MusicControl.stop();
             }
         }
@@ -247,10 +249,10 @@ level2.prototype = {
         }, this);
 
         if (Arrow.angle >= 0 && Arrow.angle <= 180){
-            Player.scale.x = 0.35;
+            Player.scale.x = 1;
         }
         else{
-            Player.scale.x = -0.35;
+            Player.scale.x = -1;
         }
 
         Block.body.onBeginContact.add(this.LevelComplete, this);
@@ -259,7 +261,7 @@ level2.prototype = {
     render: function(){
         this.game.debug.text(this.game.time.fps || '--', 2, 14, "#00ff00");
         //if (Ball != undefined) this.game.debug.spriteInfo(Ball, 32, 32);
-        this.game.debug.inputInfo(32, 32);
+        //this.game.debug.inputInfo(32, 32);
     },
 
     Swing: function() {
@@ -413,17 +415,16 @@ level2.prototype = {
 
         var Hole = this.game.add.bitmapText(Scoreboard.x - 210, Scoreboard.y + 15, "8Bit", "Hole\n\n\n   1\n\n   2\n\n   3\n\n   4\n\n " +
         "  5\n\n   6\n\n   7\n\n   8\n\n   9", 22);
-        var Par = this.game.add.bitmapText (Scoreboard.x - 10, Scoreboard.y + 15, "8Bit", "Par\n\n\n  2\n\n  3\n\n  4\n\n  1\n\n  1\n\n" +
-        "  4\n\n  1\n\n  1\n\n  1", 22);
-        var Score = this.game.add.bitmapText(Scoreboard.x + 190, Scoreboard.y + 15, "8Bit",
-            "Strokes\n\n\n      " + StrokeArray[0] + "\n\n      " + StrokeArray[1] + "\n\n      " + StrokeArray[2] +
-            "\n\n      " + StrokeArray[3] + "\n\n      " + StrokeArray[4] + "\n\n      " + StrokeArray[5] + "\n\n      "
-            + StrokeArray[6] + "\n\n      " + StrokeArray[7] + "\n\n      " + StrokeArray[8], 22);
+
+        var Par = this.game.add.bitmapText (Scoreboard.x - 10, Scoreboard.y + 15, "8Bit", "Par\n\n\n  "+ ParArray[0] + "\n\n  " + ParArray[1] + "\n\n  " +
+        ParArray[2] + "\n\n  " + ParArray[3] + "\n\n  " + ParArray[4] + "\n\n  " + ParArray[5] + "\n\n  " + ParArray[6] + "\n\n  " + ParArray[7] + "\n\n  " + ParArray[8], 22);
+
+        var ScoreText = this.game.add.bitmapText(Scoreboard.x + 110, Scoreboard.y - 30, "8Bit", "Strokes", 22);
 
         var Continue = this.game.add.bitmapText(Scoreboard.x, Scoreboard.y + 430, "8Bit", "Tap Here to Continue", 16);
         Hole.anchor.setTo(0.5);
         Par.anchor.setTo(0.5);
-        Score.anchor.setTo(0.5);
+        //Score.anchor.setTo(0.5);
         Continue.anchor.setTo(0.5);
         Continue.tint = 0x191919;
 
@@ -431,8 +432,24 @@ level2.prototype = {
         this.game.add.tween(CourseTitle).to({y: CameraCenterY - 265}, 200, Phaser.Easing.Linear.NONE, true);
         this.game.add.tween(Hole).to({y: CameraCenterY + 15}, 200, Phaser.Easing.Linear.NONE, true);
         this.game.add.tween(Par).to({y: CameraCenterY + 15}, 200, Phaser.Easing.Linear.NONE, true);
-        this.game.add.tween(Score).to({y: CameraCenterY + 15}, 200, Phaser.Easing.Linear.NONE, true);
+        //this.game.add.tween(Score).to({y: CameraCenterY - 150}, 200, Phaser.Easing.Linear.NONE, true);
+        this.game.add.tween(ScoreText).to({y: CameraCenterY - 205}, 200, Phaser.Easing.Linear.NONE, true);
         this.game.add.tween(Continue).to({y: CameraCenterY + 265}, 200, Phaser.Easing.Linear.NONE, true);
+
+
+        for (var i = 0, space = 44; i < StrokeArray.length; i++, space += 44){
+            var Score = this.game.add.bitmapText(Scoreboard.x + 125, (CameraCenterY - 199) + space, "8Bit2","\n     " + StrokeArray[i], 22);
+            //var Score = this.game.add.bitmapText(Scoreboard.x + 190, Scoreboard.y + 15 + space, "8Bit", "\n     " + StrokeArray[i], 22);
+            if (StrokeArray[i] < ParArray[i]){
+                Score.tint = 0x00FF00;
+            }
+            else if (StrokeArray[i] > ParArray[i]){
+                Score.tint = 0xFF0000;
+            }
+            else if (StrokeArray[i] == ParArray[i]){
+                Score.tint = 0xDF7401;
+            }
+        }
 
     },
 

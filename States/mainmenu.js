@@ -3,6 +3,7 @@
  */
 var mainMenu = function(game){};
 var Clouds;
+var Logo;
 var Play;
 var PlayText;
 var Options;
@@ -17,7 +18,24 @@ var SoundOn;
 var SoundOff;
 var Level1;
 var Level2;
+var Title;
+var Hole;
+var Par;
+var ScoreText;
+var Score;
+var CoursePar;
+var Overall;
+var OverallText;
+var CourseSelect;
+var CourseSelectText;
+var Retry;
+var RetryText;
+var BackgroundP;
 var RoomNumber;
+var LastCourse = 1;
+var CourseEnded = false;
+var Leaderboard = false;
+var HoleNumber = 0;
 
 var Sound = true;
 var Music = false;
@@ -37,13 +55,13 @@ mainMenu.prototype = {
         Clouds.scale.setTo(0.67);
         var Hills = this.game.add.sprite(0,0,"Hills");
         Hills.scale.setTo(0.67);
-        var Logo = this.game.add.sprite(this.game.world.width/2, this.game.world.height/5, "Logo");
+        Logo = this.game.add.sprite(this.game.world.width/2, this.game.world.height/5, "Logo");
         Logo.anchor.setTo(0.5, 0.5);
         //Logo.scale.set(0.34);
 
 
         //Create Play Button
-        Play = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 75, "Button", this.LevelSelect, this, 0, 0, 1, 0);
+        Play = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 75, "Button", this.CourseSelect, this, 0, 0, 1, 0);
         Play.anchor.setTo(0.5, 0.5);
         Play.scale.setTo(0.67);
         PlayText = this.game.add.bitmapText(Play.x, Play.y-8, "8Bit", "Play", 84);
@@ -65,7 +83,7 @@ mainMenu.prototype = {
     update: function(){
         Clouds.tilePosition.x += 1;
 
-        if (RoomNumber = 3) {
+        if (RoomNumber == 3) {
             if (Level2 != undefined && Level1 != undefined) {
 
                 if (this.game.input.activePointer.isDown) {
@@ -92,6 +110,10 @@ mainMenu.prototype = {
 
                 });
             }
+        }
+
+        if (CourseEnded == true && Leaderboard == false){
+            this.EndOfLevel();
         }
 
     },
@@ -140,11 +162,108 @@ mainMenu.prototype = {
         RoomNumber = 2;
     },
 
-    LevelSelect: function(){
+    EndOfLevel: function() {
+        Leaderboard = true;
+        RoomNumber = 4;
         Play.destroy();
         PlayText.destroy();
         Options.destroy();
         OptionsText.destroy();
+        Logo.destroy();
+
+        if (LastCourse == 1){
+            BackgroundP = this.game.add.sprite(this.game.camera.x, this.game.camera.y, "BackgroundP");
+            BackgroundP.scale.setTo(0.67);
+            Title = this.game.add.bitmapText(this.game.world.centerX, 75, "8Bit2", "Grassy Land\n  Complete!", 64);
+            Title.anchor.setTo(0.5);
+
+            Hole = this.game.add.bitmapText(this.game.world.centerX - 550, this.game.world.centerY - 150, "8Bit2", "Hole\n\n\n   1\n\n   2\n\n   3\n\n   4\n\n " +
+            "  5\n\n   6\n\n   7\n\n   8\n\n   9", 22);
+
+            Par = this.game.add.bitmapText (this.game.world.centerX - 350, this.game.world.centerY - 150, "8Bit2", "Par\n\n\n  "+ ParArray[0] + "\n\n  " + ParArray[1] + "\n\n  " +
+            ParArray[2] + "\n\n  " + ParArray[3] + "\n\n  " + ParArray[4] + "\n\n  " + ParArray[5] + "\n\n  " + ParArray[6] + "\n\n  " + ParArray[7] + "\n\n  " + ParArray[8], 22);
+
+            ScoreText = this.game.add.bitmapText(this.game.world.centerX - 160, this.game.world.centerY - 150, "8Bit2", "Strokes", 22);
+            for (var i = 0, space = 44; i < StrokeArray.length; i++, space += 44){
+                Score = this.game.add.bitmapText(this.game.world.centerX - 160, this.game.world.centerY - 150 + space, "8Bit2", "\n     " + StrokeArray[i], 22);
+                if (StrokeArray[i] < ParArray[i]){
+                    Score.tint = 0x00FF00;
+                }
+                else if (StrokeArray[i] > ParArray[i]){
+                    Score.tint = 0xFF0000;
+                }
+                else if (StrokeArray[i] == ParArray[i]){
+                    Score.tint = 0xFFFF00
+                }
+            }
+
+
+            for (var i = 0, sum = 0; i < StrokeArray.length; i++){
+                sum += StrokeArray[i]
+            }
+            for (var i = 0, sum2 = 0; i < ParArray.length; i++){
+                sum2 += ParArray[i]
+            }
+
+            CoursePar = this.game.add.bitmapText(this.game.world.centerX + 100, this.game.world.centerY - 150, "8Bit2", "Par: 36\n\nStrokes: " + sum);
+            var OverallScore = sum - sum2;
+            Overall = this.game.add.bitmapText(this.game.world.centerX + 100, this.game.world.centerY, "8Bit2", "Overall\n Score\n");
+            OverallText = this.game.add.bitmapText(this.game.world.centerX + 140, this.game.world.centerY + 75, "8Bit2", OverallScore.toString(), 64);
+            if (OverallScore < sum2){
+                OverallText.tint = 0x00FF00;
+            }
+            else if (OverallScore > sum2){
+                OverallText.tint = 0xFF0000;
+            }
+            else if (OverallScore == sum2){
+                OverallText.tint = 0xFFFF00
+            }
+
+            CourseSelect = this.game.add.button(this.game.world.centerX + 150, this.game.world.centerY + 275, "Button", this.CourseSelect, this, 0, 0, 1, 0);
+            CourseSelect.anchor.setTo(0.5, 0.5);
+            CourseSelect.scale.setTo(0.67);
+            CourseSelectText = this.game.add.bitmapText(CourseSelect.x, CourseSelect.y-5, "8Bit", "Course\nSelect", 52);
+            CourseSelectText.anchor.setTo(0.5, 0.5);
+            CourseSelectText.scale.setTo(0.67);
+
+            Retry = this.game.add.button(this.game.world.centerX + 450, this.game.world.centerY + 275, "Button", this.Retry, this, 0, 0, 1, 0);
+            Retry.anchor.setTo(0.5, 0.5);
+            Retry.scale.setTo(0.67);
+            RetryText = this.game.add.bitmapText(Retry.x, Retry.y-7, "8Bit", "Retry", 72);
+            RetryText.anchor.setTo(0.5, 0.5);
+            RetryText.scale.setTo(0.67);
+        }
+
+    },
+
+    CourseSelect: function() {
+
+        if (RoomNumber == 1) {
+            Play.destroy();
+            PlayText.destroy();
+            Options.destroy();
+            OptionsText.destroy();
+        }
+
+        if (RoomNumber == 4) {
+            CourseEnded = false;
+            Leaderboard = false;
+            Title.destroy();
+            Hole.destroy();
+            Par.destroy();
+            ScoreText.destroy();
+            Score.destroy();
+            CoursePar.destroy();
+            Overall.destroy();
+            OverallText.destroy();
+            CourseSelect.destroy();
+            CourseSelectText.destroy();
+            Retry.destroy();
+            RetryText.destroy();
+            BackgroundP.destroy();
+            Logo = this.game.add.sprite(this.game.world.width/2, this.game.world.height/5, "Logo");
+            Logo.anchor.setTo(0.5, 0.5);
+        }
 
         Back = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 200, "Button", this.GoBack, this, 0, 0, 1, 0);
         Back.anchor.setTo(0.5, 0.5);
@@ -167,15 +286,21 @@ mainMenu.prototype = {
 
         Level1.events.onInputUp.add(this.GoToCourse1);
         /*Level2.events.onInputOver.add(function(){
-            this.game.state.start("GameState")
-        });*/
+         this.game.state.start("GameState")
+         });*/
 
 
     },
 
+    Retry: function(){
+        if (LastCourse = 1){
+            this.game.state.start("Level1");
+        }
+    },
+
     GoBack: function(){
         //Create Play Button
-        Play = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 75, "Button", this.LevelSelect, this, 0, 0, 1, 0);
+        Play = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 75, "Button", this.CourseSelect, this, 0, 0, 1, 0);
         Play.anchor.setTo(0.5, 0.5);
         Play.scale.setTo(0.67);
         PlayText = this.game.add.bitmapText(Play.x, Play.y-8, "8Bit", "Play", 84);
@@ -241,7 +366,7 @@ mainMenu.prototype = {
         Level2.destroy();
         Back.destroy();
         BackText.destroy();
-        this.game.state.start("Level1");
+        this.game.state.start("Level2");
     },
 
     GoToCourse2: function(){
