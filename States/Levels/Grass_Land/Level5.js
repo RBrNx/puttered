@@ -83,13 +83,14 @@ level5.prototype = {
         FairwayHole.body.clearShapes();
         FairwayHole.body.loadPolygon("Physics", "Level5-Hole");
 
-        Block = this.game.add.sprite(1423, 1418, "Block");
-        Block.scale.setTo(2);
-        this.game.physics.p2.enable(Block);
+        Block = this.game.add.sprite(1423, 1445, "Block");
+        Block.scale.setTo(4);
+        this.game.physics.p2.enable(Block, true);
         Block.body.static = true;
 
         Fairway = this.game.add.sprite(this.game.world.centerX, 1250, "Fairway");
         Fairway.anchor.setTo(0.5,0.5);
+        Fairway.visible =false;
 
         ballMaterial = this.game.physics.p2.createMaterial("ballMaterial", Ball.body);
         groundMaterial = this.game.physics.p2.createMaterial("groundMaterial", FairwayHole.body);
@@ -468,7 +469,7 @@ level5.prototype = {
         var Hole = this.game.add.bitmapText(Scoreboard.x - 210, Scoreboard.y + 15, "8Bit", "Hole\n\n\n   1\n\n   2\n\n   3\n\n   4\n\n " +
         "  5\n\n   6\n\n   7\n\n   8\n\n   9", 22);
         var Par = this.game.add.bitmapText (Scoreboard.x - 10, Scoreboard.y + 15, "8Bit", "Par\n\n\n  2\n\n  3\n\n  4\n\n  4\n\n  3\n\n" +
-        "  1\n\n  1\n\n  1\n\n  1", 22);
+        "  4\n\n  1\n\n  1\n\n  1", 22);
         var Score = this.game.add.bitmapText(Scoreboard.x + 190, Scoreboard.y + 15, "8Bit",
             "Strokes\n\n\n      " + StrokeArray[0] + "\n\n      " + StrokeArray[1] + "\n\n      " + StrokeArray[2] +
             "\n\n      " + StrokeArray[3] + "\n\n      " + StrokeArray[4] + "\n\n      " + StrokeArray[5] + "\n\n      "

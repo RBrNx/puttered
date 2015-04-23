@@ -6,7 +6,7 @@
       "projectTypeName": "com.intel.xdk.projecttype.webapp",
       "src": "",
       "projectGuid": "f486dd30-fdb2-44ca-a555-0111f6476c05",
-      "lastModifiedDate": 1429289784735,
+      "lastModifiedDate": 1429653144231,
       "creationDate": 1429289784644
     },
     "sourceDirectory": "",
@@ -33,24 +33,62 @@
         "preferences_": {
           "android-minSdkVersion": "10",
           "android-targetSdkVersion": "19",
-          "android-installLocation": "auto"
+          "android-installLocation": "auto",
+          "Fullscreen": true,
+          "Orientation": "landscape",
+          "android-signed": false
         },
         "isActive_": true,
-        "appName_": "Puttered",
-        "appID_": "not.yet.specified",
+        "appName_": "Puttered!",
+        "appID_": "com.RBrNx.Puttered",
         "appAccess_": [
           {
             "origin": "*"
           }
         ],
-        "icons_": [],
-        "splashes_": [],
+        "icons_": [
+          {
+            "relPath": "Graphics/Android/48-x-48.png",
+            "density": "mdpi",
+            "height": 48,
+            "width": 48
+          },
+          {
+            "relPath": "Graphics/Android/36-x-36.png",
+            "density": "ldpi",
+            "height": 36,
+            "width": 36
+          },
+          {
+            "relPath": "Graphics/Android/72-x-72.png",
+            "density": "hdpi",
+            "height": 72,
+            "width": 72
+          },
+          {
+            "relPath": "Graphics/Android/96-x-96.png",
+            "density": "xhdpi",
+            "height": 96,
+            "width": 96
+          }
+        ],
+        "splashes_": [
+          {
+            "relPath": "Graphics/Logo.png",
+            "density": "xhdpi",
+            "height": 720,
+            "width": 960,
+            "orientation": "landscape"
+          }
+        ],
         "addlPermissions_": "",
         "excludedLibraries_": "",
-        "appVersion_": "0.0.1",
+        "appVersion_": "0.8",
         "appVersionCode_": "1",
         "crosswalkVersion_": "10",
-        "cordovaCLIVersion_": "4.1.2"
+        "cordovaCLIVersion_": "4.1.2",
+        "appDescription_": "2D Cartoon Mini Golf",
+        "appAuthor_": "RBrNx"
       },
       "Android-Crosswalk": {
         "platform_": "android",
@@ -59,24 +97,62 @@
         "preferences_": {
           "android-minSdkVersion": "14",
           "android-targetSdkVersion": "19",
-          "android-installLocation": "auto"
+          "android-installLocation": "auto",
+          "Orientation": "landscape",
+          "Fullscreen": true,
+          "android-signed": false
         },
         "isActive_": true,
         "appName_": "Puttered",
-        "appID_": "not.yet.specified",
+        "appID_": "com.RBrNx.Puttered",
         "appAccess_": [
           {
             "origin": "*"
           }
         ],
-        "icons_": [],
-        "splashes_": [],
+        "icons_": [
+          {
+            "relPath": "Graphics/Android/36-x-36.png",
+            "density": "ldpi",
+            "height": 36,
+            "width": 36
+          },
+          {
+            "relPath": "Graphics/Android/48-x-48.png",
+            "density": "mdpi",
+            "height": 48,
+            "width": 48
+          },
+          {
+            "relPath": "Graphics/Android/72-x-72.png",
+            "density": "hdpi",
+            "height": 72,
+            "width": 72
+          },
+          {
+            "relPath": "Graphics/Android/96-x-96.png",
+            "density": "xhdpi",
+            "height": 96,
+            "width": 96
+          }
+        ],
+        "splashes_": [
+          {
+            "relPath": "Graphics/Logo.png",
+            "density": "xhdpi",
+            "height": 720,
+            "width": 960,
+            "orientation": "landscape"
+          }
+        ],
         "addlPermissions_": "",
         "excludedLibraries_": "",
-        "appVersion_": "0.0.1",
+        "appVersion_": "0.8",
         "appVersionCode_": "1",
         "crosswalkVersion_": "10",
-        "cordovaCLIVersion_": "4.1.2"
+        "cordovaCLIVersion_": "4.1.2",
+        "appDescription_": "2D Cartoon Mini Golf",
+        "appAuthor_": "RBrNx"
       },
       "iOS": {
         "platform_": "ios",
@@ -86,7 +162,7 @@
           "ios-target": "6",
           "ios-configuration": "adhoc"
         },
-        "isActive_": true,
+        "isActive_": false,
         "appName_": "Puttered",
         "appID_": "not.yet.specified",
         "appAccess_": [
@@ -107,7 +183,7 @@
         "runtime_": "W3C on Cordova",
         "name_": "Windows8",
         "preferences_": {},
-        "isActive_": true,
+        "isActive_": false,
         "appName_": "Puttered",
         "appID_": "not.yet.specified",
         "appAccess_": [

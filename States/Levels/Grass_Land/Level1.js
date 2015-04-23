@@ -79,8 +79,8 @@ level1.prototype = {
         Ball.body.clearShapes();
         Ball.body.loadPolygon("Physics", "Ball");
 
-        Block = this.game.add.sprite(2345, 415, "Block");
-        Block.scale.setTo(2);
+        Block = this.game.add.sprite(2345, 475, "Block");
+        Block.scale.setTo(4.5);
         this.game.physics.p2.enable(Block);
         Block.body.static = true;
 
@@ -429,7 +429,7 @@ level1.prototype = {
         var Hole = this.game.add.bitmapText(Scoreboard.x - 210, Scoreboard.y + 15, "8Bit", "Hole\n\n\n   1\n\n   2\n\n   3\n\n   4\n\n " +
            "  5\n\n   6\n\n   7\n\n   8\n\n   9", 22);
         var Par = this.game.add.bitmapText (Scoreboard.x - 10, Scoreboard.y + 15, "8Bit", "Par\n\n\n  2\n\n  3\n\n  4\n\n  4\n\n  3\n\n" +
-        "  1\n\n  1\n\n  1\n\n  1", 22);
+        "  4\n\n  1\n\n  1\n\n  1", 22);
         var Score = this.game.add.bitmapText(Scoreboard.x + 190, Scoreboard.y + 15, "8Bit",
             "Strokes\n\n\n      " + StrokeArray[0] + "\n\n      " + StrokeArray[1] + "\n\n      " + StrokeArray[2] +
             "\n\n      " + StrokeArray[3] + "\n\n      " + StrokeArray[4] + "\n\n      " + StrokeArray[5] + "\n\n      "
