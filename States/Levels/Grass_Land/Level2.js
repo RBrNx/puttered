@@ -61,7 +61,6 @@ level2.prototype = {
         FairwayHole.body.loadPolygon("Physics", "Level2-Hole");
 
         Player = this.game.add.sprite(100, 290, "Shot");
-        Player.scale.setTo(0.35);
         Player.animations.add("Swing");
         Player.anchor.setTo(0.5, 0.5);
 
@@ -105,7 +104,6 @@ level2.prototype = {
         //Set up GUI - Arrow, Left + Right Buttons, Swing Button, Pause Button, Power Bar
         Arrow = this.game.add.sprite(Ball.x, Ball.y, "Arrow");
         Arrow.anchor.setTo(0.5, 1);
-        Arrow.scale.setTo(0.07, 0.07);
         Arrow.rotation = 181 * Radian;
         Arrow.angle = 60;
 

@@ -62,7 +62,6 @@ level9.prototype = {
         Hills.scale.setTo(2,1);
 
         Player = this.game.add.sprite(1000, 4480, "Shot");
-        //Player.scale.setTo(0.35);
         Player.animations.add("Swing");
         Player.anchor.setTo(0.5, 0.5);
 
@@ -85,7 +84,6 @@ level9.prototype = {
 
         Fairway = this.game.add.sprite(this.game.world.centerX, 2750, "Fairway");
         Fairway.anchor.setTo(0.5,0.5);
-        Fairway.visible = false;
 
         ballMaterial = this.game.physics.p2.createMaterial("ballMaterial", Ball.body);
         groundMaterial = this.game.physics.p2.createMaterial("groundMaterial", FairwayHole.body);

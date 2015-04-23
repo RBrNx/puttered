@@ -62,7 +62,6 @@ level5.prototype = {
         Hills.scale.setTo(1,1);
 
         Player = this.game.add.sprite(100, 310, "Shot");
-        Player.scale.setTo(0.35);
         Player.animations.add("Swing");
         Player.anchor.setTo(0.5, 0.5);
 
@@ -90,7 +89,6 @@ level5.prototype = {
 
         Fairway = this.game.add.sprite(this.game.world.centerX, 1250, "Fairway");
         Fairway.anchor.setTo(0.5,0.5);
-        Fairway.visible =false;
 
         ballMaterial = this.game.physics.p2.createMaterial("ballMaterial", Ball.body);
         groundMaterial = this.game.physics.p2.createMaterial("groundMaterial", FairwayHole.body);
@@ -116,7 +114,6 @@ level5.prototype = {
         //Set up GUI - Arrow, Left + Right Buttons, Swing Button, Pause Button, Power Bar
         Arrow = this.game.add.sprite(Ball.x, Ball.y, "Arrow");
         Arrow.anchor.setTo(0.5, 1);
-        Arrow.scale.setTo(0.07, 0.07);
         Arrow.rotation = 181 * Radian;
         Arrow.angle = 60;
 
@@ -280,10 +277,10 @@ level5.prototype = {
         }, this);
 
         if (Arrow.angle >= 0 && Arrow.angle <= 180){
-            Player.scale.x = 0.35;
+            Player.scale.x = 1;
         }
         else{
-            Player.scale.x = -0.35;
+            Player.scale.x = -1;
         }
 
         Block.body.onBeginContact.add(this.LevelComplete, this);

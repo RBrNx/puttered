@@ -68,7 +68,6 @@ level1.prototype = {
         FairwayHole.body.loadPolygon("Physics", "Level1-Hole");
 
         Player = this.game.add.sprite(100, 360, "Shot");
-        Player.scale.setTo(0.35);
         Player.animations.add("Swing");
         Player.anchor.setTo(0.5, 0.5);
 
@@ -113,7 +112,6 @@ level1.prototype = {
         //Set up GUI - Arrow, Left + Right Buttons, Swing Button, Pause Button, Power Bar
         Arrow = this.game.add.sprite(Ball.x, Ball.y, "Arrow");
         Arrow.anchor.setTo(0.5, 1);
-        Arrow.scale.setTo(0.07, 0.07);
         Arrow.rotation = 181 * Radian;
         Arrow.angle = 60;
 
@@ -259,10 +257,10 @@ level1.prototype = {
         }, this);
 
         if (Arrow.angle >= 0 && Arrow.angle <= 180){
-            Player.scale.x = 0.35;
+            Player.scale.x = 1;
         }
         else{
-            Player.scale.x = -0.35;
+            Player.scale.x = -1;
         }
 
         Block.body.onBeginContact.add(this.LevelComplete, this);
