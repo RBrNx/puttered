@@ -310,6 +310,8 @@ level3.prototype = {
 
         Block.body.onBeginContact.add(this.LevelComplete, this);
 
+        CourseTimer += 1;
+
     },
     render: function(){
         this.game.debug.text(this.game.time.fps || '--', 2, 14, "#00ff00");
@@ -343,6 +345,7 @@ level3.prototype = {
         Power = 0;
         this.PowerF.angle = -179;
         StrokeCount += 1;
+        TotalShots += 1;
         this.UpdateScore();
         FinishSwing = true;
         if(Sound == true)GolfSwing.play();
@@ -367,6 +370,7 @@ level3.prototype = {
         }
         else if (WaterHazard == false) {
             if(Sound == true)Splash.play();
+            WaterHit += 1;
             this.game.camera.follow(null);
             WaterHazard = true;
             Ball.body.velocity.x = 7;

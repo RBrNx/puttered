@@ -5,6 +5,9 @@ var level1 = function(game){};
 
 var StrokeArray = ["-","-","-","-","-","-","-","-","-"];
 var ParArray = [2, 3, 5, 4, 3, 4, 4, 4, 8];
+var TotalShots = Number(localStorage.getItem("TotalShots"));
+var WaterHit = Number(localStorage.getItem("WaterHit"));
+var CourseTimer;
 
 //TODO Clean up this code
 level1.prototype = {
@@ -34,6 +37,8 @@ level1.prototype = {
     },
 
     create: function() {
+
+        console.log(TotalShots);
         Started = "false";
         Power = 0;
         LevelComplete = false;
@@ -55,6 +60,7 @@ level1.prototype = {
         Radian = 0.0174532925;
         Paused = false;
         Par = 2;
+
 
         this.game.physics.startSystem(Phaser.Physics.P2JS);
         this.game.physics.p2.gravity.y = 1400;
@@ -267,6 +273,8 @@ level1.prototype = {
 
         Block.body.onBeginContact.add(this.LevelComplete, this);
 
+        CourseTimer += 1;
+
     },
     render: function(){
         this.game.debug.text(this.game.time.fps || '--', 2, 14, "#00ff00");
@@ -302,6 +310,7 @@ level1.prototype = {
         Power = 0;
         this.PowerF.angle = -179;
         StrokeCount += 1;
+        TotalShots += 1;
         this.UpdateScore();
         FinishSwing = true;
 
@@ -314,6 +323,24 @@ level1.prototype = {
         ScoreText.scale.setTo(0.67);
         ScoreText.fixedToCamera = true;
     },
+
+    /*updateTimer: function(){
+
+    minutes = Math.floor(game.time.time / 60000) % 60;
+    seconds = Math.floor(game.time.time / 1000) % 60;
+    milliseconds = Math.floor(game.time.time) % 100;
+
+    //If any of the digits becomes a single digit number, pad it with a zero
+    if (milliseconds < 10)
+        milliseconds = '0' + milliseconds;
+
+    if (seconds < 10)
+        seconds = '0' + seconds;
+
+    if (minutes < 10)
+        minutes = '0' + minutes;
+
+    },*/
 
     Pause: function(){
         if (!Paused && LevelComplete != true) {

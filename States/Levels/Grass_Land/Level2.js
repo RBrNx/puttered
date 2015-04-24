@@ -186,8 +186,7 @@ level2.prototype = {
 
         if (this.game.input.activePointer.isDown && Paused != true && Scoreboard != undefined) {
             if (Scoreboard.input.checkPointerOver(this.game.input.activePointer)){
-                this.game.state.start("MainMenu");
-                CourseEnded = true;
+                this.game.state.start("Level3");
                 MusicControl.stop();
             }
         }
@@ -257,6 +256,8 @@ level2.prototype = {
 
         Block.body.onBeginContact.add(this.LevelComplete, this);
 
+        CourseTimer += 1;
+
     },
     render: function(){
         this.game.debug.text(this.game.time.fps || '--', 2, 14, "#00ff00");
@@ -290,6 +291,7 @@ level2.prototype = {
         Power = 0;
         this.PowerF.angle = -179;
         StrokeCount += 1;
+        TotalShots += 1;
         this.UpdateScore();
         FinishSwing = true;
         if(Sound == true)GolfSwing.play();

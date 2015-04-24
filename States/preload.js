@@ -25,8 +25,9 @@ preload.prototype = {
         this.game.load.spritesheet("Level1", "Graphics/Buttons/Level-1-Button.png", 150, 150);
         this.game.load.spritesheet("Level2", "Graphics/Buttons/Level-2-Button.png", 150, 150);
         this.game.load.bitmapFont("8Bit", "Fonts/8Bit.png", "Fonts/8Bit.fnt");
-        this.game.load.bitmapFont("8Bit2", "Fonts/8Bit-White.png", "Fonts/8Bit.fnt");
+        this.game.load.bitmapFont("8Bit2", "Fonts/8Bit-White.png", "Fonts/8Bit-White.fnt");
         this.game.load.image("BackgroundP", "Graphics/Background/Background-Pause.png");
+        this.game.load.image("Scoreboard", "Graphics/Background/Scoreboard.png");
     },
     create: function(){
         this.game.state.start("MainMenu");

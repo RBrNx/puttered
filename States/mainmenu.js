@@ -23,6 +23,7 @@ var Hole;
 var Par;
 var ScoreText;
 var Score;
+var ScoreArray = [];
 var CoursePar;
 var Overall;
 var OverallText;
@@ -31,6 +32,12 @@ var CourseSelectText;
 var Retry;
 var RetryText;
 var BackgroundP;
+var StatBoard;
+var Statistics;
+var BestScore;
+var BestTime;
+var TotalShotsText;
+var WaterHit;
 var RoomNumber;
 var LastCourse = 1;
 var CourseEnded = false;
@@ -78,6 +85,19 @@ mainMenu.prototype = {
 
         //Set Room Number to Main Menu
         RoomNumber = 1;
+
+        if (!localStorage.getItem("BestScore")){
+            localStorage.setItem("BestScore", "0")
+        }
+        if (!localStorage.getItem("BestTime")){
+            localStorage.setItem("BestTime", "0")
+        }
+        if (!localStorage.getItem("TotalShots")){
+            localStorage.setItem("TotalShots", "0")
+        }
+        if (!localStorage.getItem("WaterHit")){
+            localStorage.setItem("WaterHit", "0")
+        }
     },
 
     update: function(){
@@ -186,23 +206,22 @@ mainMenu.prototype = {
             ScoreText = this.game.add.bitmapText(this.game.world.centerX - 160, this.game.world.centerY - 150, "8Bit2", "Strokes", 22);
             for (var i = 0, space = 44; i < StrokeArray.length; i++, space += 44){
                 Score = this.game.add.bitmapText(this.game.world.centerX - 160, this.game.world.centerY - 150 + space, "8Bit2", "\n     " + StrokeArray[i], 22);
+                ScoreArray[i] = Score;
                 if (StrokeArray[i] < ParArray[i]){
-                    Score.tint = 0x00FF00;
+                    Score.tint = "0x00FF00";
                 }
                 else if (StrokeArray[i] > ParArray[i]){
-                    Score.tint = 0xFF0000;
+                    Score.tint = "0xFF0000";
                 }
                 else if (StrokeArray[i] == ParArray[i]){
-                    Score.tint = 0xFFFF00
+                    Score.tint = "0xFFFF00";
                 }
             }
 
 
-            for (var i = 0, sum = 0; i < StrokeArray.length; i++){
-                sum += StrokeArray[i]
-            }
-            for (var i = 0, sum2 = 0; i < ParArray.length; i++){
-                sum2 += ParArray[i]
+            for (var i = 0, sum = 0, sum2 = 0; i < StrokeArray.length; i++){
+                sum += StrokeArray[i];
+                sum2 += ParArray[i];
             }
 
             CoursePar = this.game.add.bitmapText(this.game.world.centerX + 100, this.game.world.centerY - 150, "8Bit2", "Par: 36\n\nStrokes: " + sum);
@@ -210,13 +229,31 @@ mainMenu.prototype = {
             Overall = this.game.add.bitmapText(this.game.world.centerX + 100, this.game.world.centerY, "8Bit2", "Overall\n Score\n");
             OverallText = this.game.add.bitmapText(this.game.world.centerX + 140, this.game.world.centerY + 75, "8Bit2", OverallScore.toString(), 64);
             if (OverallScore < sum2){
-                OverallText.tint = 0x00FF00;
+                OverallText.tint = "0x00FF00";
             }
             else if (OverallScore > sum2){
-                OverallText.tint = 0xFF0000;
+                OverallText.tint = "0xFF0000";
             }
             else if (OverallScore == sum2){
-                OverallText.tint = 0xFFFF00
+                OverallText.tint = "0xFFFF00";
+            }
+
+            if (OverallScore < Number(localStorage.getItem("BestScore"))){
+                localStorage.setItem("BestScore", OverallScore.toString());
+            }
+
+            if (CourseTimer < Number(localStorage.getItem("BestTime"))) {
+                localStorage.setItem("BestTime", CourseTimer.toString());
+            }
+
+            if ( (Number(localStorage.getItem("BestTime"))) == 0){
+                localStorage.setItem("BestTime", CourseTimer.toString());
+            }
+            if (TotalShots > Number(localStorage.getItem("TotalShots"))) {
+                localStorage.setItem("TotalShots", TotalShots.toString());
+            }
+            if (WaterHit > Number(localStorage.getItem("WaterHit"))) {
+                localStorage.setItem("WaterHit", WaterHit.toString());
             }
 
             CourseSelect = this.game.add.button(this.game.world.centerX + 150, this.game.world.centerY + 275, "Button", this.CourseSelect, this, 0, 0, 1, 0);
@@ -252,7 +289,8 @@ mainMenu.prototype = {
             Hole.destroy();
             Par.destroy();
             ScoreText.destroy();
-            Score.destroy();
+            for (i = 0; i < StrokeArray.length; i++){ ScoreArray[i].destroy();}
+            //Score.destroy();
             CoursePar.destroy();
             Overall.destroy();
             OverallText.destroy();
@@ -299,6 +337,22 @@ mainMenu.prototype = {
     },
 
     GoBack: function(){
+        if (Play != undefined) Play.destroy();
+        if (PlayText != undefined) PlayText.destroy();
+        if (StatBoard != undefined) StatBoard.destroy();
+        if (Title != undefined) Title.destroy();
+        if (Statistics != undefined) Statistics.destroy();
+        if (BestScoreText != undefined) BestScoreText.destroy();
+        if (BestTimeText != undefined) BestTimeText.destroy();
+        if (TotalShotsText != undefined) TotalShotsText.destroy();
+        if (WaterHitText != undefined) WaterHitText.destroy();
+        if (!Logo){
+            Logo = this.game.add.sprite(this.game.world.width/2, this.game.world.height/5, "Logo");
+            Logo.anchor.setTo(0.5, 0.5);
+        }
+
+
+
         //Create Play Button
         Play = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 75, "Button", this.CourseSelect, this, 0, 0, 1, 0);
         Play.anchor.setTo(0.5, 0.5);
@@ -366,11 +420,57 @@ mainMenu.prototype = {
         Level2.destroy();
         Back.destroy();
         BackText.destroy();
-        this.game.state.start("Level2");
+        Logo.destroy();
+
+        StatBoard = this.game.add.sprite(this.game.world.centerX - 360, this.game.world.centerY + 75, "Scoreboard");
+        StatBoard.anchor.setTo(0.5);
+        StatBoard.scale.setTo(0.5);
+        Title = this.game.add.bitmapText(this.game.world.centerX, 100, "8Bit", "Grassy Land", 84);
+        Title.anchor.setTo(0.5);
+        Statistics = this.game.add.bitmapText(StatBoard.x, this.game.world.centerY - 100, "8Bit", "Statistics", 32);
+        Statistics.anchor.setTo(0.5);
+
+
+        BestScoreText = this.game.add.bitmapText(StatBoard.x - 175, StatBoard.y - 100, "8Bit2", "Best Score: " + localStorage.getItem("BestScore"), 28);
+        BestScoreText.tint = "0x000000";
+        BestTimeText = this.game.add.bitmapText(StatBoard.x - 175, StatBoard.y - 25, "8Bit2", "Best Time: " + localStorage.getItem("BestTime"), 28);
+        BestTimeText.tint = "0x000000";
+        TotalShotsText = this.game.add.bitmapText(StatBoard.x - 175, StatBoard.y +50, "8Bit2", "Total Shots: " + Number(localStorage.getItem("TotalShots")).toString(), 28);
+        TotalShotsText.tint = "0x000000";
+        WaterHitText = this.game.add.bitmapText(StatBoard.x - 175, StatBoard.y + 125, "8Bit2", "Water Hit: " + localStorage.getItem("WaterHit"), 28);
+        WaterHitText.tint = "0x000000";
+
+        Play = this.game.add.button(this.game.world.centerX + 400, this.game.world.centerY + 250, "Button", this.Course1, this, 0, 0, 1, 0);
+        Play.anchor.setTo(0.5, 0.5);
+        Play.scale.setTo(0.67);
+        PlayText = this.game.add.bitmapText(Play.x, Play.y-8, "8Bit", "Play", 84);
+        PlayText.anchor.setTo(0.5, 0.5);
+        PlayText.scale.setTo(0.67);
+
+        Back = this.game.add.button(this.game.world.centerX + 100, this.game.world.centerY + 250, "Button", this.GoBack, this, 0, 0, 1, 0);
+        Back.anchor.setTo(0.5, 0.5);
+        Back.scale.setTo(0.67);
+        BackText = this.game.add.bitmapText(Back.x, Back.y-10, "8Bit", "Back", 84);
+        BackText.anchor.setTo(0.5, 0.5);
+        BackText.scale.setTo(0.67);
     },
 
     GoToCourse2: function(){
         //this.game.state.start("GameState")
+    },
+
+    Course1: function(){
+        MusicControl.stop();
+        Play.destroy();
+        PlayText.destroy();
+        StatBoard.destroy();
+        Title.destroy();
+        Statistics.destroy();
+        BestScoreText.destroy();
+        BestTimeText.destroy();
+        TotalShotsText.destroy();
+        WaterHitText.destroy();
+        this.game.state.start("Level1")
     },
 
     Fullscreen: function () {
