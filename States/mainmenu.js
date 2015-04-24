@@ -224,7 +224,7 @@ mainMenu.prototype = {
                 sum2 += ParArray[i];
             }
 
-            CoursePar = this.game.add.bitmapText(this.game.world.centerX + 100, this.game.world.centerY - 150, "8Bit2", "Par: 36\n\nStrokes: " + sum);
+            CoursePar = this.game.add.bitmapText(this.game.world.centerX + 100, this.game.world.centerY - 150, "8Bit2", "Par: " + sum2 + "\n\nStrokes: " + sum);
             var OverallScore = sum - sum2;
             Overall = this.game.add.bitmapText(this.game.world.centerX + 100, this.game.world.centerY, "8Bit2", "Overall\n Score\n");
             OverallText = this.game.add.bitmapText(this.game.world.centerX + 140, this.game.world.centerY + 75, "8Bit2", OverallScore.toString(), 64);
