@@ -4,6 +4,7 @@
 var preload = function(game){};
 
 preload.prototype = {
+    //Pre-loads data for main meu
     preload: function(){
         var loadingBar = this.add.sprite(this.game.world.width/2, this.game.world.height/2, "Loading");
         loadingBar.anchor.setTo(0.5,0.5);
@@ -29,6 +30,7 @@ preload.prototype = {
         this.game.load.image("BackgroundP", "Graphics/Background/Background-Pause.png");
         this.game.load.image("Scoreboard", "Graphics/Background/Scoreboard.png");
     },
+    //Loads main menu
     create: function(){
         this.game.state.start("MainMenu");
     }
