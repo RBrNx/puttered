@@ -7,7 +7,7 @@ var StrokeArray = ["-","-","-","-","-","-","-","-","-"];
 var ParArray = [2, 3, 5, 4, 3, 4, 4, 4, 8];
 var TotalShots = Number(localStorage.getItem("TotalShots"));
 var WaterHit = Number(localStorage.getItem("WaterHit"));
-var CourseTimer;
+var CourseTimer = 0;
 
 //TODO Clean up this code
 level1.prototype = {
@@ -37,8 +37,6 @@ level1.prototype = {
     },
 
     create: function() {
-
-        console.log(TotalShots);
         Started = "false";
         Power = 0;
         LevelComplete = false;
@@ -60,7 +58,7 @@ level1.prototype = {
         Radian = 0.0174532925;
         Paused = false;
         Par = 2;
-
+        CourseTimer = 0;
 
         this.game.physics.startSystem(Phaser.Physics.P2JS);
         this.game.physics.p2.gravity.y = 1400;
@@ -274,6 +272,7 @@ level1.prototype = {
         Block.body.onBeginContact.add(this.LevelComplete, this);
 
         CourseTimer += 1;
+        //console.log(CourseTimer);
 
     },
     render: function(){
@@ -324,23 +323,6 @@ level1.prototype = {
         ScoreText.fixedToCamera = true;
     },
 
-    /*updateTimer: function(){
-
-    minutes = Math.floor(game.time.time / 60000) % 60;
-    seconds = Math.floor(game.time.time / 1000) % 60;
-    milliseconds = Math.floor(game.time.time) % 100;
-
-    //If any of the digits becomes a single digit number, pad it with a zero
-    if (milliseconds < 10)
-        milliseconds = '0' + milliseconds;
-
-    if (seconds < 10)
-        seconds = '0' + seconds;
-
-    if (minutes < 10)
-        minutes = '0' + minutes;
-
-    },*/
 
     Pause: function(){
         if (!Paused && LevelComplete != true) {
@@ -559,8 +541,6 @@ level1.prototype = {
         Ball.body.clearCollision();
         FairwayHole.body.clearShapes();
         Ball.body.clearShapes();
-        Block.body.clearCollision();
-        Block.body.clearShapes();
 
     },
 
@@ -568,7 +548,6 @@ level1.prototype = {
         console.log("TurnOnCollisions");
         this.game.physics.p2.enable(FairwayHole);
         this.game.physics.p2.enable(Ball);
-        this.game.physics.p2.enable(Block);
         FairwayHole.body.loadPolygon("Physics", "Level1-Hole");
         FairwayHole.kinematic = true;
         Ball.body.loadPolygon("Physics", "Ball");

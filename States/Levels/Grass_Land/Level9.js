@@ -13,7 +13,7 @@ level9.prototype = {
         this.game.load.image("Fairway", "Graphics/Level_Assets/Grass_Land/Level9/Level9.png");
         this.game.load.image("FairwayHole", "Graphics/Level_Assets/Grass_Land/Level9/Level9-Hole.png");
         this.game.load.image("Sand", "Graphics/Level_Assets/Sand.png");
-        this.game.load.spritesheet("Water", "Graphics/Level_Assets/Wave2.png", 640, 360);
+        this.game.load.spritesheet("Water", "Graphics/Level_Assets/wave.png", 640, 360);
         this.game.load.image("SwingButton", "Graphics/Buttons/Swing-Button.png");
         this.game.load.image("PowerBar", "Graphics/Buttons/Power-Bar.png");
         this.game.load.image("PowerFill", "Graphics/Buttons/Gradient.png");
@@ -80,12 +80,11 @@ level9.prototype = {
 
         Block = this.game.add.sprite(1560, 1210, "Block");
         Block.scale.setTo(6);
-        this.game.physics.p2.enable(Block, true);
+        this.game.physics.p2.enable(Block);
         Block.body.static = true;
 
         Fairway = this.game.add.sprite(this.game.world.centerX, 2750, "Fairway");
         Fairway.anchor.setTo(0.5,0.5);
-        Fairway.visible = false;
 
         ballMaterial = this.game.physics.p2.createMaterial("ballMaterial", Ball.body);
         groundMaterial = this.game.physics.p2.createMaterial("groundMaterial", FairwayHole.body);
@@ -541,8 +540,6 @@ level9.prototype = {
         Ball.body.clearCollision();
         FairwayHole.body.clearShapes();
         Ball.body.clearShapes();
-        Block.body.clearCollision();
-        Block.body.clearShapes();
 
     },
 
@@ -550,13 +547,11 @@ level9.prototype = {
         console.log("TurnOnCollisions");
         this.game.physics.p2.enable(FairwayHole);
         this.game.physics.p2.enable(Ball);
-        this.game.physics.p2.enable(Block);
         FairwayHole.body.loadPolygon("Physics", "Level9-Hole");
         FairwayHole.kinematic = true;
         Ball.body.loadPolygon("Physics", "Ball");
         Ball.body.velocity.x = SavedBallVelX;
         Ball.body.velocity.y = SavedBallVelY;
-        Block.body.static = true;
         this.game.physics.p2.gravity.y = 1400;
 
         ballMaterial = this.game.physics.p2.createMaterial("ballMaterial", Ball.body);

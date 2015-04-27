@@ -186,7 +186,8 @@ level2.prototype = {
 
         if (this.game.input.activePointer.isDown && Paused != true && Scoreboard != undefined) {
             if (Scoreboard.input.checkPointerOver(this.game.input.activePointer)){
-                this.game.state.start("Level3");
+                this.game.state.start("MainMenu");
+                CourseEnded = true;
                 MusicControl.stop();
             }
         }
@@ -257,6 +258,7 @@ level2.prototype = {
         Block.body.onBeginContact.add(this.LevelComplete, this);
 
         CourseTimer += 1;
+        //console.log(CourseTimer);
 
     },
     render: function(){
@@ -521,8 +523,6 @@ level2.prototype = {
         Ball.body.clearCollision();
         FairwayHole.body.clearShapes();
         Ball.body.clearShapes();
-        Block.body.clearCollision();
-        Block.body.clearShapes();
 
     },
 
@@ -530,13 +530,11 @@ level2.prototype = {
         console.log("TurnOnCollisions");
         this.game.physics.p2.enable(FairwayHole);
         this.game.physics.p2.enable(Ball);
-        this.game.physics.p2.enable(Block);
         FairwayHole.body.loadPolygon("Physics", "Level2-Hole");
         FairwayHole.kinematic = true;
         Ball.body.loadPolygon("Physics", "Ball");
         Ball.body.velocity.x = SavedBallVelX;
         Ball.body.velocity.y = SavedBallVelY;
-        Block.body.static = true;
         this.game.physics.p2.gravity.y = 1400;
 
         ballMaterial = this.game.physics.p2.createMaterial("ballMaterial", Ball.body);

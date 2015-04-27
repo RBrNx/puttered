@@ -13,7 +13,7 @@ level6.prototype = {
         this.game.load.image("Fairway", "Graphics/Level_Assets/Grass_Land/Level6/Level6.png");
         this.game.load.image("FairwayHole", "Graphics/Level_Assets/Grass_Land/Level6/Level6-Hole.png");
         this.game.load.image("Sand", "Graphics/Level_Assets/Sand.png");
-        this.game.load.spritesheet("Water", "Graphics/Level_Assets/Wave2.png", 640, 360);
+        this.game.load.spritesheet("Water", "Graphics/Level_Assets/wave.png", 640, 360);
         this.game.load.image("SwingButton", "Graphics/Buttons/Swing-Button.png");
         this.game.load.image("PowerBar", "Graphics/Buttons/Power-Bar.png");
         this.game.load.image("PowerFill", "Graphics/Buttons/Gradient.png");
@@ -577,8 +577,6 @@ level6.prototype = {
         Ball.body.clearCollision();
         FairwayHole.body.clearShapes();
         Ball.body.clearShapes();
-        Block.body.clearCollision();
-        Block.body.clearShapes();
 
     },
 
@@ -586,13 +584,11 @@ level6.prototype = {
         console.log("TurnOnCollisions");
         this.game.physics.p2.enable(FairwayHole);
         this.game.physics.p2.enable(Ball);
-        this.game.physics.p2.enable(Block);
         FairwayHole.body.loadPolygon("Physics", "Level6-Hole");
         FairwayHole.kinematic = true;
         Ball.body.loadPolygon("Physics", "Ball");
         Ball.body.velocity.x = SavedBallVelX;
         Ball.body.velocity.y = SavedBallVelY;
-        Block.body.static = true;
         this.game.physics.p2.gravity.y = 1400;
 
         ballMaterial = this.game.physics.p2.createMaterial("ballMaterial", Ball.body);

@@ -18,6 +18,8 @@ var SoundOn;
 var SoundOff;
 var Level1;
 var Level2;
+var Level1Text;
+var Level2Text;
 var Title;
 var Hole;
 var Par;
@@ -43,6 +45,8 @@ var LastCourse = 1;
 var CourseEnded = false;
 var Leaderboard = false;
 var HoleNumber = 0;
+
+var CourseTimer = 0;
 
 var Sound = true;
 var Music = false;
@@ -104,13 +108,15 @@ mainMenu.prototype = {
         Clouds.tilePosition.x += 1;
 
         if (RoomNumber == 3) {
-            if (Level2 != undefined && Level1 != undefined) {
+            if (Level2 != undefined && Level1 != undefined && Level1Text != undefined && Level2Text != undefined) {
 
                 if (this.game.input.activePointer.isDown) {
                     if (this.game.origDragPoint) {
                         // move the camera by the amount the mouse has moved since last update
                         Level1.x -= this.game.origDragPoint.x - this.game.input.activePointer.position.x;
+                        Level1Text.x -= this.game.origDragPoint.x - this.game.input.activePointer.position.x;
                         Level2.x -= this.game.origDragPoint.x - this.game.input.activePointer.position.x;
+                        Level2Text.x -= this.game.origDragPoint.x - this.game.input.activePointer.position.x;
                     }
                     // set new drag origin to current position
                     this.game.origDragPoint = this.game.input.activePointer.position.clone();
@@ -122,13 +128,30 @@ mainMenu.prototype = {
                     if (Math.pow(Level1.x - 640, 2) < Math.pow(Level2.x - 640, 2)) {
                         Level1.x = 640;
                         Level2.x = 960;
+                        Level1Text.x = 640;
+                        Level2Text.x = 960;
                     }
                     if (Math.pow(Level1.x - 640, 2) > Math.pow(Level2.x - 640, 2)) {
                         Level1.x = 320;
-                        Level2.x = 640
+                        Level2.x = 640;
+                        Level1Text.x = 320;
+                        Level2Text.x = 640;
                     }
 
                 });
+
+                if(Level1Text.x < this.game.world.centerX || Level1Text.x > this.game.world.centerX){
+                    Level1Text.alpha = (this.game.centerX - Level1Text.x)/1000
+                }
+                if (Level1Text.x == this.game.world.centerX){
+                    Level1Text.alpha = 1;
+                }
+                if(Level2Text.x < this.game.world.centerX || Level2Text.x > this.game.world.centerX){
+                    Level2Text.alpha = (this.game.centerX - Level2Text.x)/1000
+                }
+                if (Level2Text.x == this.game.world.centerX){
+                    Level2Text.alpha = 1;
+                }
             }
         }
 
@@ -192,6 +215,8 @@ mainMenu.prototype = {
         Logo.destroy();
 
         if (LastCourse == 1){
+
+            console.log(CourseTimer);
             BackgroundP = this.game.add.sprite(this.game.camera.x, this.game.camera.y, "BackgroundP");
             BackgroundP.scale.setTo(0.67);
             Title = this.game.add.bitmapText(this.game.world.centerX, 75, "8Bit2", "Grassy Land\n  Complete!", 64);
@@ -238,16 +263,19 @@ mainMenu.prototype = {
                 OverallText.tint = "0xFFFF00";
             }
 
+
             if (OverallScore < Number(localStorage.getItem("BestScore"))){
                 localStorage.setItem("BestScore", OverallScore.toString());
             }
 
-            if (CourseTimer < Number(localStorage.getItem("BestTime"))) {
-                localStorage.setItem("BestTime", CourseTimer.toString());
+            SavedTimer = (CourseTimer/60)/60;
+
+            if (SavedTimer < Number(localStorage.getItem("BestTime"))) {
+                localStorage.setItem("BestTime", SavedTimer.toString());
             }
 
             if ( (Number(localStorage.getItem("BestTime"))) == 0){
-                localStorage.setItem("BestTime", CourseTimer.toString());
+                localStorage.setItem("BestTime", SavedTimer.toString());
             }
             if (TotalShots > Number(localStorage.getItem("TotalShots"))) {
                 localStorage.setItem("TotalShots", TotalShots.toString());
@@ -310,11 +338,15 @@ mainMenu.prototype = {
         BackText.anchor.setTo(0.5, 0.5);
         BackText.scale.setTo(0.67);
 
-        Level1 = this.game.add.button(this.game.world.centerX, this.game.world.centerY +75, "Level1", this.GoToCourse1, this, 0, 0, 1, 0);
-        Level2 = this.game.add.button(Level1.x+320, this.game.world.centerY+75, "Level2", this.GoToCourse2, this, 0, 0, 1, 0);
+        Level1 = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 75, "Level1", this.GoToCourse1, this, 0, 0, 1, 0);
+        Level1Text = this.game.add.bitmapText(Level1.x, Level1.y - 100, "8Bit", "Grassy Land", 48);
+        Level2 = this.game.add.button(Level1.x+320, this.game.world.centerY + 75, "Level2", this.GoToCourse2, this, 0, 0, 1, 0);
+        Level2Text = this.game.add.bitmapText(Level2.x, Level2.y - 100, "8Bit", "Sticky Icky", 48);
         Level1.anchor.setTo(0.5, 0.5);
+        Level1Text.anchor.setTo(0.5, 0.5);
         Level1.scale.setTo(0.67);
         Level2.anchor.setTo(0.5, 0.5);
+        Level2Text.anchor.setTo(0.5, 0.5);
         Level2.scale.setTo(0.67);
         Level1.inputEnabled = true;
         //Level2.inputEnabled = true;
@@ -379,6 +411,8 @@ mainMenu.prototype = {
         if (SoundOff != undefined) SoundOff.destroy();
         if (Level1 != undefined) Level1.destroy();
         if (Level2 != undefined) Level2.destroy();
+        if (Level1Text != undefined) Level1Text.destroy();
+        if (Level2Text != undefined) Level2Text.destroy();
 
         RoomNumber = 1;
     },
@@ -418,26 +452,38 @@ mainMenu.prototype = {
         MusicControl.stop();
         Level1.destroy();
         Level2.destroy();
+        Level1Text.destroy();
+        Level2Text.destroy();
         Back.destroy();
         BackText.destroy();
         Logo.destroy();
 
-        StatBoard = this.game.add.sprite(this.game.world.centerX - 360, this.game.world.centerY + 75, "Scoreboard");
+        StatBoard = this.game.add.sprite(this.game.world.centerX - 350, this.game.world.centerY + 75, "Scoreboard");
         StatBoard.anchor.setTo(0.5);
-        StatBoard.scale.setTo(0.5);
+        StatBoard.scale.setTo(0.6, 0.5);
         Title = this.game.add.bitmapText(this.game.world.centerX, 100, "8Bit", "Grassy Land", 84);
         Title.anchor.setTo(0.5);
         Statistics = this.game.add.bitmapText(StatBoard.x, this.game.world.centerY - 100, "8Bit", "Statistics", 32);
         Statistics.anchor.setTo(0.5);
 
 
-        BestScoreText = this.game.add.bitmapText(StatBoard.x - 175, StatBoard.y - 100, "8Bit2", "Best Score: " + localStorage.getItem("BestScore"), 28);
+        BestScoreText = this.game.add.bitmapText(StatBoard.x - 215, StatBoard.y - 100, "8Bit2", "Best Score: " + localStorage.getItem("BestScore"), 28);
         BestScoreText.tint = "0x000000";
-        BestTimeText = this.game.add.bitmapText(StatBoard.x - 175, StatBoard.y - 25, "8Bit2", "Best Time: " + localStorage.getItem("BestTime"), 28);
-        BestTimeText.tint = "0x000000";
-        TotalShotsText = this.game.add.bitmapText(StatBoard.x - 175, StatBoard.y +50, "8Bit2", "Total Shots: " + Number(localStorage.getItem("TotalShots")).toString(), 28);
+        BestTimeClock = Number(localStorage.getItem("BestTime"));
+        if (BestTimeClock < 1){
+            BestTimeClock = this.round(60 * BestTimeClock);
+            BestTimeText = this.game.add.bitmapText(StatBoard.x - 215, StatBoard.y - 25, "8Bit2", "Best Time: " + BestTimeClock + "s", 28);
+            BestTimeText.tint = "0x000000";
+        }
+        else{
+            BestTimeClock = ( Math.floor(BestTimeClock) + "m " + this.round((BestTimeClock*60)%60) + "s");
+            BestTimeText = this.game.add.bitmapText(StatBoard.x - 215, StatBoard.y - 25, "8Bit2", "Best Time: " + BestTimeClock, 28);
+            BestTimeText.tint = "0x000000";
+        }
+
+        TotalShotsText = this.game.add.bitmapText(StatBoard.x - 215, StatBoard.y +50, "8Bit2", "Total Shots: " + Number(localStorage.getItem("TotalShots")).toString(), 28);
         TotalShotsText.tint = "0x000000";
-        WaterHitText = this.game.add.bitmapText(StatBoard.x - 175, StatBoard.y + 125, "8Bit2", "Water Hit: " + localStorage.getItem("WaterHit"), 28);
+        WaterHitText = this.game.add.bitmapText(StatBoard.x - 215, StatBoard.y + 125, "8Bit2", "Water Hit: " + localStorage.getItem("WaterHit"), 28);
         WaterHitText.tint = "0x000000";
 
         Play = this.game.add.button(this.game.world.centerX + 400, this.game.world.centerY + 250, "Button", this.Course1, this, 0, 0, 1, 0);
@@ -470,8 +516,22 @@ mainMenu.prototype = {
         BestTimeText.destroy();
         TotalShotsText.destroy();
         WaterHitText.destroy();
-        this.game.state.start("Level1")
+        this.game.state.start("Level3")
     },
+
+    round: function(value){
+    value = +value;
+    if (isNaN(value)) {
+        return NaN;
+    }
+    // Shift
+    value = value.toString().split('e');
+    value = Math.round(+(value[0] + 'e' + (value[1] ? (+value[1] + 2) : 2)));
+
+    // Shift back
+    value = value.toString().split('e');
+    return (+(value[0] + 'e' + (value[1] ? (+value[1] - 2) : -2))).toFixed(2);
+},
 
     Fullscreen: function () {
         this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
