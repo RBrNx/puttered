@@ -354,11 +354,6 @@ mainMenu.prototype = {
         //Set Room Number to Level Select
         RoomNumber = 3;
 
-        Level1.events.onInputUp.add(this.GoToCourse1);
-        /*Level2.events.onInputOver.add(function(){
-         this.game.state.start("GameState")
-         });*/
-
 
     },
 
@@ -448,57 +443,59 @@ mainMenu.prototype = {
         //Turn Sound On here
     },
 
-    GoToCourse1: function(){
-        MusicControl.stop();
-        Level1.destroy();
-        Level2.destroy();
-        Level1Text.destroy();
-        Level2Text.destroy();
-        Back.destroy();
-        BackText.destroy();
-        Logo.destroy();
+    GoToCourse1: function(button, pointer, isOver){
+        if (isOver) {
+            MusicControl.stop();
+            Level1.destroy();
+            Level2.destroy();
+            Level1Text.destroy();
+            Level2Text.destroy();
+            Back.destroy();
+            BackText.destroy();
+            Logo.destroy();
 
-        StatBoard = this.game.add.sprite(this.game.world.centerX - 350, this.game.world.centerY + 75, "Scoreboard");
-        StatBoard.anchor.setTo(0.5);
-        StatBoard.scale.setTo(0.6, 0.5);
-        Title = this.game.add.bitmapText(this.game.world.centerX, 100, "8Bit", "Grassy Land", 84);
-        Title.anchor.setTo(0.5);
-        Statistics = this.game.add.bitmapText(StatBoard.x, this.game.world.centerY - 100, "8Bit", "Statistics", 32);
-        Statistics.anchor.setTo(0.5);
+            StatBoard = this.game.add.sprite(this.game.world.centerX - 350, this.game.world.centerY + 75, "Scoreboard");
+            StatBoard.anchor.setTo(0.5);
+            StatBoard.scale.setTo(0.6, 0.5);
+            Title = this.game.add.bitmapText(this.game.world.centerX, 100, "8Bit", "Grassy Land", 84);
+            Title.anchor.setTo(0.5);
+            Statistics = this.game.add.bitmapText(StatBoard.x, this.game.world.centerY - 100, "8Bit", "Statistics", 32);
+            Statistics.anchor.setTo(0.5);
 
 
-        BestScoreText = this.game.add.bitmapText(StatBoard.x - 215, StatBoard.y - 100, "8Bit2", "Best Score: " + localStorage.getItem("BestScore"), 28);
-        BestScoreText.tint = "0x000000";
-        BestTimeClock = Number(localStorage.getItem("BestTime"));
-        if (BestTimeClock < 1){
-            BestTimeClock = this.round(60 * BestTimeClock);
-            BestTimeText = this.game.add.bitmapText(StatBoard.x - 215, StatBoard.y - 25, "8Bit2", "Best Time: " + BestTimeClock + "s", 28);
-            BestTimeText.tint = "0x000000";
+            BestScoreText = this.game.add.bitmapText(StatBoard.x - 215, StatBoard.y - 100, "8Bit2", "Best Score: " + localStorage.getItem("BestScore"), 28);
+            BestScoreText.tint = "0x000000";
+            BestTimeClock = Number(localStorage.getItem("BestTime"));
+            if (BestTimeClock < 1) {
+                BestTimeClock = this.round(60 * BestTimeClock);
+                BestTimeText = this.game.add.bitmapText(StatBoard.x - 215, StatBoard.y - 25, "8Bit2", "Best Time: " + BestTimeClock + "s", 28);
+                BestTimeText.tint = "0x000000";
+            }
+            else {
+                BestTimeClock = ( Math.floor(BestTimeClock) + "m " + this.round((BestTimeClock * 60) % 60) + "s");
+                BestTimeText = this.game.add.bitmapText(StatBoard.x - 215, StatBoard.y - 25, "8Bit2", "Best Time: " + BestTimeClock, 28);
+                BestTimeText.tint = "0x000000";
+            }
+
+            TotalShotsText = this.game.add.bitmapText(StatBoard.x - 215, StatBoard.y + 50, "8Bit2", "Total Shots: " + Number(localStorage.getItem("TotalShots")).toString(), 28);
+            TotalShotsText.tint = "0x000000";
+            WaterHitText = this.game.add.bitmapText(StatBoard.x - 215, StatBoard.y + 125, "8Bit2", "Water Hit: " + localStorage.getItem("WaterHit"), 28);
+            WaterHitText.tint = "0x000000";
+
+            Play = this.game.add.button(this.game.world.centerX + 400, this.game.world.centerY + 250, "Button", this.Course1, this, 0, 0, 1, 0);
+            Play.anchor.setTo(0.5, 0.5);
+            Play.scale.setTo(0.67);
+            PlayText = this.game.add.bitmapText(Play.x, Play.y - 8, "8Bit", "Play", 84);
+            PlayText.anchor.setTo(0.5, 0.5);
+            PlayText.scale.setTo(0.67);
+
+            Back = this.game.add.button(this.game.world.centerX + 100, this.game.world.centerY + 250, "Button", this.GoBack, this, 0, 0, 1, 0);
+            Back.anchor.setTo(0.5, 0.5);
+            Back.scale.setTo(0.67);
+            BackText = this.game.add.bitmapText(Back.x, Back.y - 10, "8Bit", "Back", 84);
+            BackText.anchor.setTo(0.5, 0.5);
+            BackText.scale.setTo(0.67);
         }
-        else{
-            BestTimeClock = ( Math.floor(BestTimeClock) + "m " + this.round((BestTimeClock*60)%60) + "s");
-            BestTimeText = this.game.add.bitmapText(StatBoard.x - 215, StatBoard.y - 25, "8Bit2", "Best Time: " + BestTimeClock, 28);
-            BestTimeText.tint = "0x000000";
-        }
-
-        TotalShotsText = this.game.add.bitmapText(StatBoard.x - 215, StatBoard.y +50, "8Bit2", "Total Shots: " + Number(localStorage.getItem("TotalShots")).toString(), 28);
-        TotalShotsText.tint = "0x000000";
-        WaterHitText = this.game.add.bitmapText(StatBoard.x - 215, StatBoard.y + 125, "8Bit2", "Water Hit: " + localStorage.getItem("WaterHit"), 28);
-        WaterHitText.tint = "0x000000";
-
-        Play = this.game.add.button(this.game.world.centerX + 400, this.game.world.centerY + 250, "Button", this.Course1, this, 0, 0, 1, 0);
-        Play.anchor.setTo(0.5, 0.5);
-        Play.scale.setTo(0.67);
-        PlayText = this.game.add.bitmapText(Play.x, Play.y-8, "8Bit", "Play", 84);
-        PlayText.anchor.setTo(0.5, 0.5);
-        PlayText.scale.setTo(0.67);
-
-        Back = this.game.add.button(this.game.world.centerX + 100, this.game.world.centerY + 250, "Button", this.GoBack, this, 0, 0, 1, 0);
-        Back.anchor.setTo(0.5, 0.5);
-        Back.scale.setTo(0.67);
-        BackText = this.game.add.bitmapText(Back.x, Back.y-10, "8Bit", "Back", 84);
-        BackText.anchor.setTo(0.5, 0.5);
-        BackText.scale.setTo(0.67);
     },
 
     GoToCourse2: function(){
