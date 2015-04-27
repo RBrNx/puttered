@@ -13,7 +13,6 @@ level9.prototype = {
         this.game.load.image("Fairway", "Graphics/Level_Assets/Grass_Land/Level9/Level9.png");
         this.game.load.image("FairwayHole", "Graphics/Level_Assets/Grass_Land/Level9/Level9-Hole.png");
         this.game.load.image("Sand", "Graphics/Level_Assets/Sand.png");
-        this.game.load.spritesheet("Water", "Graphics/Level_Assets/wave.png", 640, 360);
         this.game.load.image("SwingButton", "Graphics/Buttons/Swing-Button.png");
         this.game.load.image("PowerBar", "Graphics/Buttons/Power-Bar.png");
         this.game.load.image("PowerFill", "Graphics/Buttons/Gradient.png");
