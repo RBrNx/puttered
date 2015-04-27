@@ -11,7 +11,23 @@ level9.prototype = {
         this.load.setPreloadSprite(loadingBar);
         this.game.load.image("Fairway", "Graphics/Level_Assets/Grass_Land/Level9/Level9.png");
 
-        this.game.world.setBounds(0, -500, 2000, 5500);
+        this.game.load.spritesheet("ButtonSq", "Graphics/Buttons/Button-Square.png", 150, 150);
+        this.game.load.spritesheet("Shot", "Graphics/Player/Swing.png", 140, 140);
+        this.game.load.image("Ball", "Graphics/Player/Ball.png");
+        this.game.load.physics("Physics", "Graphics/Level_Assets/Grass_Land/Physics.json");
+        //this.game.load.image("Fairway", "Graphics/Level_Assets/Grass_Land/Level1/Level1.png");
+        this.game.load.image("SwingButton", "Graphics/Buttons/Swing-Button.png");
+        this.game.load.image("PowerBar", "Graphics/Buttons/Power-Bar.png");
+        this.game.load.image("PowerFill", "Graphics/Buttons/Gradient.png");
+        this.game.load.image("Arrow", "Graphics/Player/Arrow.png");
+        this.game.load.image("Star", "Graphics/Level_Assets/star.png");
+        this.game.load.image("Block", "Graphics/Player/Block.png");
+        this.game.load.image("BackgroundP", "Graphics/Background/Background-Pause.png");
+        this.game.load.image("Scoreboard", "Graphics/Background/Scoreboard.png");
+        this.game.load.audio("GolfClap", "Music/GolfClap.ogg");
+        this.game.load.audio("GolfSwing", "Music/GolfSwing.ogg");
+
+        this.game.world.setBounds(0, -500, 2000, 4500);
     },
 
     create: function() {
@@ -43,27 +59,27 @@ level9.prototype = {
         this.game.physics.startSystem(Phaser.Physics.P2JS);
         this.game.physics.p2.gravity.y = 1400;
 
-        Clouds = this.game.add.tileSprite(0,-1000, 4000, 11000, "Clouds"); //Values are doubled so that scale is still correct
+        Clouds = this.game.add.tileSprite(0,-1000, 4000, 9000, "Clouds"); //Values are doubled so that scale is still correct
         Clouds.scale.setTo(0.67);
-        Hills = this.game.add.sprite(0,3500,"Hills");
+        Hills = this.game.add.sprite(0,3000,"Hills");
         Hills.scale.setTo(2,1);
 
-        Player = this.game.add.sprite(1000, 4480, "Shot");
+        Player = this.game.add.sprite(1000, 3750, "Shot");
         Player.animations.add("Swing");
         Player.anchor.setTo(0.5, 0.5);
 
-        Ball = this.game.add.sprite(Player.x, 4480, "Ball");
+        Ball = this.game.add.sprite(Player.x, 3750, "Ball");
         Ball.anchor.setTo(0.5, 0.5);
         this.game.physics.p2.enable(Ball);
         Ball.body.clearShapes();
         Ball.body.loadPolygon("Physics", "Ball");
 
-        Block = this.game.add.sprite(1560, 1210, "Block");
+        Block = this.game.add.sprite(1530, 1390, "Block");
         Block.scale.setTo(6);
-        this.game.physics.p2.enable(Block);
+        this.game.physics.p2.enable(Block, true);
         Block.body.static = true;
 
-        Fairway = this.game.add.sprite(this.game.world.centerX, 2750, "Fairway");
+        Fairway = this.game.add.sprite(this.game.world.centerX, 2400, "Fairway");
         Fairway.anchor.setTo(0.5,0.5);
         this.game.physics.p2.enable(Fairway);
         Fairway.body.static = true;
@@ -286,7 +302,7 @@ level9.prototype = {
 
     FinishSwing: function() {
         this.game.camera.follow(Ball, Phaser.Camera.FOLLOW_TOPDOWN);
-        var VelocityX = ((Power * Math.cos((Arrow.angle -90) * Radian) * 10)) * 1.5;
+        var VelocityX = ((Power * Math.cos((Arrow.angle -90) * Radian) * 10)) * 1.1;
         var VelocityY = ((Power * Math.sin((Arrow.angle -90) * Radian) * 10)) * 1.5;
         Ball.body.velocity.x += VelocityX;
         Ball.body.velocity.y += VelocityY;
