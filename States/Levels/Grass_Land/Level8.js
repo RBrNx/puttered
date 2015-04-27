@@ -10,8 +10,27 @@ level8.prototype = {
         loadingBar.anchor.setTo(0.5,0.5);
         this.load.setPreloadSprite(loadingBar);
         this.game.load.image("Fairway", "Graphics/Level_Assets/Grass_Land/Level8/Level8.png");
+        this.game.load.image("FairwayHole", "Graphics/Level_Assets/Grass_Land/Level8/Level8-Hole.png");
 
-        this.game.world.setBounds(0, -500, 3000, 3000);
+        this.game.load.spritesheet("ButtonSq", "Graphics/Buttons/Button-Square.png", 150, 150);
+        this.game.load.spritesheet("Shot", "Graphics/Player/Swing.png", 140, 140);
+        this.game.load.image("Ball", "Graphics/Player/Ball.png");
+        this.game.load.physics("Physics", "Graphics/Level_Assets/Grass_Land/Physics.json");
+        //this.game.load.image("Fairway", "Graphics/Level_Assets/Grass_Land/Level1/Level1.png");
+        this.game.load.image("SwingButton", "Graphics/Buttons/Swing-Button.png");
+        this.game.load.image("PowerBar", "Graphics/Buttons/Power-Bar.png");
+        this.game.load.image("PowerFill", "Graphics/Buttons/Gradient.png");
+        this.game.load.image("Arrow", "Graphics/Player/Arrow.png");
+        this.game.load.image("Star", "Graphics/Level_Assets/star.png");
+        this.game.load.image("Block", "Graphics/Player/Block.png");
+        this.game.load.image("BackgroundP", "Graphics/Background/Background-Pause.png");
+        this.game.load.image("Scoreboard", "Graphics/Background/Scoreboard.png");
+        this.game.load.audio("GolfClap", "Music/GolfClap.ogg");
+        this.game.load.audio("GolfSwing", "Music/GolfSwing.ogg");
+        this.game.load.spritesheet("Water", "Graphics/Level_Assets/Wave.png", 640, 360);
+        this.game.load.audio("Splash", "Music/Splash.ogg");
+
+        this.game.world.setBounds(0, -500, 4000, 2500);
     },
 
     create: function() {
@@ -38,52 +57,45 @@ level8.prototype = {
         Radian = 0.0174532925;
         WaterHazard = false;
         BackgroundP = null;
-        Par = 4;
 
         this.game.physics.startSystem(Phaser.Physics.P2JS);
         this.game.physics.p2.gravity.y = 1400;
 
-        Clouds = this.game.add.tileSprite(0,-1000, 6000, 6000, "Clouds"); //Values are doubled so that scale is still correct
+        Clouds = this.game.add.tileSprite(0,-1000, 8000, 5000, "Clouds"); //Values are doubled so that scale is still correct
         Clouds.scale.setTo(0.67);
-        Hills = this.game.add.sprite(0,1450,"Hills");
-        Hills.scale.setTo(2,1);
+        Hills = this.game.add.sprite(0,1100,"Hills");
+        Hills.scale.setTo(2.5,1);
 
-        Player = this.game.add.sprite(150, 885, "Shot");
+        Player = this.game.add.sprite(150, 1730, "Shot");
         Player.animations.add("Swing");
         Player.anchor.setTo(0.5, 0.5);
 
-        Ball = this.game.add.sprite(Player.x, 885, "Ball");
+        Ball = this.game.add.sprite(Player.x, 1730, "Ball");
         Ball.anchor.setTo(0.5, 0.5);
         this.game.physics.p2.enable(Ball);
         Ball.body.clearShapes();
         Ball.body.loadPolygon("Physics", "Ball");
 
-        Water = this.game.add.sprite(2810, 395, "Water");
-        Water.scale.setTo(0.6);
+        Water = this.game.add.sprite(1475, 1780, "Water");
+        Water.scale.setTo(6, 0.6);
         Water.animations.add("Water");
         Water.animations.play("Water", 5, true);
 
-        Sand = this.game.add.sprite(1150, 2250, "Sand");
-        Sand.scale.setTo(0.3, 0.3);
-        this.game.physics.p2.enable(Sand);
-        Sand.body.static = true;
-
-        Sand2 = this.game.add.sprite(1900, 2100, "Sand");
-        Sand2.scale.setTo(0.3, 0.3);
-        this.game.physics.p2.enable(Sand2);
-        Sand2.body.static = true;
-
-        Block = this.game.add.sprite(2470, 2355, "Block");
+        Block = this.game.add.sprite(3685, 435, "Block");
         Block.scale.setTo(6);
         this.game.physics.p2.enable(Block);
         Block.body.static = true;
 
-        Fairway = this.game.add.sprite(this.game.world.centerX, 1250, "Fairway");
+        Fairway = this.game.add.sprite(this.game.world.centerX, 1100, "Fairway");
         Fairway.anchor.setTo(0.5,0.5);
         this.game.physics.p2.enable(Fairway);
         Fairway.body.static = true;
         Fairway.body.clearShapes();
         Fairway.body.loadPolygon("Physics", "Level8-Hole");
+        Fairway.visible = false;
+
+        FairwayHole = this.game.add.sprite(this.game.world.centerX, 1100, "FairwayHole");
+        FairwayHole.anchor.setTo(0.5,0.5);
 
         ballMaterial = this.game.physics.p2.createMaterial("ballMaterial", Ball.body);
         groundMaterial = this.game.physics.p2.createMaterial("groundMaterial", Fairway.body);
@@ -91,18 +103,6 @@ level8.prototype = {
         fairwayMaterial = this.game.physics.p2.createContactMaterial(ballMaterial, groundMaterial);
         fairwayMaterial.friction = 0.5;
         fairwayMaterial.restitution = 0.5;
-
-        sandMaterial = this.game.physics.p2.createMaterial("sandMaterial", Sand.body);
-        sandMaterial2 = this.game.physics.p2.createMaterial("sandMaterial2", Sand2.body);
-
-        bunkerMaterial = this.game.physics.p2.createContactMaterial(ballMaterial, sandMaterial);
-        bunkerMaterial.friction = 30;
-        bunkerMaterial.restitution = 0;
-
-        bunkerMaterial2 = this.game.physics.p2.createContactMaterial(ballMaterial, sandMaterial2);
-        bunkerMaterial2.friction = 30;
-        bunkerMaterial2.restitution = 0;
-
 
         MusicControl = this.game.add.audio("Course1Music", 1, true);
         if (Music == true) MusicControl.play();
@@ -120,7 +120,7 @@ level8.prototype = {
 
         //Set up GUI - Arrow, Left + Right Buttons, Swing Button, Pause Button, Power Bar
         Arrow = this.game.add.sprite(Ball.x, Ball.y, "Arrow");
-        Arrow.anchor.setTo(0.5, 1);;
+        Arrow.anchor.setTo(0.5, 1);
         Arrow.rotation = 181 * Radian;
         Arrow.angle = 60;
 
@@ -175,7 +175,7 @@ level8.prototype = {
         ScoreText.fixedToCamera = true;
 
         this.game.camera.x = 0;
-        this.game.camera.y = 500;
+        this.game.camera.y = 2000;
 
     },
 
@@ -298,7 +298,7 @@ level8.prototype = {
     render: function(){
         this.game.debug.text(this.game.time.fps || '--', 2, 14, "#00ff00");
         //if (Ball != undefined) this.game.debug.spriteInfo(Ball, 32, 32);
-        //this.game.debug.inputInfo(32, 32);
+        this.game.debug.inputInfo(32, 32);
     },
 
     Swing: function() {

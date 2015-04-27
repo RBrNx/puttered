@@ -4,7 +4,7 @@
 var level1 = function(game){};
 
 var StrokeArray = [];
-var ParArray = [2, 3, 5, 4, 3, 4, 4, 4, 8];
+var ParArray = [2, 3, 5, 4, 3, 4, 4, 6, 8];
 var TotalShots = Number(localStorage.getItem("TotalShots"));
 var WaterHit = Number(localStorage.getItem("WaterHit"));
 var CourseTimer = 0;
