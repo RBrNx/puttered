@@ -3,7 +3,7 @@
  */
 var level1 = function(game){};
 
-var StrokeArray = ["-","-","-","-","-","-","-","-","-"];
+var StrokeArray = [];
 var ParArray = [2, 3, 5, 4, 3, 4, 4, 4, 8];
 var TotalShots = Number(localStorage.getItem("TotalShots"));
 var WaterHit = Number(localStorage.getItem("WaterHit"));
@@ -21,7 +21,6 @@ level1.prototype = {
         this.game.load.image("Ball", "Graphics/Player/Ball.png");
         this.game.load.physics("Physics", "Graphics/Level_Assets/Grass_Land/Physics.json");
         this.game.load.image("Fairway", "Graphics/Level_Assets/Grass_Land/Level1/Level1.png");
-        this.game.load.image("FairwayHole", "Graphics/Level_Assets/Grass_Land/Level1/Level1-Hole.png");
         this.game.load.image("SwingButton", "Graphics/Buttons/Swing-Button.png");
         this.game.load.image("PowerBar", "Graphics/Buttons/Power-Bar.png");
         this.game.load.image("PowerFill", "Graphics/Buttons/Gradient.png");
@@ -59,6 +58,7 @@ level1.prototype = {
         Paused = false;
         Par = 2;
         CourseTimer = 0;
+        StrokeArray = ["-","-","-","-","-","-","-","-","-"];
 
         this.game.physics.startSystem(Phaser.Physics.P2JS);
         this.game.physics.p2.gravity.y = 1400;
@@ -67,11 +67,6 @@ level1.prototype = {
         Clouds.scale.setTo(0.67);
         Hills = this.game.add.sprite(0,-200,"Hills");
         Hills.scale.setTo(1.67,0.75);
-        FairwayHole = this.game.add.sprite(this.game.world.centerX, 360, "FairwayHole");
-        this.game.physics.p2.enable(FairwayHole);
-        FairwayHole.body.kinematic = true;
-        FairwayHole.body.clearShapes();
-        FairwayHole.body.loadPolygon("Physics", "Level1-Hole");
 
         Player = this.game.add.sprite(100, 360, "Shot");
         Player.animations.add("Swing");
@@ -91,9 +86,14 @@ level1.prototype = {
 
         Fairway = this.game.add.sprite(this.game.world.centerX, 360, "Fairway");
         Fairway.anchor.setTo(0.5,0.5);
+        this.game.physics.p2.enable(Fairway);
+        Fairway.body.static = true;
+        Fairway.body.clearShapes();
+        Fairway.body.loadPolygon("Physics", "Level1-Hole");
+
 
         ballMaterial = this.game.physics.p2.createMaterial("ballMaterial", Ball.body);
-        groundMaterial = this.game.physics.p2.createMaterial("groundMaterial", FairwayHole.body);
+        groundMaterial = this.game.physics.p2.createMaterial("groundMaterial", Fairway.body);
         this.game.physics.p2.setWorldMaterial(groundMaterial, true, true, true, true);
         contactMaterial = this.game.physics.p2.createContactMaterial(ballMaterial, groundMaterial);
 
@@ -178,7 +178,7 @@ level1.prototype = {
         CameraCenterX = this.game.camera.x + this.game.camera.width/2;
         CameraCenterY = this.game.camera.y + this.game.camera.height/2;
 
-        if (FairwayHole != undefined && Fairway != undefined) {
+        if (Fairway != undefined) {
 
             if (this.game.input.activePointer.isDown && Paused != true && LevelComplete != true) {
                 if (LeftB.input.checkPointerOver(this.game.input.activePointer) != true && RightB.input.checkPointerOver(this.game.input.activePointer) != true && SwingB.input.checkPointerOver(this.game.input.activePointer) != true) {
@@ -537,26 +537,26 @@ level1.prototype = {
         Ball.body.velocity.x = 0;
         Ball.body.velocity.y = 0;
         this.game.physics.p2.gravity.y = 0;
-        FairwayHole.body.clearCollision();
+        Fairway.body.clearCollision();
         Ball.body.clearCollision();
-        FairwayHole.body.clearShapes();
+        Fairway.body.clearShapes();
         Ball.body.clearShapes();
 
     },
 
     TurnOnCollisions: function() {
         console.log("TurnOnCollisions");
-        this.game.physics.p2.enable(FairwayHole);
+        this.game.physics.p2.enable(Fairway);
         this.game.physics.p2.enable(Ball);
-        FairwayHole.body.loadPolygon("Physics", "Level1-Hole");
-        FairwayHole.kinematic = true;
+        Fairway.body.loadPolygon("Physics", "Level1-Hole");
+        Fairway.static = true;
         Ball.body.loadPolygon("Physics", "Ball");
         Ball.body.velocity.x = SavedBallVelX;
         Ball.body.velocity.y = SavedBallVelY;
         this.game.physics.p2.gravity.y = 1400;
 
         ballMaterial = this.game.physics.p2.createMaterial("ballMaterial", Ball.body);
-        groundMaterial = this.game.physics.p2.createMaterial("groundMaterial", FairwayHole.body);
+        groundMaterial = this.game.physics.p2.createMaterial("groundMaterial", Fairway.body);
         this.game.physics.p2.setWorldMaterial(groundMaterial, true, true, true, true);
         contactMaterial = this.game.physics.p2.createContactMaterial(ballMaterial, groundMaterial);
         contactMaterial.friction = 0.5;
