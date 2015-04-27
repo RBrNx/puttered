@@ -3,14 +3,17 @@
  */
 var level1 = function(game){};
 
-var StrokeArray = [];
-var ParArray = [2, 3, 5, 4, 3, 4, 4, 6, 8];
-var TotalShots = Number(localStorage.getItem("TotalShots"));
-var WaterHit = Number(localStorage.getItem("WaterHit"));
-var CourseTimer = 0;
+var StrokeArray = [];   //Array to hold the number of strokes per hole
+var ParArray = [2, 3, 5, 4, 3, 4, 4, 6, 8];     //Array to hold the par for each hole
+var TotalShots = Number(localStorage.getItem("TotalShots"));    //Stores the total shots for the course
+var WaterHit = Number(localStorage.getItem("WaterHit"));    //Stores the number of water hazards hit for the course
+var CourseTimer = 0;    //Sets the timer to 0
 
 //TODO Clean up this code
 level1.prototype = {
+    /**
+     * Pre-loads data required for level 1
+     */
     preload: function(){
         var loadingBar = this.add.sprite(this.game.camera.width/2, this.game.camera.height/2, "Loading");
         loadingBar.anchor.setTo(0.5,0.5);
@@ -35,6 +38,9 @@ level1.prototype = {
         this.game.world.setBounds(0, -500, 2500, 1220);
     },
 
+    /**
+     * Creates required objects for level 1
+     */
     create: function() {
         Started = "false";
         Power = 0;
@@ -173,6 +179,9 @@ level1.prototype = {
 
     },
 
+    /**
+     * Handles game logic, physics and positions
+     */
     update: function(){
         Clouds.tilePosition.x += 1;
         CameraCenterX = this.game.camera.x + this.game.camera.width/2;
@@ -275,6 +284,10 @@ level1.prototype = {
         //console.log(CourseTimer);
 
     },
+
+    /**
+     * used to output debug data
+     */
     render: function(){
         this.game.debug.text(this.game.time.fps || '--', 2, 14, "#00ff00");
         //if (Score != undefined) this.game.debug.spriteInfo(Score, 32, 32);
@@ -284,6 +297,9 @@ level1.prototype = {
         if (Ball != undefined) console.log(Ball.body.velocity.x, Ball.body.velocity.y);
     },
 
+    /**
+     * Starts the players swing and make the power bar visible if it has not started
+     */
     Swing: function() {
         if (Started == "false" && BallStationary == true && LevelComplete != true && Paused != true) {
             this.PowerB.visible = true;
@@ -300,6 +316,9 @@ level1.prototype = {
         }
     },
 
+    /**
+     * Finishes the players swing and increases the balls velocity by the relevant power
+     */
     FinishSwing: function() {
         this.game.camera.follow(Ball, Phaser.Camera.FOLLOW_TOPDOWN);
         var VelocityX = ((Power * Math.cos((Arrow.angle -90) * Radian) * 10)) * 1.1;
@@ -317,6 +336,9 @@ level1.prototype = {
         if(Sound == true)GolfSwing.play();
     },
 
+    /**
+     * Increases the players score
+     */
     UpdateScore: function() {
         ScoreText.destroy();
         ScoreText = this.game.add.bitmapText(115, 43, "8Bit", "Strokes: " + StrokeCount, 24);
@@ -324,7 +346,9 @@ level1.prototype = {
         ScoreText.fixedToCamera = true;
     },
 
-
+    /**
+     * Pauses the game
+     */
     Pause: function(){
         if (!Paused && LevelComplete != true) {
             Paused = true;
@@ -393,6 +417,9 @@ level1.prototype = {
         }
     },
 
+    /**
+     * Resumes the game from a paused state
+     */
     ResumeGame: function(){
         Paused = false;
         this.TurnOnCollisions();
@@ -413,6 +440,9 @@ level1.prototype = {
 
     },
 
+    /**
+     * Completes the level and starts the star particle effect
+     */
     LevelComplete: function(){
         if (LevelComplete != true){
             Emitter.flow(2000, 250, 5, 50);
@@ -424,6 +454,9 @@ level1.prototype = {
         }
     },
 
+    /**
+     * Displays the scoreboard
+     */
     ShowScoreboard: function(){
         Timer = 0;
         ScoreboardShown = true;
@@ -476,6 +509,9 @@ level1.prototype = {
 
     },
 
+    /**
+     * Turns off the music
+     */
     TurnMusicOff: function(){
         MusicOff = this.game.add.button(CameraCenterX - 260, CameraCenterY - 113, "MusicOff", this.TurnMusicOn, this, 0, 0, 1, 0);
         MusicOff.scale.setTo(0.67);
@@ -485,6 +521,9 @@ level1.prototype = {
         MusicControl.pause();
     },
 
+    /**
+     * Turns on the music
+     */
     TurnMusicOn: function(){
         MusicOn = this.game.add.button(CameraCenterX - 260, CameraCenterY - 113, "MusicOn", this.TurnMusicOff, this, 0, 0, 1, 0);
         MusicOff.destroy();
@@ -494,6 +533,9 @@ level1.prototype = {
         MusicControl.play();
     },
 
+    /**
+     * Turns off sound effects
+     */
     TurnSoundOff: function(){
         SoundOff = this.game.add.button(CameraCenterX - 260, CameraCenterY + 8, "SoundOff", this.TurnSoundOn, this, 0, 0, 1, 0);
         SoundOn.destroy();
@@ -502,6 +544,9 @@ level1.prototype = {
         //Turn Sound Off here
     },
 
+    /**
+     * Turns on sound effects
+     */
     TurnSoundOn: function() {
         SoundOn = this.game.add.button(CameraCenterX - 260, CameraCenterY + 8, "SoundOn", this.TurnSoundOff, this, 0, 0, 1, 0);
         SoundOff.destroy();
@@ -510,16 +555,25 @@ level1.prototype = {
         //Turn Sound On here
     },
 
+    /**
+     * Loads the main menu
+     */
     MainMenu: function(){
         this.game.state.start("MainMenu");
         MusicControl.stop();
     },
 
+    /**
+     * Restarts the current course
+     */
     RestartCourse: function(){
         this.game.state.start("Level1");
         MusicControl.stop();
     },
 
+    /**
+     * Makes the game fullscreen
+     */
     Fullscreen: function() {
         this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.game.scale.refresh();
@@ -531,6 +585,9 @@ level1.prototype = {
         }
     },
 
+    /**
+     * Disables collisions in the game
+     */
     TurnOffCollisions: function() {
         console.log("TurnOffCollisions");
         SavedBallVelX = Ball.body.velocity.x;
@@ -545,6 +602,9 @@ level1.prototype = {
 
     },
 
+    /**
+     * Enables collisions in the game
+     */
     TurnOnCollisions: function() {
         console.log("TurnOnCollisions");
         this.game.physics.p2.enable(Fairway);
