@@ -5,6 +5,9 @@ var level2 = function(game){};
 
 //TODO Clean up this code
 level2.prototype = {
+    /**
+     * Pre-loads data for use in level 2
+     */
     preload: function(){
         var loadingBar = this.add.sprite(this.game.camera.width/2, this.game.camera.height/2, "Loading");
         loadingBar.anchor.setTo(0.5,0.5);
@@ -14,6 +17,9 @@ level2.prototype = {
         this.game.world.setBounds(0, -500, 3000, 1220);
     },
 
+    /**
+     * Creates objects for use in level 2
+     */
     create: function() {
         Started = "false";
         Power = 0;
@@ -148,6 +154,9 @@ level2.prototype = {
 
     },
 
+    /**
+     * Handles game logic, poitions and physics
+     */
     update: function(){
         Clouds.tilePosition.x += 1;
         CameraCenterX = this.game.camera.x + this.game.camera.width/2;
@@ -248,12 +257,19 @@ level2.prototype = {
         //console.log(CourseTimer);
 
     },
+
+    /**
+     * Used to output debug info
+     */
     render: function(){
         this.game.debug.text(this.game.time.fps || '--', 2, 14, "#00ff00");
         //if (Ball != undefined) this.game.debug.spriteInfo(Ball, 32, 32);
         //this.game.debug.inputInfo(32, 32);
     },
 
+    /**
+     * Starts the players swing
+     */
     Swing: function() {
         if (Started == "false" && BallStationary == true && LevelComplete != true && Paused != true) {
             this.PowerB.visible = true;
@@ -270,6 +286,9 @@ level2.prototype = {
         }
     },
 
+    /**
+     * Finishes the players swing
+     */
     FinishSwing: function() {
         this.game.camera.follow(Ball, Phaser.Camera.FOLLOW_TOPDOWN);
         var VelocityX = ((Power * Math.cos((Arrow.angle -90) * Radian) * 10)) * 1.1;
@@ -286,6 +305,9 @@ level2.prototype = {
         if(Sound == true)GolfSwing.play();
     },
 
+    /**
+     * Updates the players score
+     */
     UpdateScore: function() {
         ScoreText.destroy();
         ScoreText = this.game.add.bitmapText(115, 43, "8Bit", "Strokes: " + StrokeCount, 24);
@@ -293,6 +315,9 @@ level2.prototype = {
         ScoreText.fixedToCamera = true;
     },
 
+    /**
+     * Pauses the game
+     */
     Pause: function(){
         if (!Paused && LevelComplete != true) {
             Paused = true;
@@ -361,6 +386,9 @@ level2.prototype = {
         }
     },
 
+    /**
+     * Resumes the game
+     */
     ResumeGame: function(){
         Paused = false;
         this.TurnOnCollisions();
@@ -381,6 +409,9 @@ level2.prototype = {
 
     },
 
+    /**
+     * Completes the level
+     */
     LevelComplete: function(){
         if (LevelComplete != true){
             Emitter.flow(2000, 250, 5, 50);
@@ -392,6 +423,9 @@ level2.prototype = {
         }
     },
 
+    /**
+     * Displays the scoreboard
+     */
     ShowScoreboard: function(){
         Timer = 0;
         ScoreboardShown = true;
@@ -444,6 +478,9 @@ level2.prototype = {
 
     },
 
+    /**
+     * Turns off the music
+     */
     TurnMusicOff: function(){
         MusicOff = this.game.add.button(CameraCenterX - 260, CameraCenterY - 113, "MusicOff", this.TurnMusicOn, this, 0, 0, 1, 0);
         MusicOff.scale.setTo(0.67);
@@ -453,6 +490,9 @@ level2.prototype = {
         MusicControl.pause();
     },
 
+    /**
+     * Turns on the music
+     */
     TurnMusicOn: function(){
         MusicOn = this.game.add.button(CameraCenterX - 260, CameraCenterY - 113, "MusicOn", this.TurnMusicOff, this, 0, 0, 1, 0);
         MusicOff.destroy();
@@ -462,6 +502,9 @@ level2.prototype = {
         MusicControl.play();
     },
 
+    /**
+     * Turns off the sound effects
+     */
     TurnSoundOff: function(){
         SoundOff = this.game.add.button(CameraCenterX - 260, CameraCenterY + 8, "SoundOff", this.TurnSoundOn, this, 0, 0, 1, 0);
         SoundOn.destroy();
@@ -470,6 +513,9 @@ level2.prototype = {
         //Turn Sound Off here
     },
 
+    /**
+     * Turns on the sound effects
+     */
     TurnSoundOn: function() {
         SoundOn = this.game.add.button(CameraCenterX - 260, CameraCenterY + 8, "SoundOn", this.TurnSoundOff, this, 0, 0, 1, 0);
         SoundOff.destroy();
@@ -478,16 +524,25 @@ level2.prototype = {
         //Turn Sound On here
     },
 
+    /**
+     * Loads the main menu
+     */
     MainMenu: function(){
         this.game.state.start("MainMenu");
         MusicControl.stop();
     },
 
+    /**
+     * Restarts the current course
+     */
     RestartCourse: function(){
         this.game.state.start("Level1");
         MusicControl.stop();
     },
 
+    /**
+     * Makes the game fullscreen
+     */
     Fullscreen: function() {
         this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.game.scale.refresh();
@@ -499,6 +554,9 @@ level2.prototype = {
         }
     },
 
+    /**
+     * Disables collisions in the game
+     */
     TurnOffCollisions: function() {
         console.log("TurnOffCollisions");
         SavedBallVelX = Ball.body.velocity.x;
@@ -513,6 +571,9 @@ level2.prototype = {
 
     },
 
+    /**
+     * Enables collisions in the game
+     */
     TurnOnCollisions: function() {
         console.log("TurnOnCollisions");
         this.game.physics.p2.enable(Fairway);

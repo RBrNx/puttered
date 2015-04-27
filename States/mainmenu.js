@@ -2,7 +2,9 @@
  * Created by b00231929 on 20/03/2015.
  */
 
-//Globals for use in main menu
+/**
+ * Globals for use in main menu
+ */
 var mainMenu = function(game){};
 var Clouds;
 var Logo;
@@ -55,7 +57,9 @@ var Music = false;
 var MusicControl;
 
 mainMenu.prototype = {
-    //Creates objects required for use within the main menu
+    /**
+     * Creates objects required for use within the main menu
+     */
     create: function(){
         //Set Menu Size to 1920 x 1080
         this.game.world.setBounds(0, 0, 1280, 720);
@@ -107,7 +111,9 @@ mainMenu.prototype = {
         }
     },
 
-    //Handles the game logic - physics, positions and rendering
+    /**
+     * Handles the game logic - physics, positions and rendering
+     */
     update: function(){
         Clouds.tilePosition.x += 1;
 
@@ -165,12 +171,16 @@ mainMenu.prototype = {
 
     },
 
-    //used to output debug information
+    /**
+     * used to output debug information
+     */
     render: function(){
         this.game.debug.text(this.game.time.fps || '--', 2, 14, "#00ff00");
     },
 
-    //Function sets up the menu for the options in the games main menu and handles buttons for sfx, music and full screen mode
+    /**
+     * Function sets up the menu for the options in the games main menu and handles buttons for sfx, music and full screen mode
+     */
     StartOptions: function(){
         Back = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 200, "Button", this.GoBack, this, 0, 0, 1, 0);
         Back.anchor.setTo(0.5, 0.5);
@@ -211,7 +221,9 @@ mainMenu.prototype = {
         RoomNumber = 2;
     },
 
-    //Function handles the creation of the stat display at the end of a level for players best time, score, water hazards and total shots
+    /**
+     * Function handles the creation of the stat display at the end of a level for players best time, score, water hazards and total shots
+     */
     EndOfLevel: function() {
         Leaderboard = true;
         RoomNumber = 4;
@@ -308,7 +320,9 @@ mainMenu.prototype = {
 
     },
 
-    //Sets up menu for selecting which course to play
+    /**
+     * Sets up menu for selecting which course to play
+     */
     CourseSelect: function() {
 
         if (RoomNumber == 1) {
@@ -365,14 +379,18 @@ mainMenu.prototype = {
 
     },
 
-    //Handles resarting a course
+    /**
+     * Handles resarting a course
+     */
     Retry: function(){
         if (LastCourse = 1){
             this.game.state.start("Level1");
         }
     },
 
-    //Handles moving back in the menu
+    /**
+     * Handles moving back in the menu
+     */
     GoBack: function(){
         if (Play != undefined) Play.destroy();
         if (PlayText != undefined) PlayText.destroy();
@@ -422,7 +440,9 @@ mainMenu.prototype = {
         RoomNumber = 1;
     },
 
-    //Turns off the menu music
+    /**
+     * Turns off the menu music
+     */
     TurnMusicOff: function(){
         MusicOff = this.game.add.button(this.game.world.centerX - 135, this.game.world.centerY - 100, "MusicOff", this.TurnMusicOn, this, 0, 0, 1, 0); MusicOff.scale.setTo(0.67);
         MusicOn.destroy();
@@ -431,7 +451,9 @@ mainMenu.prototype = {
         MusicControl.pause();
     },
 
-    //Turns on the menu music
+    /**
+     * Turns on the menu music
+     */
     TurnMusicOn: function(){
         MusicOn = this.game.add.button(this.game.world.centerX - 135, this.game.world.centerY - 100, "MusicOn", this.TurnMusicOff, this, 0, 0, 1, 0); MusicOn.scale.setTo(0.67);
         MusicOff.destroy();
@@ -441,7 +463,9 @@ mainMenu.prototype = {
 
     },
 
-    //Turns off sound effects in the game
+    /**
+     * Turns off sound effects in the game
+     */
     TurnSoundOff: function(){
         SoundOff = this.game.add.button(this.game.world.centerX + 25, this.game.world.centerY - 100, "SoundOff", this.TurnSoundOn, this, 0, 0, 1, 0); SoundOff.scale.setTo(0.67);
         SoundOn.destroy();
@@ -449,7 +473,9 @@ mainMenu.prototype = {
         //Turn Sound Off here
     },
 
-    //Turns on sound effects in the game
+    /**
+     * Turns on sound effects in the game
+     */
     TurnSoundOn: function() {
         SoundOn = this.game.add.button(this.game.world.centerX + 25, this.game.world.centerY - 100, "SoundOn", this.TurnSoundOff, this, 0, 0, 1, 0); SoundOn.scale.setTo(0.67);
         SoundOff.destroy();
@@ -457,7 +483,12 @@ mainMenu.prototype = {
         //Turn Sound On here
     },
 
-    //Handles starting course 1
+    /**
+     * Handles starting course 1
+     * @param button
+     * @param pointer
+     * @param isOver - uses button and pointer parameters to check if the mouse is over the button
+     */
     GoToCourse1: function(button, pointer, isOver){
         if (isOver) {
             MusicControl.stop();
@@ -513,12 +544,16 @@ mainMenu.prototype = {
         }
     },
 
-    //Handles starting course 2
+    /**
+     * Handles starting course 2
+     */
     GoToCourse2: function(){
         //this.game.state.start("GameState")
     },
 
-    //Deletes main menu objects and loads course 1
+    /**
+     * Deletes main menu objects and loads course 1
+     */
     Course1: function(){
         MusicControl.stop();
         Play.destroy();
@@ -533,7 +568,9 @@ mainMenu.prototype = {
         this.game.state.start("Level1")
     },
 
-    //Rounds numbers for displaying on stat board
+    /**
+     * Rounds numbers for displaying on stat board
+     */
     round: function(value){
         value = +value;
         if (isNaN(value)) {
@@ -548,7 +585,9 @@ mainMenu.prototype = {
         return (+(value[0] + 'e' + (value[1] ? (+value[1] - 2) : -2))).toFixed(2);
     },
 
-    //Makes the game fullscreen
+    /**
+     * Makes the game fullscreen
+     */
     Fullscreen: function () {
         this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.game.scale.refresh();
