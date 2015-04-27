@@ -48,11 +48,11 @@ level7.prototype = {
         Hills = this.game.add.sprite(0,0,"Hills");
         Hills.scale.setTo(2,1);
 
-        Player = this.game.add.sprite(150, 770, "Shot");
+        Player = this.game.add.sprite(150, 815, "Shot");
         Player.animations.add("Swing");
         Player.anchor.setTo(0.5, 0.5);
 
-        Ball = this.game.add.sprite(Player.x, 770, "Ball");
+        Ball = this.game.add.sprite(Player.x, 815, "Ball");
         Ball.anchor.setTo(0.5, 0.5);
         this.game.physics.p2.enable(Ball);
         Ball.body.clearShapes();
