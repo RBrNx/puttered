@@ -76,7 +76,7 @@ level9.prototype = {
 
         Block = this.game.add.sprite(1530, 1390, "Block");
         Block.scale.setTo(6);
-        this.game.physics.p2.enable(Block, true);
+        this.game.physics.p2.enable(Block);
         Block.body.static = true;
 
         Fairway = this.game.add.sprite(this.game.world.centerX, 2400, "Fairway");
@@ -276,12 +276,12 @@ level9.prototype = {
         Block.body.onBeginContact.add(this.LevelComplete, this);
 
         CourseTimer += 1;
-
     },
     render: function(){
         this.game.debug.text(this.game.time.fps || '--', 2, 14, "#00ff00");
         //if (Ball != undefined) this.game.debug.spriteInfo(Ball, 32, 32);
         //this.game.debug.inputInfo(32, 32);
+        if (Ball != undefined) console.log(Ball.body.velocity.x, Ball.body.velocity.y);
     },
 
     Swing: function() {
@@ -303,7 +303,7 @@ level9.prototype = {
     FinishSwing: function() {
         this.game.camera.follow(Ball, Phaser.Camera.FOLLOW_TOPDOWN);
         var VelocityX = ((Power * Math.cos((Arrow.angle -90) * Radian) * 10)) * 1.1;
-        var VelocityY = ((Power * Math.sin((Arrow.angle -90) * Radian) * 10)) * 1.5;
+        var VelocityY = ((Power * Math.sin((Arrow.angle -90) * Radian) * 10)) * 1.1;
         Ball.body.velocity.x += VelocityX;
         Ball.body.velocity.y += VelocityY;
 

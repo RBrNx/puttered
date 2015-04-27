@@ -293,7 +293,8 @@ level1.prototype = {
         //if (Score != undefined) this.game.debug.spriteInfo(Score, 32, 32);
         //if (Block != undefined) this.game.debug.spriteBounds(Block);
         //if (Ball != undefined) this.game.debug.body(Ball);
-        this.game.debug.inputInfo(32, 32);
+        //this.game.debug.inputInfo(32, 32);
+        if (Ball != undefined) console.log(Ball.body.velocity.x, Ball.body.velocity.y);
     },
 
     /**
