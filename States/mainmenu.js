@@ -513,7 +513,7 @@ mainMenu.prototype = {
         BestTimeText.destroy();
         TotalShotsText.destroy();
         WaterHitText.destroy();
-        this.game.state.start("Level8")
+        this.game.state.start("Level1")
     },
 
     round: function(value){
