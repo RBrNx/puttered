@@ -213,7 +213,7 @@ level2.prototype = {
         }
 
 
-        if (Ball.body.velocity.x < 0.15 && Ball.body.velocity.y < 0.15 && Ball.body.velocity.x > -0.15 && Ball.body.velocity.y > -0.15){
+        if (Ball.body.velocity.x < 0.75 && Ball.body.velocity.y < 0.75 && Ball.body.velocity.x > -0.75 && Ball.body.velocity.y > -0.75){
             Ball.body.velocity.x = 0;
             Ball.body.velocity.y = 0;
             BallStationary = true;
@@ -224,7 +224,7 @@ level2.prototype = {
                 FinishSwing = false;
             }
         }
-        else if (Ball.body.velocity.x >= 0.15 || Ball.body.velocity.y >= 0.15 || Ball.body.velocity.x <= -0.15 || Ball.body.velocity.y <= -0.15 ){
+        else if (Ball.body.velocity.x >= 0.75 || Ball.body.velocity.y >= 0.75 || Ball.body.velocity.x <= -0.75 || Ball.body.velocity.y <= -0.75 ){
             BallStationary = false;
             Arrow.visible = false;
         }
