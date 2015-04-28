@@ -176,7 +176,7 @@ level3.prototype = {
         HoleText.scale.setTo(0.67);
         HoleText.fixedToCamera = true;
 
-        ParText = this.game.add.bitmapText(115, 16, "8Bit", "Par: " + ParArray[HoleNumber], 24);
+        ParText = this.game.add.bitmapText(115, 16, "8Bit", "Par: " + ParArrayCourse1[HoleNumber], 24);
         ParText.scale.setTo(0.67);
         ParText.fixedToCamera = true;
 

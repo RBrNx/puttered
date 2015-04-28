@@ -58,7 +58,7 @@ level2_1.prototype = {
         SavedBallVelY = 0;
         prevBallX = 0;
         prevBallY = 0;
-        HoleNumber = 2;
+        HoleNumber = 0;
         FinishSwing = false;
         Paused = false;
         ballMaterial = null;
@@ -182,7 +182,7 @@ level2_1.prototype = {
         HoleText.scale.setTo(0.67);
         HoleText.fixedToCamera = true;
 
-        ParText = this.game.add.bitmapText(115, 16, "8Bit", "Par: " + ParArray[HoleNumber], 24);
+        ParText = this.game.add.bitmapText(115, 16, "8Bit", "Par: " + ParArrayCourse2[HoleNumber], 24);
         ParText.scale.setTo(0.67);
         ParText.fixedToCamera = true;
 

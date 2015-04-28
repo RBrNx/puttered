@@ -33,6 +33,7 @@ var Level2Text;
  */
 var Title;
 var ScoreText;
+//var ShotText;
 var Score;
 var ScoreArray = []; //Holds Bitmap Text Objects to Display the Score at the End of the Level
 var HighScores = [];
@@ -156,7 +157,7 @@ mainMenu.prototype = {
                 $.ajax({
                     url: 'HighScores/SendData.php',
                     type: 'post',
-                    data: {"name" : Name, "score" : -10, "hash": CryptoJS.MD5(Name + -10 + "15111994").toString()},
+                    data: {"name" : Name, "score" : -10, "hash": CryptoJS.MD5(Name + -10 + "15111994").toString(), "coursevalue" : "1"},
                     success: function(data){
                         console.log(data);
                     }

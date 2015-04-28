@@ -169,13 +169,13 @@ level1.prototype = {
         HoleText.scale.setTo(0.67);
         HoleText.fixedToCamera = true;
 
-        ParText = this.game.add.bitmapText(115, 16, "8Bit", "Par: " + ParArray[HoleNumber], 24);
+        ParText = this.game.add.bitmapText(115, 16, "8Bit", "Par: " + ParArrayCourse1[HoleNumber], 24);
         ParText.scale.setTo(0.67);
         ParText.fixedToCamera = true;
 
-        ScoreText = this.game.add.bitmapText(115, 43, "8Bit", "Strokes: " + StrokeCount, 24);
-        ScoreText.scale.setTo(0.67);
-        ScoreText.fixedToCamera = true;
+        ShotText = this.game.add.bitmapText(115, 43, "8Bit", "Strokes: " + StrokeCount, 24);
+        ShotText.scale.setTo(0.67);
+        ShotText.fixedToCamera = true;
 
     },
 
@@ -340,10 +340,10 @@ level1.prototype = {
      * Increases the players score
      */
     UpdateScore: function() {
-        ScoreText.destroy();
-        ScoreText = this.game.add.bitmapText(115, 43, "8Bit", "Strokes: " + StrokeCount, 24);
-        ScoreText.scale.setTo(0.67);
-        ScoreText.fixedToCamera = true;
+        ShotText.destroy();
+        ShotText = this.game.add.bitmapText(115, 43, "8Bit", "Strokes: " + StrokeCount, 24);
+        ShotText.scale.setTo(0.67);
+        ShotText.fixedToCamera = true;
     },
 
     /**
