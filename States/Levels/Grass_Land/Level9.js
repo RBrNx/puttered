@@ -208,6 +208,8 @@ level9.prototype = {
             if (Scoreboard.input.checkPointerOver(this.game.input.activePointer)){
                 this.game.state.start("MainMenu");
                 CourseEnded = true;
+                Course1TimesPlayed += 1;
+                LastCourse = 1;
                 MusicControl.stop();
             }
         }
