@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title> Puttered! - The Wacky Golf Game</title>
 
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js"></script>
+    <script src="js/jquery-2.1.3.js"></script>
     <script src="js/phaser.min.js"></script>
     <script src="States/boot.js"></script>
     <script src="States/preload.js"></script>
@@ -18,6 +18,16 @@
     <script src = "States/Levels/Grass_Land/Level7.js"></script>
     <script src = "States/Levels/Grass_Land/Level8.js"></script>
     <script src = "States/Levels/Grass_Land/Level9.js"></script>
+
+    <script src = "States/Levels/Sticky_Icky/Level2_1.js"></script>
+   <!--<script src = "States/Levels/Sticky_Icky/Level2_2.js"></script>
+    <script src = "States/Levels/Sticky_Icky/Level2_3.js"></script>
+    <script src = "States/Levels/Sticky_Icky/Level2_4.js"></script>
+    <script src = "States/Levels/Sticky_Icky/Level2_5.js"></script>
+    <script src = "States/Levels/Sticky_Icky/Level2_6.js"></script>
+    <script src = "States/Levels/Sticky_Icky/Level2_7.js"></script>
+    <script src = "States/Levels/Sticky_Icky/Level2_8.js"></script>
+    <script src = "States/Levels/Sticky_Icky/Level2_9.js"></script>-->
     <style>
         body{margin:0}
     </style>
@@ -37,6 +47,16 @@
             game.state.add("Level7", level7);
             game.state.add("Level8", level8);
             game.state.add("Level9", level9);
+
+            game.state.add("Level2-1", level2_1);
+            /*game.state.add("Level2-2", level2_2);
+            game.state.add("Level2-3", level2_3);
+            game.state.add("Level2-4", level2_4);
+            game.state.add("Level2-5", level2_5);
+            game.state.add("Level2-6", level2_6);
+            game.state.add("Level2-7", level2_7);
+            game.state.add("Level2-8", level2_8);
+            game.state.add("Level2-9", level2_9);*/
             game.state.start("Boot");
         })();
     </script>
