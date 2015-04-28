@@ -109,8 +109,8 @@ level2_1.prototype = {
         Fairway.body.loadPolygon("Physics", "Level2-1-Hole");
 
         Slime = this.game.add.sprite(860, 190, "Slime");
-        this.game.physics.p2.enable(Slime);
-        Slime.body.static = true;
+        //this.game.physics.p2.enable(Slime);
+        //Slime.body.static = true;
         Slime.angle = 180;
 
 
