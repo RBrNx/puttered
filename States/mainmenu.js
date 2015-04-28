@@ -229,37 +229,33 @@ mainMenu.prototype = {
         }
 
         if (LeaderboardFoundCourse1 == true){
-            for (var i = 0, space = 55; i < LoadedNameCourse1.length; i++, space += 55) {
+            for (var i = 0, j = 0, space = 55; i < LoadedNameCourse1.length; i++, j+=3, space += 55) {
                 LeaderNum = this.game.add.bitmapText(this.game.world.centerX + 20, this.game.world.centerY - 160 + space, "8Bit2", "\n" + (i+1) + ".   ", 38);
                 LeaderName = this.game.add.bitmapText(this.game.world.centerX + 100, this.game.world.centerY - 160 + space, "8Bit2", "\n" + LoadedNameCourse1[i], 38);
                 LeaderScore = this.game.add.bitmapText(this.game.world.centerX + 390, this.game.world.centerY - 160 + space, "8Bit2","\n" + LoadedScoreCourse1[i], 38);
-                console.log(LoadedNameCourse1[i]);
                 LeaderNum.tint = "0x000000";
                 LeaderName.tint = "0x000000";
                 LeaderScore.tint = "0x000000";
-                HighScoresCourse1[i] = LeaderNum;
-                HighScoresCourse1[i+1] = LeaderName;
-                HighScoresCourse1[i+2] = LeaderScore;
-                LeaderboardFoundCourse1 = false;
-                //console.log(LoadedName[i]);
+                HighScoresCourse1[j] = LeaderNum;
+                HighScoresCourse1[j+1] = LeaderName;
+                HighScoresCourse1[j+2] = LeaderScore;
             }
+            LeaderboardFoundCourse1 = false;
         }
 
         if (LeaderboardFoundCourse2 == true){
-            for (var i = 0, space = 55; i < LoadedNameCourse2.length; i++, space += 55) {
+            for (var i = 0, j = 0, space = 55; i < LoadedNameCourse2.length; i++, j+=3, space += 55) {
                 LeaderNum = this.game.add.bitmapText(this.game.world.centerX + 20, this.game.world.centerY - 160 + space, "8Bit2", "\n" + (i+1) + ".   ", 38);
                 LeaderName = this.game.add.bitmapText(this.game.world.centerX + 100, this.game.world.centerY - 160 + space, "8Bit2", "\n" + LoadedNameCourse2[i], 38);
                 LeaderScore = this.game.add.bitmapText(this.game.world.centerX + 390, this.game.world.centerY - 160 + space, "8Bit2","\n" + LoadedScoreCourse2[i], 38);
-                console.log(LoadedNameCourse2[i]);
                 LeaderNum.tint = "0x000000";
                 LeaderName.tint = "0x000000";
                 LeaderScore.tint = "0x000000";
-                HighScoresCourse2[i] = LeaderNum;
-                HighScoresCourse2[i+1] = LeaderName;
-                HighScoresCourse2[i+2] = LeaderScore;
-                LeaderboardFoundCourse2 = false;
-                //console.log(LoadedName[i]);
+                HighScoresCourse2[j] = LeaderNum;
+                HighScoresCourse2[j+1] = LeaderName;
+                HighScoresCourse2[j+2] = LeaderScore;
             }
+            LeaderboardFoundCourse2 = false;
         }
 
     },
@@ -625,7 +621,7 @@ mainMenu.prototype = {
         if (TimesPlayedText != undefined) TimesPlayedText.destroy();
         if (HighScoreBoard != undefined) HighScoreBoard.destroy();
         for (i = 0; i < HighScoresCourse1.length; i++) {HighScoresCourse1[i].destroy();}
-        for (i = 0; i < HighScoresCourse2.length; i++){ HighScoresCourse2[i].destroy();}
+        for (i = 0; i < HighScoresCourse2.length; i++) {HighScoresCourse2[i].destroy();}
         if (LeaderboardText != undefined) LeaderboardText.destroy();
         Logo.visible = true;
 
