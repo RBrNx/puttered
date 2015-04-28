@@ -109,6 +109,22 @@ mainMenu.prototype = {
         if (!localStorage.getItem("WaterHit")){
             localStorage.setItem("WaterHit", "0")
         }
+
+        var PostScores = confirm("Would you like to upload your score\nto the High Score table?");
+        if (PostScores == true){
+            var Name = prompt("Please enter your name");
+            if (Name != null){
+
+                $.ajax({
+                    url: 'HighScores/SendData.php',
+                    type: 'post',
+                    data: {"name" : Name, "score" : 100},
+                    success: function(data){
+                        console.log(data);
+                    }
+                })
+            }
+        }
     },
 
     /**
@@ -302,6 +318,31 @@ mainMenu.prototype = {
             if (WaterHit > Number(localStorage.getItem("WaterHit"))) {
                 localStorage.setItem("WaterHit", WaterHit.toString());
             }
+
+            var PostScores = confirm("Would you like to upload your score\nto the High Score table?");
+            if (PostScores == true){
+                var Name = prompt("Please enter your name");
+                if (Name != null){
+                    if (window.XMLHttpRequest){
+                        var XMLHTTP = new XMLHttpRequest();
+                    }
+                    else {
+                        var XMLHTTP = new ActiveXObject("Microsoft.XMLHTTP");
+                    }
+
+                    var TargetPage = "HighScores/SendData.php";
+                    XMLHTTP.open("POST", TargetPage, true);
+                    XMLHTTP.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                    XMLHTTP.onreadystatechange = function() {
+                        if (XMLHTTP.readyState == 4 && XMLHTTP.status == 200){
+                            var ReturnData = XMLHTTP.responseText;
+                            console.log(ReturnData);
+                        }
+                    }
+                    XMLHTTP.send(Name);
+                }
+            }
+
 
             CourseSelect = this.game.add.button(this.game.world.centerX + 150, this.game.world.centerY + 275, "Button", this.CourseSelect, this, 0, 0, 1, 0);
             CourseSelect.anchor.setTo(0.5, 0.5);
