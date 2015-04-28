@@ -233,6 +233,7 @@ mainMenu.prototype = {
                 LeaderNum = this.game.add.bitmapText(this.game.world.centerX + 20, this.game.world.centerY - 160 + space, "8Bit2", "\n" + (i+1) + ".   ", 38);
                 LeaderName = this.game.add.bitmapText(this.game.world.centerX + 100, this.game.world.centerY - 160 + space, "8Bit2", "\n" + LoadedNameCourse1[i], 38);
                 LeaderScore = this.game.add.bitmapText(this.game.world.centerX + 390, this.game.world.centerY - 160 + space, "8Bit2","\n" + LoadedScoreCourse1[i], 38);
+                console.log(LoadedNameCourse1[i]);
                 LeaderNum.tint = "0x000000";
                 LeaderName.tint = "0x000000";
                 LeaderScore.tint = "0x000000";
@@ -249,6 +250,7 @@ mainMenu.prototype = {
                 LeaderNum = this.game.add.bitmapText(this.game.world.centerX + 20, this.game.world.centerY - 160 + space, "8Bit2", "\n" + (i+1) + ".   ", 38);
                 LeaderName = this.game.add.bitmapText(this.game.world.centerX + 100, this.game.world.centerY - 160 + space, "8Bit2", "\n" + LoadedNameCourse2[i], 38);
                 LeaderScore = this.game.add.bitmapText(this.game.world.centerX + 390, this.game.world.centerY - 160 + space, "8Bit2","\n" + LoadedScoreCourse2[i], 38);
+                console.log(LoadedNameCourse2[i]);
                 LeaderNum.tint = "0x000000";
                 LeaderName.tint = "0x000000";
                 LeaderScore.tint = "0x000000";
@@ -602,7 +604,7 @@ mainMenu.prototype = {
             this.game.state.start("Level1");
         }
         if (LastCourse == 2){
-            this.game.state.start("Level1");
+            this.game.state.start("Level2");
         }
 
     },
