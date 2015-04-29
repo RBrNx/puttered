@@ -335,28 +335,29 @@ mainMenu.prototype = {
             Hole = this.game.add.bitmapText(this.game.world.centerX - 550, this.game.world.centerY - 150, "8Bit2", "Hole\n\n\n   1\n\n   2\n\n   3\n\n   4\n\n " +
                 "  5\n\n   6\n\n   7\n\n   8\n\n   9", 22);
 
-            Par = this.game.add.bitmapText(this.game.world.centerX - 350, this.game.world.centerY - 150, "8Bit2", "Par\n\n\n  " + ParArray[0] + "\n\n  " + ParArray[1] + "\n\n  " +
-                ParArray[2] + "\n\n  " + ParArray[3] + "\n\n  " + ParArray[4] + "\n\n  " + ParArray[5] + "\n\n  " + ParArray[6] + "\n\n  " + ParArray[7] + "\n\n  " + ParArray[8], 22);
+            Par = this.game.add.bitmapText(this.game.world.centerX - 350, this.game.world.centerY - 150, "8Bit2", "Par\n\n\n  " + ParArrayCourse1[0] + "\n\n  " + ParArrayCourse1[1] + "\n\n  " +
+                ParArrayCourse1[2] + "\n\n  " + ParArrayCourse1[3] + "\n\n  " + ParArrayCourse1[4] + "\n\n  " +
+                ParArrayCourse1[5] + "\n\n  " + ParArrayCourse1[6] + "\n\n  " + ParArrayCourse1[7] + "\n\n  " + ParArrayCourse1[8], 22);
 
             ScoreText = this.game.add.bitmapText(this.game.world.centerX - 160, this.game.world.centerY - 150, "8Bit2", "Strokes", 22);
-            for (var i = 0, space = 44; i < StrokeArray.length; i++, space += 44) {
-                Score = this.game.add.bitmapText(this.game.world.centerX - 160, this.game.world.centerY - 150 + space, "8Bit2", "\n     " + StrokeArray[i], 22);
-                ScoreArray[i] = Score;
-                if (StrokeArray[i] < ParArray[i]) {
+            for (var i = 0, space = 44; i < StrokeArrayCourse1.length; i++, space += 44) {
+                Score = this.game.add.bitmapText(this.game.world.centerX - 160, this.game.world.centerY - 150 + space, "8Bit2", "\n     " + StrokeArrayCourse1[i], 22);
+                ScoreArrayCourse1[i] = Score;
+                if (StrokeArrayCourse1[i] < ParArrayCourse1[i]) {
                     Score.tint = "0x00FF00";
                 }
-                else if (StrokeArray[i] > ParArray[i]) {
+                else if (StrokeArrayCourse1[i] > ParArrayCourse1[i]) {
                     Score.tint = "0xFF0000";
                 }
-                else if (StrokeArray[i] == ParArray[i]) {
+                else if (StrokeArrayCourse1[i] == ParArrayCourse1[i]) {
                     Score.tint = "0xFFFF00";
                 }
             }
 
 
-            for (var i = 0, sum = 0, sum2 = 0; i < StrokeArray.length; i++) {
-                sum += StrokeArray[i];
-                sum2 += ParArray[i];
+            for (var i = 0, sum = 0, sum2 = 0; i < StrokeArrayCourse1.length; i++) {
+                sum += StrokeArrayCourse1[i];
+                sum2 += ParArrayCourse1[i];
             }
 
             CoursePar = this.game.add.bitmapText(this.game.world.centerX + 100, this.game.world.centerY - 150, "8Bit2", "Par: " + sum2 + "\n\nStrokes: " + sum);
@@ -438,9 +439,9 @@ mainMenu.prototype = {
                 ParArrayCourse2[6] + "\n\n  " + ParArrayCourse2[7] + "\n\n  " + ParArrayCourse2[8], 22);
 
             ScoreText = this.game.add.bitmapText(this.game.world.centerX - 160, this.game.world.centerY - 150, "8Bit2", "Strokes", 22);
-            for (var i = 0, space = 44; i < StrokeArray.length; i++, space += 44) {
+            for (var i = 0, space = 44; i < StrokeArrayCourse2.length; i++, space += 44) {
                 Score = this.game.add.bitmapText(this.game.world.centerX - 160, this.game.world.centerY - 150 + space, "8Bit2", "\n     " + StrokeArrayCourse2[i], 22);
-                ScoreArray[i] = Score;
+                ScoreArrayCourse2[i] = Score;
                 if (StrokeArrayCourse2[i] < ParArrayCourse2[i]) {
                     Score.tint = "0x00FF00";
                 }
@@ -553,7 +554,8 @@ mainMenu.prototype = {
             Hole.destroy();
             Par.destroy();
             ScoreText.destroy();
-            for (i = 0; i < StrokeArray.length; i++){ ScoreArray[i].destroy();}
+            for (i = 0; i < StrokeArrayCourse1.length; i++){ ScoreArrayCourse1[i].destroy();}
+            for (i = 0; i < StrokeArrayCourse2.length; i++){ ScoreArrayCourse2[i].destroy();}
             CoursePar.destroy();
             Overall.destroy();
             OverallText.destroy();
@@ -911,7 +913,7 @@ mainMenu.prototype = {
         WaterHitText.destroy();
         TimesPlayedText.destroy();
         HighScoreBoard.destroy();
-        this.game.state.start("Level2-1");
+        this.game.state.start("Level2-6");
     },
 
     /**
