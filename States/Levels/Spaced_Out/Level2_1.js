@@ -103,12 +103,12 @@ level2_1.prototype = {
 
         Emitter = this.game.add.emitter(Block.x, Block.y);
         Emitter.makeParticles("Star");
-        Emitter.minParticleSpeed.setTo(-100, -300);
-        Emitter.maxParticleSpeed.setTo(100, -1000);
+        Emitter.minParticleSpeed.setTo(100, 300);
+        Emitter.maxParticleSpeed.setTo(-100, 1000);
         Emitter.minParticleScale = 0.1;
         Emitter.maxParticleScale = 0.1;
         Emitter.setAlpha(0.1, 0.6);
-        Emitter.gravity = 250;
+        Emitter.gravity = -250;
 
         //Set up GUI - Arrow, Left + Right Buttons, Swing Button, Pause Button, Power Bar
         Arrow = this.game.add.sprite(Ball.x, Ball.y, "Arrow");
@@ -178,29 +178,33 @@ level2_1.prototype = {
         CameraCenterX = this.game.camera.x + this.game.camera.width/2;
         CameraCenterY = this.game.camera.y + this.game.camera.height/2;
 
+        var PercentX, PercentY;
+        PercentX = (Math.abs(Ball.body.velocity.x)/100) * 2;
+        PercentY = (Math.abs(Ball.body.velocity.y)/100) * 2;
+
         if (Ball.body.velocity.x > 0.75 && Ball.body.velocity.x > 4){
-            Ball.body.velocity.x -= 4;
+            Ball.body.velocity.x -= PercentX;
         }
         else if (Ball.body.velocity.x > 0.75){
             Ball.body.velocity.x -= 1;
         }
 
         if (Ball.body.velocity.y > 0.75 && Ball.body.velocity.y > 4){
-            Ball.body.velocity.y -= 4;
+            Ball.body.velocity.y -= PercentY;
         }
         else if (Ball.body.velocity.y > 0.75){
             Ball.body.velocity.y -= 1;
         }
 
         if (Ball.body.velocity.x < -0.75 && Ball.body.velocity.x < -4){
-            Ball.body.velocity.x += 4;
+            Ball.body.velocity.x += PercentX;
         }
         else if (Ball.body.velocity.x < -0.75){
             Ball.body.velocity.x += 1;
         }
 
         if (Ball.body.velocity.y < -0.75 && Ball.body.velocity.y < -4){
-            Ball.body.velocity.y += 4;
+            Ball.body.velocity.y += PercentY;
         }
         else if (Ball.body.velocity.y < -0.75){
             Ball.body.velocity.y += 1;
@@ -654,7 +658,6 @@ level2_1.prototype = {
         SavedBallVelY = Ball.body.velocity.y;
         Ball.body.velocity.x = 0;
         Ball.body.velocity.y = 0;
-        this.game.physics.p2.gravity.y = 0;
         Fairway.body.clearCollision();
         Ball.body.clearCollision();
         Fairway.body.clearShapes();
@@ -674,7 +677,6 @@ level2_1.prototype = {
         Ball.body.loadPolygon("Physics", "Ball");
         Ball.body.velocity.x = SavedBallVelX;
         Ball.body.velocity.y = SavedBallVelY;
-        this.game.physics.p2.gravity.y = 1400;
 
         ballMaterial = this.game.physics.p2.createMaterial("ballMaterial", Ball.body);
         groundMaterial = this.game.physics.p2.createMaterial("groundMaterial", Fairway.body);
