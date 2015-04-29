@@ -4,7 +4,7 @@
 var level2_1 = function(game){};
 
 var StrokeArrayCourse2 = [];   //Array to hold the number of strokes per hole
-var ParArrayCourse2 = [4, 3, 8, 4, 3, 4, 4, 6, 8];     //Array to hold the par for each hole
+var ParArrayCourse2 = [4, 4, 8, 5, 5, 6, 4, 3, 5];     //Array to hold the par for each hole
 var TotalShots = Number(localStorage.getItem("Course2TotalShots"));    //Stores the total shots for the course
 var WaterHit = Number(localStorage.getItem("Course2WaterHit"));    //Stores the number of water hazards hit for the course
 var CourseTimer = 0;    //Sets the timer to 0
@@ -67,6 +67,7 @@ level2_1.prototype = {
         Radian = 0.0174532925;
         WaterHazard = false;
         BackgroundP = null;
+        StrokeArrayCourse2 = ["-","-","-","-","-","-","-","-","-"];
 
         this.game.physics.startSystem(Phaser.Physics.P2JS);
         this.game.physics.p2.gravity.y = 0;

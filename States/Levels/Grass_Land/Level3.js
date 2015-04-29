@@ -197,7 +197,12 @@ level3.prototype = {
         CameraCenterX = this.game.camera.x + this.game.camera.width/2;
         CameraCenterY = this.game.camera.y + this.game.camera.height/2;
 
-        //if (Ball != undefined) console.log(Ball.body.velocity.x, Ball.body.velocity.y);
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
+            StrokeCount = ParArrayCourse1[HoleNumber];
+            console.log(StrokeCount);
+            MusicControl.stop();
+            this.LevelComplete();
+        }
 
         if (Fairway != undefined) {
 

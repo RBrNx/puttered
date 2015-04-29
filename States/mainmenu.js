@@ -154,7 +154,7 @@ mainMenu.prototype = {
             localStorage.setItem("Course2TimesPlayed", "0")
         }
 
-        var PostScores = confirm("Would you like to upload your score to the High Score table?");
+        /*var PostScores = confirm("Would you like to upload your score to the High Score table?");
         if (PostScores == true){
             var Name = prompt("Please enter your name");
             if (Name != null){
@@ -168,7 +168,7 @@ mainMenu.prototype = {
                     }
                 })
             }
-        }
+        }*/
     },
 
     /**
@@ -327,7 +327,7 @@ mainMenu.prototype = {
          * If Course Played was Course 1...
          */
         if (LastCourse == 1) {
-
+            console.log("Last Course1");
             BackgroundP = this.game.add.sprite(this.game.camera.x, this.game.camera.y, "BackgroundP");
             BackgroundP.scale.setTo(0.67);
             Title = this.game.add.bitmapText(this.game.world.centerX, 75, "8Bit2", "Grassy Land\n  Complete!", 64);
@@ -406,18 +406,35 @@ mainMenu.prototype = {
             if (PostScores == true) {
                 var Name = prompt("Please enter your name");
                 if (Name != null) {
-                    var HashKey = CryptoJS.MD5(Name + OverallScore + "1511994");
 
                     $.ajax({
                         url: 'HighScores/SendData.php',
                         type: 'post',
-                            data: {"name": Name, "score": OverallScore, "hash": HashKey, "coursevalue" : "1"},
+                        data: {"name": Name, "score": OverallScore, "hash": CryptoJS.MD5(Name + OverallScore + "15111994").toString(), "coursevalue" : 1},
                         success: function (data) {
                             console.log(data);
                         }
                     })
                 }
             }
+
+
+
+            /*var PostScores = confirm("Would you like to upload your score to the High Score table?");
+             if (PostScores == true){
+             var Name = prompt("Please enter your name");
+             if (Name != null){
+
+             $.ajax({
+             url: 'HighScores/SendData.php',
+             type: 'post',
+             data: {"name" : Name, "score" : -10, "hash": CryptoJS.MD5(Name + -10 + "15111994").toString(), "coursevalue" : 2},
+             success: function(data){
+             console.log(data);
+             }
+             })
+             }
+             }*/
         }
 
 
@@ -426,7 +443,7 @@ mainMenu.prototype = {
          * If Course Played was Course 2...
          */
         if (LastCourse == 2) {
-
+            console.log("Last Course2");
             BackgroundP = this.game.add.sprite(this.game.camera.x, this.game.camera.y, "BackgroundP");
             BackgroundP.scale.setTo(0.67);
             Title = this.game.add.bitmapText(this.game.world.centerX, 75, "8Bit2", "Spaced Out\n  Complete!", 64);
@@ -510,7 +527,7 @@ mainMenu.prototype = {
                     $.ajax({
                         url: 'HighScores/SendData.php',
                         type: 'post',
-                        data: {"name": Name, "score": OverallScore, "hash": HashKey, "coursevalue" : "2"},
+                        data: {"name": Name, "score": OverallScore, "hash": HashKey, "coursevalue" : 2},
                         success: function (data) {
                             console.log(data);
                         }
@@ -895,7 +912,7 @@ mainMenu.prototype = {
         WaterHitText.destroy();
         TimesPlayedText.destroy();
         HighScoreBoard.destroy();
-        this.game.state.start("Level6")
+        this.game.state.start("Level1")
     },
 
     /**

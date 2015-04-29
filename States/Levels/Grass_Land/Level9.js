@@ -214,6 +214,13 @@ level9.prototype = {
             }
         }
 
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
+            StrokeCount = ParArrayCourse1[HoleNumber];
+            console.log(StrokeCount);
+            MusicControl.stop();
+            this.LevelComplete();
+        }
+
         if (this.PowerF != undefined && Paused != true) {
             if (this.PowerF.angle <= -179) {
                 this.Ticker = 1.5;
