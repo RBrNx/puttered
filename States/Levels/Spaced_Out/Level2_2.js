@@ -73,7 +73,7 @@ level2_2.prototype = {
         Fairway.body.clearShapes();
         Fairway.body.loadPolygon("Physics", "Level2-2-Hole");
 
-        MusicControl = this.game.add.audio("Course1Music", 1, true);
+        MusicControl = this.game.add.audio("Course2Music", 1, true);
         if (Music == true) MusicControl.play();
         GolfClap = this.game.add.audio("GolfClap");
         GolfSwing = this.game.add.audio("GolfSwing");
@@ -213,7 +213,7 @@ level2_2.prototype = {
 
         if (this.game.input.activePointer.isDown && Paused != true && Scoreboard != undefined) {
             if (Scoreboard.input.checkPointerOver(this.game.input.activePointer)){
-                this.game.state.start("Level4");
+                this.game.state.start("Level2-3");
                 MusicControl.stop();
             }
         }
