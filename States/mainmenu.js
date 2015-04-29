@@ -6,6 +6,9 @@
  * Globals for use in main menu
  */
 var mainMenu = function(game){};
+/**
+ * Variables to Hold Sprites and Text
+ */
 var Clouds;
 var Logo;
 var Play;
@@ -24,13 +27,16 @@ var Level1;
 var Level2;
 var Level1Text;
 var Level2Text;
+
+/**
+ * Variables for the Local Storage and Online Leaderboards
+ */
 var Title;
-var Hole;
-var Par;
 var ScoreText;
 var Score;
-var ScoreArray = [];
-var CoursePar;
+var ScoreArray = []; //Holds Bitmap Text Objects to Display the Score at the End of the Level
+var HighScoresCourse1 = [];
+var HighScoresCourse2 = [];
 var Overall;
 var OverallText;
 var CourseSelect;
@@ -44,11 +50,23 @@ var BestScoreText;
 var BestTimeText;
 var TotalShotsText;
 var WaterHitText;
+var TimesPlayedText;
+var Course1TimesPlayed = 0;
+var Course2TimesPlayed = 0;
+var HighScoreBoard;
+var LeaderboardText;
 var RoomNumber;
-var LastCourse = 1;
+var LastCourse = 0;
 var CourseEnded = false;
 var Leaderboard = false;
 var HoleNumber = 0;
+var LoadedNameCourse1 = [];
+var LoadedScoreCourse1 = [];
+var LoadedNameCourse2 = [];
+var LoadedScoreCourse2 = [];
+var LeaderboardFoundCourse1 = false;
+var LeaderboardFoundCourse2 = false;
+var results;
 
 var CourseTimer = 0;
 
@@ -97,20 +115,45 @@ mainMenu.prototype = {
         //Set Room Number to Main Menu
         RoomNumber = 1;
 
-        if (!localStorage.getItem("BestScore")){
-            localStorage.setItem("BestScore", "0")
+        /**
+         * Deals with Course 1 Storage
+         */
+       if (!localStorage.getItem("Course1BestScore")){
+            localStorage.setItem("Course1BestScore", "0")
         }
-        if (!localStorage.getItem("BestTime")){
-            localStorage.setItem("BestTime", "0")
+        if (!localStorage.getItem("Course1BestTime")){
+            localStorage.setItem("Course1BestTime", "0")
         }
-        if (!localStorage.getItem("TotalShots")){
-            localStorage.setItem("TotalShots", "0")
+        if (!localStorage.getItem("Course1TotalShots")){
+            localStorage.setItem("Course1TotalShots", "0")
         }
-        if (!localStorage.getItem("WaterHit")){
-            localStorage.setItem("WaterHit", "0")
+        if (!localStorage.getItem("Course1WaterHit")){
+            localStorage.setItem("Course1WaterHit", "0")
+        }
+        if (!localStorage.getItem("Course1TimesPlayed")){
+            localStorage.setItem("Course1TimesPlayed", "0")
         }
 
-        var PostScores = confirm("Would you like to upload your score\nto the High Score table?");
+        /**
+         * Deals with Course 2 Storage
+         */
+        if (!localStorage.getItem("Course2BestScore")){
+            localStorage.setItem("Course2BestScore", "0")
+        }
+        if (!localStorage.getItem("Course2BestTime")){
+            localStorage.setItem("Course2BestTime", "0")
+        }
+        if (!localStorage.getItem("Course2TotalShots")){
+            localStorage.setItem("Course2TotalShots", "0")
+        }
+        if (!localStorage.getItem("Course2WaterHit")){
+            localStorage.setItem("Course2WaterHit", "0")
+        }
+        if (!localStorage.getItem("Course2TimesPlayed")){
+            localStorage.setItem("Course2TimesPlayed", "0")
+        }
+
+        var PostScores = confirm("Would you like to upload your score to the High Score table?");
         if (PostScores == true){
             var Name = prompt("Please enter your name");
             if (Name != null){
@@ -118,7 +161,7 @@ mainMenu.prototype = {
                 $.ajax({
                     url: 'HighScores/SendData.php',
                     type: 'post',
-                    data: {"name" : Name, "score" : 100},
+                    data: {"name" : Name, "score" : -10, "hash": CryptoJS.MD5(Name + -10 + "15111994").toString(), "coursevalue" : 2},
                     success: function(data){
                         console.log(data);
                     }
@@ -185,6 +228,36 @@ mainMenu.prototype = {
             this.EndOfLevel();
         }
 
+        if (LeaderboardFoundCourse1 == true){
+            for (var i = 0, j = 0, space = 55; i < LoadedNameCourse1.length; i++, j+=3, space += 55) {
+                LeaderNum = this.game.add.bitmapText(this.game.world.centerX + 20, this.game.world.centerY - 160 + space, "8Bit2", "\n" + (i+1) + ".   ", 38);
+                LeaderName = this.game.add.bitmapText(this.game.world.centerX + 100, this.game.world.centerY - 160 + space, "8Bit2", "\n" + LoadedNameCourse1[i], 38);
+                LeaderScore = this.game.add.bitmapText(this.game.world.centerX + 390, this.game.world.centerY - 160 + space, "8Bit2","\n" + LoadedScoreCourse1[i], 38);
+                LeaderNum.tint = "0x000000";
+                LeaderName.tint = "0x000000";
+                LeaderScore.tint = "0x000000";
+                HighScoresCourse1[j] = LeaderNum;
+                HighScoresCourse1[j+1] = LeaderName;
+                HighScoresCourse1[j+2] = LeaderScore;
+            }
+            LeaderboardFoundCourse1 = false;
+        }
+
+        if (LeaderboardFoundCourse2 == true){
+            for (var i = 0, j = 0, space = 55; i < LoadedNameCourse2.length; i++, j+=3, space += 55) {
+                LeaderNum = this.game.add.bitmapText(this.game.world.centerX + 20, this.game.world.centerY - 160 + space, "8Bit2", "\n" + (i+1) + ".   ", 38);
+                LeaderName = this.game.add.bitmapText(this.game.world.centerX + 100, this.game.world.centerY - 160 + space, "8Bit2", "\n" + LoadedNameCourse2[i], 38);
+                LeaderScore = this.game.add.bitmapText(this.game.world.centerX + 390, this.game.world.centerY - 160 + space, "8Bit2","\n" + LoadedScoreCourse2[i], 38);
+                LeaderNum.tint = "0x000000";
+                LeaderName.tint = "0x000000";
+                LeaderScore.tint = "0x000000";
+                HighScoresCourse2[j] = LeaderNum;
+                HighScoresCourse2[j+1] = LeaderName;
+                HighScoresCourse2[j+2] = LeaderScore;
+            }
+            LeaderboardFoundCourse2 = false;
+        }
+
     },
 
     /**
@@ -247,39 +320,41 @@ mainMenu.prototype = {
         PlayText.destroy();
         Options.destroy();
         OptionsText.destroy();
-        Logo.destroy();
+        Logo.visible = false;
 
-        if (LastCourse == 1){
+        /**
+         * If Course Played was Course 1...
+         */
+        if (LastCourse == 1) {
 
-            console.log(CourseTimer);
             BackgroundP = this.game.add.sprite(this.game.camera.x, this.game.camera.y, "BackgroundP");
             BackgroundP.scale.setTo(0.67);
             Title = this.game.add.bitmapText(this.game.world.centerX, 75, "8Bit2", "Grassy Land\n  Complete!", 64);
             Title.anchor.setTo(0.5);
 
             Hole = this.game.add.bitmapText(this.game.world.centerX - 550, this.game.world.centerY - 150, "8Bit2", "Hole\n\n\n   1\n\n   2\n\n   3\n\n   4\n\n " +
-            "  5\n\n   6\n\n   7\n\n   8\n\n   9", 22);
+                "  5\n\n   6\n\n   7\n\n   8\n\n   9", 22);
 
-            Par = this.game.add.bitmapText (this.game.world.centerX - 350, this.game.world.centerY - 150, "8Bit2", "Par\n\n\n  "+ ParArray[0] + "\n\n  " + ParArray[1] + "\n\n  " +
-            ParArray[2] + "\n\n  " + ParArray[3] + "\n\n  " + ParArray[4] + "\n\n  " + ParArray[5] + "\n\n  " + ParArray[6] + "\n\n  " + ParArray[7] + "\n\n  " + ParArray[8], 22);
+            Par = this.game.add.bitmapText(this.game.world.centerX - 350, this.game.world.centerY - 150, "8Bit2", "Par\n\n\n  " + ParArray[0] + "\n\n  " + ParArray[1] + "\n\n  " +
+                ParArray[2] + "\n\n  " + ParArray[3] + "\n\n  " + ParArray[4] + "\n\n  " + ParArray[5] + "\n\n  " + ParArray[6] + "\n\n  " + ParArray[7] + "\n\n  " + ParArray[8], 22);
 
             ScoreText = this.game.add.bitmapText(this.game.world.centerX - 160, this.game.world.centerY - 150, "8Bit2", "Strokes", 22);
-            for (var i = 0, space = 44; i < StrokeArray.length; i++, space += 44){
+            for (var i = 0, space = 44; i < StrokeArray.length; i++, space += 44) {
                 Score = this.game.add.bitmapText(this.game.world.centerX - 160, this.game.world.centerY - 150 + space, "8Bit2", "\n     " + StrokeArray[i], 22);
                 ScoreArray[i] = Score;
-                if (StrokeArray[i] < ParArray[i]){
+                if (StrokeArray[i] < ParArray[i]) {
                     Score.tint = "0x00FF00";
                 }
-                else if (StrokeArray[i] > ParArray[i]){
+                else if (StrokeArray[i] > ParArray[i]) {
                     Score.tint = "0xFF0000";
                 }
-                else if (StrokeArray[i] == ParArray[i]){
+                else if (StrokeArray[i] == ParArray[i]) {
                     Score.tint = "0xFFFF00";
                 }
             }
 
 
-            for (var i = 0, sum = 0, sum2 = 0; i < StrokeArray.length; i++){
+            for (var i = 0, sum = 0, sum2 = 0; i < StrokeArray.length; i++) {
                 sum += StrokeArray[i];
                 sum2 += ParArray[i];
             }
@@ -288,60 +363,159 @@ mainMenu.prototype = {
             var OverallScore = sum - sum2;
             Overall = this.game.add.bitmapText(this.game.world.centerX + 100, this.game.world.centerY, "8Bit2", "Overall\n Score\n");
             OverallText = this.game.add.bitmapText(this.game.world.centerX + 140, this.game.world.centerY + 75, "8Bit2", OverallScore.toString(), 64);
-            if (OverallScore < sum2){
+            if (OverallScore < sum2) {
                 OverallText.tint = "0x00FF00";
             }
-            else if (OverallScore > sum2){
+            else if (OverallScore > sum2) {
                 OverallText.tint = "0xFF0000";
             }
-            else if (OverallScore == sum2){
+            else if (OverallScore == sum2) {
                 OverallText.tint = "0xFFFF00";
             }
 
 
-            if (OverallScore < Number(localStorage.getItem("BestScore"))){
-                localStorage.setItem("BestScore", OverallScore.toString());
+            if (OverallScore < Number(localStorage.getItem("Course1BestScore"))) {
+                localStorage.setItem("Course1BestScore", OverallScore.toString());
+            }
+            if ((Number(localStorage.getItem("Course1BestScore"))) == 0) {
+                localStorage.setItem("Course1BestScore", OverallScore.toString());
             }
 
-            SavedTimer = (CourseTimer/60)/60;
+            SavedTimer = (CourseTimer / 60) / 60;
 
-            if (SavedTimer < Number(localStorage.getItem("BestTime"))) {
-                localStorage.setItem("BestTime", SavedTimer.toString());
-            }
-
-            if ( (Number(localStorage.getItem("BestTime"))) == 0){
-                localStorage.setItem("BestTime", SavedTimer.toString());
-            }
-            if (TotalShots > Number(localStorage.getItem("TotalShots"))) {
-                localStorage.setItem("TotalShots", TotalShots.toString());
-            }
-            if (WaterHit > Number(localStorage.getItem("WaterHit"))) {
-                localStorage.setItem("WaterHit", WaterHit.toString());
+            if (SavedTimer < Number(localStorage.getItem("Course1BestTime"))) {
+                localStorage.setItem("Course1BestTime", SavedTimer.toString());
             }
 
-            var PostScores = confirm("Would you like to upload your score\nto the High Score table?");
-            if (PostScores == true){
+            if ((Number(localStorage.getItem("Course1BestTime"))) == 0) {
+                localStorage.setItem("Course1BestTime", SavedTimer.toString());
+            }
+            if (TotalShots > Number(localStorage.getItem("Course1TotalShots"))) {
+                localStorage.setItem("Course1TotalShots", TotalShots.toString());
+            }
+            if (WaterHit > Number(localStorage.getItem("Course1WaterHit"))) {
+                localStorage.setItem("Course1WaterHit", WaterHit.toString());
+            }
+            if (Course1TimesPlayed > Number(localStorage.getItem("Course1TimesPlayed"))) {
+                localStorage.setItem("Course1TimesPlayed", Course1TimesPlayed.toString());
+            }
+
+            var PostScores = confirm("Would you like to upload your score to the High Score table?");
+            if (PostScores == true) {
                 var Name = prompt("Please enter your name");
-                if (Name != null){
-                    if (window.XMLHttpRequest){
-                        var XMLHTTP = new XMLHttpRequest();
-                    }
-                    else {
-                        var XMLHTTP = new ActiveXObject("Microsoft.XMLHTTP");
-                    }
+                if (Name != null) {
+                    var HashKey = CryptoJS.MD5(Name + OverallScore + "1511994");
 
-                    var TargetPage = "HighScores/SendData.php";
-                    XMLHTTP.open("POST", TargetPage, true);
-                    XMLHTTP.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                    XMLHTTP.onreadystatechange = function() {
-                        if (XMLHTTP.readyState == 4 && XMLHTTP.status == 200){
-                            var ReturnData = XMLHTTP.responseText;
-                            console.log(ReturnData);
+                    $.ajax({
+                        url: 'HighScores/SendData.php',
+                        type: 'post',
+                            data: {"name": Name, "score": OverallScore, "hash": HashKey, "coursevalue" : "1"},
+                        success: function (data) {
+                            console.log(data);
                         }
-                    }
-                    XMLHTTP.send(Name);
+                    })
                 }
             }
+        }
+
+
+
+        /**
+         * If Course Played was Course 2...
+         */
+        if (LastCourse == 2) {
+
+            BackgroundP = this.game.add.sprite(this.game.camera.x, this.game.camera.y, "BackgroundP");
+            BackgroundP.scale.setTo(0.67);
+            Title = this.game.add.bitmapText(this.game.world.centerX, 75, "8Bit2", "Sticky Icky\n  Complete!", 64);
+            Title.anchor.setTo(0.5);
+
+            Hole = this.game.add.bitmapText(this.game.world.centerX - 550, this.game.world.centerY - 150, "8Bit2", "Hole\n\n\n   1\n\n   2\n\n   3\n\n   4\n\n " +
+                "  5\n\n   6\n\n   7\n\n   8\n\n   9", 22);
+
+            Par = this.game.add.bitmapText(this.game.world.centerX - 350, this.game.world.centerY - 150, "8Bit2", "Par\n\n\n  " + ParArrayCourse2[0] + "\n\n  " + ParArrayCourse2[1] + "\n\n  " +
+                ParArrayCourse2[2] + "\n\n  " + ParArrayCourse2[3] + "\n\n  " + ParArrayCourse2[4] + "\n\n  " + ParArrayCourse2[5] + "\n\n  " +
+                ParArrayCourse2[6] + "\n\n  " + ParArrayCourse2[7] + "\n\n  " + ParArrayCourse2[8], 22);
+
+            ScoreText = this.game.add.bitmapText(this.game.world.centerX - 160, this.game.world.centerY - 150, "8Bit2", "Strokes", 22);
+            for (var i = 0, space = 44; i < StrokeArray.length; i++, space += 44) {
+                Score = this.game.add.bitmapText(this.game.world.centerX - 160, this.game.world.centerY - 150 + space, "8Bit2", "\n     " + StrokeArrayCourse2[i], 22);
+                ScoreArray[i] = Score;
+                if (StrokeArrayCourse2[i] < ParArrayCourse2[i]) {
+                    Score.tint = "0x00FF00";
+                }
+                else if (StrokeArrayCourse2[i] > ParArrayCourse2[i]) {
+                    Score.tint = "0xFF0000";
+                }
+                else if (StrokeArrayCourse2[i] == ParArrayCourse2[i]) {
+                    Score.tint = "0xFFFF00";
+                }
+            }
+
+
+            for (var i = 0, sum = 0, sum2 = 0; i < StrokeArrayCourse2.length; i++) {
+                sum += StrokeArrayCourse2[i];
+                sum2 += ParArrayCourse2[i];
+            }
+
+            CoursePar = this.game.add.bitmapText(this.game.world.centerX + 100, this.game.world.centerY - 150, "8Bit2", "Par: " + sum2 + "\n\nStrokes: " + sum);
+            var OverallScore = sum - sum2;
+            Overall = this.game.add.bitmapText(this.game.world.centerX + 100, this.game.world.centerY, "8Bit2", "Overall\n Score\n");
+            OverallText = this.game.add.bitmapText(this.game.world.centerX + 140, this.game.world.centerY + 75, "8Bit2", OverallScore.toString(), 64);
+            if (OverallScore < sum2) {
+                OverallText.tint = "0x00FF00";
+            }
+            else if (OverallScore > sum2) {
+                OverallText.tint = "0xFF0000";
+            }
+            else if (OverallScore == sum2) {
+                OverallText.tint = "0xFFFF00";
+            }
+
+
+            if (OverallScore < Number(localStorage.getItem("Course2BestScore"))) {
+                localStorage.setItem("Course2BestScore", OverallScore.toString());
+            }
+            if ((Number(localStorage.getItem("Course2BestScore"))) == 0) {
+                localStorage.setItem("Course2BestScore", OverallScore.toString());
+            }
+
+            SavedTimer = (CourseTimer / 60) / 60;
+
+            if (SavedTimer < Number(localStorage.getItem("Course2BestTime"))) {
+                localStorage.setItem("Course2BestTime", SavedTimer.toString());
+            }
+
+            if ((Number(localStorage.getItem("Course2BestTime"))) == 0) {
+                localStorage.setItem("Course2BestTime", SavedTimer.toString());
+            }
+            if (TotalShots > Number(localStorage.getItem("Course2TotalShots"))) {
+                localStorage.setItem("Course2TotalShots", TotalShots.toString());
+            }
+            if (WaterHit > Number(localStorage.getItem("Course2WaterHit"))) {
+                localStorage.setItem("Course2WaterHit", WaterHit.toString());
+            }
+            if (Course2TimesPlayed > Number(localStorage.getItem("Course2TimesPlayed"))) {
+                localStorage.setItem("Course2TimesPlayed", Course2TimesPlayed.toString());
+            }
+
+            var PostScores = confirm("Would you like to upload your score to the High Score table?");
+            if (PostScores == true) {
+                var Name = prompt("Please enter your name");
+                if (Name != null) {
+                    var HashKey = CryptoJS.MD5(Name + OverallScore + "1511994");
+
+                    $.ajax({
+                        url: 'HighScores/SendData.php',
+                        type: 'post',
+                        data: {"name": Name, "score": OverallScore, "hash": HashKey, "coursevalue" : "2"},
+                        success: function (data) {
+                            console.log(data);
+                        }
+                    })
+                }
+            }
+        }
 
 
             CourseSelect = this.game.add.button(this.game.world.centerX + 150, this.game.world.centerY + 275, "Button", this.CourseSelect, this, 0, 0, 1, 0);
@@ -357,7 +531,6 @@ mainMenu.prototype = {
             RetryText = this.game.add.bitmapText(Retry.x, Retry.y-7, "8Bit", "Retry", 72);
             RetryText.anchor.setTo(0.5, 0.5);
             RetryText.scale.setTo(0.67);
-        }
 
     },
 
@@ -381,7 +554,6 @@ mainMenu.prototype = {
             Par.destroy();
             ScoreText.destroy();
             for (i = 0; i < StrokeArray.length; i++){ ScoreArray[i].destroy();}
-            //Score.destroy();
             CoursePar.destroy();
             Overall.destroy();
             OverallText.destroy();
@@ -424,9 +596,13 @@ mainMenu.prototype = {
      * Handles resarting a course
      */
     Retry: function(){
-        if (LastCourse = 1){
+        if (LastCourse == 1){
             this.game.state.start("Level1");
         }
+        if (LastCourse == 2){
+            this.game.state.start("Level2");
+        }
+
     },
 
     /**
@@ -442,11 +618,12 @@ mainMenu.prototype = {
         if (BestTimeText != undefined) BestTimeText.destroy();
         if (TotalShotsText != undefined) TotalShotsText.destroy();
         if (WaterHitText != undefined) WaterHitText.destroy();
-        if (!Logo){
-            Logo = this.game.add.sprite(this.game.world.width/2, this.game.world.height/5, "Logo");
-            Logo.anchor.setTo(0.5, 0.5);
-        }
-
+        if (TimesPlayedText != undefined) TimesPlayedText.destroy();
+        if (HighScoreBoard != undefined) HighScoreBoard.destroy();
+        for (i = 0; i < HighScoresCourse1.length; i++) {HighScoresCourse1[i].destroy();}
+        for (i = 0; i < HighScoresCourse2.length; i++) {HighScoresCourse2[i].destroy();}
+        if (LeaderboardText != undefined) LeaderboardText.destroy();
+        Logo.visible = true;
 
 
         //Create Play Button
@@ -539,44 +716,72 @@ mainMenu.prototype = {
             Level2Text.destroy();
             Back.destroy();
             BackText.destroy();
-            Logo.destroy();
+            Logo.visible = false;
 
             StatBoard = this.game.add.sprite(this.game.world.centerX - 350, this.game.world.centerY + 75, "Scoreboard");
             StatBoard.anchor.setTo(0.5);
-            StatBoard.scale.setTo(0.6, 0.5);
-            Title = this.game.add.bitmapText(this.game.world.centerX, 100, "8Bit", "Grassy Land", 84);
+            StatBoard.scale.setTo(0.6, 0.6);
+            Title = this.game.add.bitmapText(this.game.world.centerX, 60, "8Bit", "Grassy Land", 84);
             Title.anchor.setTo(0.5);
-            Statistics = this.game.add.bitmapText(StatBoard.x, this.game.world.centerY - 100, "8Bit", "Statistics", 32);
+            Statistics = this.game.add.bitmapText(StatBoard.x, this.game.world.centerY - 130, "8Bit", "Statistics", 48);
             Statistics.anchor.setTo(0.5);
 
 
-            BestScoreText = this.game.add.bitmapText(StatBoard.x - 215, StatBoard.y - 100, "8Bit2", "Best Score: " + localStorage.getItem("BestScore"), 28);
+            BestScoreText = this.game.add.bitmapText(StatBoard.x - 220, StatBoard.y - 120, "8Bit2", "Best Score: " + localStorage.getItem("Course1BestScore"), 28);
             BestScoreText.tint = "0x000000";
-            BestTimeClock = Number(localStorage.getItem("BestTime"));
+            BestTimeClock = Number(localStorage.getItem("Course1BestTime"));
             if (BestTimeClock < 1) {
                 BestTimeClock = this.round(60 * BestTimeClock);
-                BestTimeText = this.game.add.bitmapText(StatBoard.x - 215, StatBoard.y - 25, "8Bit2", "Best Time: " + BestTimeClock + "s", 28);
+                BestTimeText = this.game.add.bitmapText(StatBoard.x - 220, StatBoard.y - 45, "8Bit2", "Best Time: " + BestTimeClock + "s", 28);
                 BestTimeText.tint = "0x000000";
             }
             else {
                 BestTimeClock = ( Math.floor(BestTimeClock) + "m " + this.round((BestTimeClock * 60) % 60) + "s");
-                BestTimeText = this.game.add.bitmapText(StatBoard.x - 215, StatBoard.y - 25, "8Bit2", "Best Time: " + BestTimeClock, 28);
+                BestTimeText = this.game.add.bitmapText(StatBoard.x - 220, StatBoard.y - 45, "8Bit2", "Best Time: " + BestTimeClock, 28);
                 BestTimeText.tint = "0x000000";
             }
 
-            TotalShotsText = this.game.add.bitmapText(StatBoard.x - 215, StatBoard.y + 50, "8Bit2", "Total Shots: " + Number(localStorage.getItem("TotalShots")).toString(), 28);
+            TotalShotsText = this.game.add.bitmapText(StatBoard.x - 220, StatBoard.y + 30, "8Bit2", "Total Shots: " + Number(localStorage.getItem("Course1TotalShots")).toString(), 28);
             TotalShotsText.tint = "0x000000";
-            WaterHitText = this.game.add.bitmapText(StatBoard.x - 215, StatBoard.y + 125, "8Bit2", "Water Hit: " + localStorage.getItem("WaterHit"), 28);
+            WaterHitText = this.game.add.bitmapText(StatBoard.x - 220, StatBoard.y + 105, "8Bit2", "Water Hit: " + localStorage.getItem("Course1WaterHit"), 28);
             WaterHitText.tint = "0x000000";
+            TimesPlayedText = this.game.add.bitmapText(StatBoard.x - 220, StatBoard.y + 180, "8Bit2", "Times Played: " + Number(localStorage.getItem("Course1TimesPlayed")).toString(), 28);
+            TimesPlayedText.tint = "0x000000";
 
-            Play = this.game.add.button(this.game.world.centerX + 400, this.game.world.centerY + 250, "Button", this.Course1, this, 0, 0, 1, 0);
+            HighScoreBoard = this.game.add.sprite(this.game.world.centerX + 250, this.game.world.centerY + 20, "Scoreboard");
+            HighScoreBoard.anchor.setTo(0.5);
+            HighScoreBoard.scale.setTo(0.625, 0.475);
+
+            //Leaderboard
+            LeaderboardText = this.game.add.bitmapText(HighScoreBoard.x, this.game.world.centerY - 140, "8Bit", "Leaderboard", 45);
+            LeaderboardText.anchor.setTo(0.5);
+            $.ajax({
+                url: 'HighScores/TopScores.php',
+                type: 'post',
+                data: {"coursevalue" : 1},
+                success: function(data){
+                    //console.log(data);
+                    LeaderboardFoundCourse1 = true;
+                    results = JSON.parse(data);
+                    i = 0;
+
+                    results.forEach(function(result){
+                        LoadedNameCourse1[i] = result.name;
+                        LoadedScoreCourse1[i] = result.score;
+                        //console.log(LoadedName[i] + " - " + LoadedScore[i]);
+                        i++;
+                    });
+                }
+            });
+
+            Play = this.game.add.button(this.game.world.centerX + 400, this.game.world.centerY + 285, "Button", this.Course1, this, 0, 0, 1, 0);
             Play.anchor.setTo(0.5, 0.5);
             Play.scale.setTo(0.67);
             PlayText = this.game.add.bitmapText(Play.x, Play.y - 8, "8Bit", "Play", 84);
             PlayText.anchor.setTo(0.5, 0.5);
             PlayText.scale.setTo(0.67);
 
-            Back = this.game.add.button(this.game.world.centerX + 100, this.game.world.centerY + 250, "Button", this.GoBack, this, 0, 0, 1, 0);
+            Back = this.game.add.button(this.game.world.centerX + 100, this.game.world.centerY + 285, "Button", this.GoBack, this, 0, 0, 1, 0);
             Back.anchor.setTo(0.5, 0.5);
             Back.scale.setTo(0.67);
             BackText = this.game.add.bitmapText(Back.x, Back.y - 10, "8Bit", "Back", 84);
@@ -588,8 +793,87 @@ mainMenu.prototype = {
     /**
      * Handles starting course 2
      */
-    GoToCourse2: function(){
-        //this.game.state.start("GameState")
+    GoToCourse2: function(button, pointer, isOver){
+        if (isOver) {
+            MusicControl.stop();
+            Level1.destroy();
+            Level2.destroy();
+            Level1Text.destroy();
+            Level2Text.destroy();
+            Back.destroy();
+            BackText.destroy();
+            Logo.visible = false;
+
+            StatBoard = this.game.add.sprite(this.game.world.centerX - 350, this.game.world.centerY + 75, "Scoreboard");
+            StatBoard.anchor.setTo(0.5);
+            StatBoard.scale.setTo(0.6, 0.6);
+            Title = this.game.add.bitmapText(this.game.world.centerX, 60, "8Bit", "Sticky Icky", 84);
+            Title.anchor.setTo(0.5);
+            Statistics = this.game.add.bitmapText(StatBoard.x, this.game.world.centerY - 130, "8Bit", "Statistics", 48);
+            Statistics.anchor.setTo(0.5);
+
+
+            BestScoreText = this.game.add.bitmapText(StatBoard.x - 220, StatBoard.y - 120, "8Bit2", "Best Score: " + localStorage.getItem("Course2BestScore"), 28);
+            BestScoreText.tint = "0x000000";
+            BestTimeClock = Number(localStorage.getItem("Course2BestTime"));
+            if (BestTimeClock < 1) {
+                BestTimeClock = this.round(60 * BestTimeClock);
+                BestTimeText = this.game.add.bitmapText(StatBoard.x - 220, StatBoard.y - 45, "8Bit2", "Best Time: " + BestTimeClock + "s", 28);
+                BestTimeText.tint = "0x000000";
+            }
+            else {
+                BestTimeClock = ( Math.floor(BestTimeClock) + "m " + this.round((BestTimeClock * 60) % 60) + "s");
+                BestTimeText = this.game.add.bitmapText(StatBoard.x - 220, StatBoard.y - 45, "8Bit2", "Best Time: " + BestTimeClock, 28);
+                BestTimeText.tint = "0x000000";
+            }
+
+            TotalShotsText = this.game.add.bitmapText(StatBoard.x - 220, StatBoard.y + 30, "8Bit2", "Total Shots: " + Number(localStorage.getItem("Course2TotalShots")).toString(), 28);
+            TotalShotsText.tint = "0x000000";
+            WaterHitText = this.game.add.bitmapText(StatBoard.x - 220, StatBoard.y + 105, "8Bit2", "Water Hit: " + localStorage.getItem("Course2WaterHit"), 28);
+            WaterHitText.tint = "0x000000";
+            TimesPlayedText = this.game.add.bitmapText(StatBoard.x - 220, StatBoard.y + 180, "8Bit2", "Times Played: " + Number(localStorage.getItem("Course2TimesPlayed")).toString(), 28);
+            TimesPlayedText.tint = "0x000000";
+
+            HighScoreBoard = this.game.add.sprite(this.game.world.centerX + 250, this.game.world.centerY + 20, "Scoreboard");
+            HighScoreBoard.anchor.setTo(0.5);
+            HighScoreBoard.scale.setTo(0.625, 0.475);
+
+            //Leaderboard
+            LeaderboardText = this.game.add.bitmapText(HighScoreBoard.x, this.game.world.centerY - 140, "8Bit", "Leaderboard", 45);
+            LeaderboardText.anchor.setTo(0.5);
+            $.ajax({
+                url: 'HighScores/TopScores.php',
+                type: 'post',
+                data: {"coursevalue" : 2},
+                success: function(data){
+                    //console.log(data);
+                    LeaderboardFoundCourse2 = true;
+                    results = JSON.parse(data);
+                    i = 0;
+
+                    results.forEach(function(result){
+                        LoadedNameCourse2[i] = result.name;
+                        LoadedScoreCourse2[i] = result.score;
+                        //console.log(LoadedName[i] + " - " + LoadedScore[i]);
+                        i++;
+                    });
+                }
+            });
+
+            Play = this.game.add.button(this.game.world.centerX + 400, this.game.world.centerY + 285, "Button", this.Course2, this, 0, 0, 1, 0);
+            Play.anchor.setTo(0.5, 0.5);
+            Play.scale.setTo(0.67);
+            PlayText = this.game.add.bitmapText(Play.x, Play.y - 8, "8Bit", "Play", 84);
+            PlayText.anchor.setTo(0.5, 0.5);
+            PlayText.scale.setTo(0.67);
+
+            Back = this.game.add.button(this.game.world.centerX + 100, this.game.world.centerY + 285, "Button", this.GoBack, this, 0, 0, 1, 0);
+            Back.anchor.setTo(0.5, 0.5);
+            Back.scale.setTo(0.67);
+            BackText = this.game.add.bitmapText(Back.x, Back.y - 10, "8Bit", "Back", 84);
+            BackText.anchor.setTo(0.5, 0.5);
+            BackText.scale.setTo(0.67);
+        }
     },
 
     /**
@@ -606,7 +890,28 @@ mainMenu.prototype = {
         BestTimeText.destroy();
         TotalShotsText.destroy();
         WaterHitText.destroy();
+        TimesPlayedText.destroy();
+        HighScoreBoard.destroy();
         this.game.state.start("Level1")
+    },
+
+    /**
+     * Deletes main menu objects and loads course 2
+     */
+    Course2: function(){
+        MusicControl.stop();
+        Play.destroy();
+        PlayText.destroy();
+        StatBoard.destroy();
+        Title.destroy();
+        Statistics.destroy();
+        BestScoreText.destroy();
+        BestTimeText.destroy();
+        TotalShotsText.destroy();
+        WaterHitText.destroy();
+        TimesPlayedText.destroy();
+        HighScoreBoard.destroy();
+        this.game.state.start("Level2-1")
     },
 
     /**
