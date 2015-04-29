@@ -316,7 +316,7 @@ level3.prototype = {
         this.game.debug.text(this.game.time.fps || '--', 2, 14, "#00ff00");
         //if (Ball != undefined) this.game.debug.spriteInfo(Ball, 32, 32);
         //this.game.debug.inputInfo(32, 32);
-        if (Ball != undefined) console.log(Ball.body.velocity.x, Ball.body.velocity.y);
+        //if (Ball != undefined) console.log(Ball.body.velocity.x, Ball.body.velocity.y);
     },
 
     /**
