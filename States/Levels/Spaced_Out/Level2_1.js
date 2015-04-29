@@ -95,7 +95,7 @@ level2_1.prototype = {
         Fairway.body.clearShapes();
         Fairway.body.loadPolygon("Physics", "Level2-1-Hole");
 
-        MusicControl = this.game.add.audio("Course1Music", 1, true);
+        MusicControl = this.game.add.audio("Course2Music", 1, true);
         if (Music == true) MusicControl.play();
         GolfClap = this.game.add.audio("GolfClap");
         GolfSwing = this.game.add.audio("GolfSwing");

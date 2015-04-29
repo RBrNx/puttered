@@ -71,7 +71,7 @@ var results;
 var CourseTimer = 0;
 
 var Sound = true;
-var Music = false;
+var Music = true;
 var MusicControl;
 
 mainMenu.prototype = {
