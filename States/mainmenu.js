@@ -50,9 +50,6 @@ var CourseEnded = false;
 var Leaderboard = false;
 var HoleNumber = 0;
 
-var LoadedName = "Test";
-var LoadedScore = "Score";
-
 var CourseTimer = 0;
 
 var Sound = true;
@@ -121,7 +118,7 @@ mainMenu.prototype = {
                 $.ajax({
                     url: 'HighScores/SendData.php',
                     type: 'post',
-                    data: {"name" : Name, "score" : -36},
+                    data: {"name" : Name, "score" : 100},
                     success: function(data){
                         console.log(data);
                     }
@@ -305,9 +302,6 @@ mainMenu.prototype = {
             if (OverallScore < Number(localStorage.getItem("BestScore"))){
                 localStorage.setItem("BestScore", OverallScore.toString());
             }
-            if ( (Number(localStorage.getItem("BestScore"))) == 0){
-                localStorage.setItem("BestScore", OverallScore.toString());
-            }
 
             SavedTimer = (CourseTimer/60)/60;
 
@@ -329,15 +323,23 @@ mainMenu.prototype = {
             if (PostScores == true){
                 var Name = prompt("Please enter your name");
                 if (Name != null){
+                    if (window.XMLHttpRequest){
+                        var XMLHTTP = new XMLHttpRequest();
+                    }
+                    else {
+                        var XMLHTTP = new ActiveXObject("Microsoft.XMLHTTP");
+                    }
 
-                    $.ajax({
-                        url: 'HighScores/SendData.php',
-                        type: 'post',
-                        data: {"name" : Name, "score" : -36},
-                        success: function(data){
-                            console.log(data);
+                    var TargetPage = "HighScores/SendData.php";
+                    XMLHTTP.open("POST", TargetPage, true);
+                    XMLHTTP.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                    XMLHTTP.onreadystatechange = function() {
+                        if (XMLHTTP.readyState == 4 && XMLHTTP.status == 200){
+                            var ReturnData = XMLHTTP.responseText;
+                            console.log(ReturnData);
                         }
-                    })
+                    }
+                    XMLHTTP.send(Name);
                 }
             }
 
@@ -567,20 +569,6 @@ mainMenu.prototype = {
             WaterHitText = this.game.add.bitmapText(StatBoard.x - 215, StatBoard.y + 125, "8Bit2", "Water Hit: " + localStorage.getItem("WaterHit"), 28);
             WaterHitText.tint = "0x000000";
 
-            console.log("3");
-            //Leaderboard
-            $.get( "HighScores/TopScores.php", function(data) {
-                var results = JSON.parse(data);
-                console.log("2");
-
-                LoadedName = results[0].name;
-                LoadedScore = results[0].score;
-
-            }, "json" );
-
-            this.game.add.bitmapText(600, StatBoard.y - 100, "8Bit", LoadedName + "-" + LoadedScore, 28);
-
-
             Play = this.game.add.button(this.game.world.centerX + 400, this.game.world.centerY + 250, "Button", this.Course1, this, 0, 0, 1, 0);
             Play.anchor.setTo(0.5, 0.5);
             Play.scale.setTo(0.67);
@@ -600,73 +588,8 @@ mainMenu.prototype = {
     /**
      * Handles starting course 2
      */
-    GoToCourse2: function(button, pointer, isOver){
-        if (isOver) {
-            MusicControl.stop();
-            Level1.destroy();
-            Level2.destroy();
-            Level1Text.destroy();
-            Level2Text.destroy();
-            Back.destroy();
-            BackText.destroy();
-            Logo.destroy();
-
-            StatBoard = this.game.add.sprite(this.game.world.centerX - 350, this.game.world.centerY + 75, "Scoreboard");
-            StatBoard.anchor.setTo(0.5);
-            StatBoard.scale.setTo(0.6, 0.5);
-            Title = this.game.add.bitmapText(this.game.world.centerX, 100, "8Bit", "Sticky Icky", 84);
-            Title.anchor.setTo(0.5);
-            Statistics = this.game.add.bitmapText(StatBoard.x, this.game.world.centerY - 100, "8Bit", "Statistics", 32);
-            Statistics.anchor.setTo(0.5);
-
-
-            BestScoreText = this.game.add.bitmapText(StatBoard.x - 215, StatBoard.y - 100, "8Bit2", "Best Score: " + localStorage.getItem("BestScore"), 28);
-            BestScoreText.tint = "0x000000";
-            BestTimeClock = Number(localStorage.getItem("BestTime"));
-            if (BestTimeClock < 1) {
-                BestTimeClock = this.round(60 * BestTimeClock);
-                BestTimeText = this.game.add.bitmapText(StatBoard.x - 215, StatBoard.y - 25, "8Bit2", "Best Time: " + BestTimeClock + "s", 28);
-                BestTimeText.tint = "0x000000";
-            }
-            else {
-                BestTimeClock = ( Math.floor(BestTimeClock) + "m " + this.round((BestTimeClock * 60) % 60) + "s");
-                BestTimeText = this.game.add.bitmapText(StatBoard.x - 215, StatBoard.y - 25, "8Bit2", "Best Time: " + BestTimeClock, 28);
-                BestTimeText.tint = "0x000000";
-            }
-
-            TotalShotsText = this.game.add.bitmapText(StatBoard.x - 215, StatBoard.y + 50, "8Bit2", "Total Shots: " + Number(localStorage.getItem("TotalShots")).toString(), 28);
-            TotalShotsText.tint = "0x000000";
-            WaterHitText = this.game.add.bitmapText(StatBoard.x - 215, StatBoard.y + 125, "8Bit2", "Water Hit: " + localStorage.getItem("WaterHit"), 28);
-            WaterHitText.tint = "0x000000";
-
-            console.log("3");
-            //Leaderboard
-            $.get( "HighScores/TopScores.php", function(data) {
-                var results = JSON.parse(data);
-                console.log("2");
-
-                LoadedName = results[0].name;
-                LoadedScore = results[0].score;
-
-            }, "json" );
-
-            this.game.add.bitmapText(600, StatBoard.y - 100, "8Bit", LoadedName + "-" + LoadedScore, 28);
-
-
-            Play = this.game.add.button(this.game.world.centerX + 400, this.game.world.centerY + 250, "Button", this.Course2, this, 0, 0, 1, 0);
-            Play.anchor.setTo(0.5, 0.5);
-            Play.scale.setTo(0.67);
-            PlayText = this.game.add.bitmapText(Play.x, Play.y - 8, "8Bit", "Play", 84);
-            PlayText.anchor.setTo(0.5, 0.5);
-            PlayText.scale.setTo(0.67);
-
-            Back = this.game.add.button(this.game.world.centerX + 100, this.game.world.centerY + 250, "Button", this.GoBack, this, 0, 0, 1, 0);
-            Back.anchor.setTo(0.5, 0.5);
-            Back.scale.setTo(0.67);
-            BackText = this.game.add.bitmapText(Back.x, Back.y - 10, "8Bit", "Back", 84);
-            BackText.anchor.setTo(0.5, 0.5);
-            BackText.scale.setTo(0.67);
-        }
+    GoToCourse2: function(){
+        //this.game.state.start("GameState")
     },
 
     /**
@@ -684,23 +607,6 @@ mainMenu.prototype = {
         TotalShotsText.destroy();
         WaterHitText.destroy();
         this.game.state.start("Level1")
-    },
-
-    /**
-     * Deletes main menu objects and loads course 2
-     */
-    Course2: function(){
-        MusicControl.stop();
-        Play.destroy();
-        PlayText.destroy();
-        StatBoard.destroy();
-        Title.destroy();
-        Statistics.destroy();
-        BestScoreText.destroy();
-        BestTimeText.destroy();
-        TotalShotsText.destroy();
-        WaterHitText.destroy();
-        this.game.state.start("Level2-1")
     },
 
     /**
