@@ -535,7 +535,7 @@ level2_1.prototype = {
         Scoreboard.scale.setTo(0.67);
         Scoreboard.inputEnabled = true;
         Scoreboard.anchor.setTo(0.5, 0.5);
-        var CourseTitle = this.game.add.bitmapText(Scoreboard.x, Scoreboard.y - 200, "8Bit", "Grass Land", 50);
+        var CourseTitle = this.game.add.bitmapText(Scoreboard.x, Scoreboard.y - 200, "8Bit", "Spaced Out", 50);
         CourseTitle.anchor.setTo(0.5);
 
         var Hole = this.game.add.bitmapText(Scoreboard.x - 210, Scoreboard.y + 15, "8Bit", "Hole\n\n\n   1\n\n   2\n\n   3\n\n   4\n\n " +
