@@ -34,7 +34,8 @@ var Level2Text;
 var Title;
 var ScoreText;
 var Score;
-var ScoreArray = []; //Holds Bitmap Text Objects to Display the Score at the End of the Level
+var ScoreArrayCourse1 = []; //Holds Bitmap Text Objects to Display the Score at the End of the Level
+var ScoreArrayCourse2 = []; //Holds Bitmap Text Objects to Display the Score at the End of the Level
 var HighScoresCourse1 = [];
 var HighScoresCourse2 = [];
 var Overall;
@@ -913,7 +914,7 @@ mainMenu.prototype = {
         WaterHitText.destroy();
         TimesPlayedText.destroy();
         HighScoreBoard.destroy();
-        this.game.state.start("Level2-6");
+        this.game.state.start("Level2-1");
     },
 
     /**

@@ -1,9 +1,12 @@
 /**
+ * Created by Conor on 29/04/2015.
+ */
+/**
  * Created by Conor on 14/04/2015.
  */
-var level2_2 = function(game){};
+var level2_6 = function(game){};
 
-level2_2.prototype = {
+level2_6.prototype = {
     /**
      * Pre-loads data for use in level 1
      */
@@ -12,9 +15,28 @@ level2_2.prototype = {
         loadingBar.anchor.setTo(0.5,0.5);
         this.load.setPreloadSprite(loadingBar);
 
-        this.game.load.image("Fairway", "Graphics/Level_Assets/Spaced_Out/Level2/Level2-2.png");
+        this.game.load.spritesheet("ButtonSq", "Graphics/Buttons/Button-Square.png", 150, 150);
+        this.game.load.spritesheet("Shot", "Graphics/Player/Swing.png", 140, 140);
+        this.game.load.image("Ball", "Graphics/Player/Ball.png");
+        this.game.load.physics("Physics", "Graphics/Level_Assets/Spaced_Out/Physics.json");
+        this.game.load.image("Fairway", "Graphics/Level_Assets/Spaced_Out/Level6/Level2-6-Hole.png");
+        this.game.load.image("Space", "Graphics/Background/Space.png");
+        this.game.load.image("SwingButton", "Graphics/Buttons/Swing-Button.png");
+        this.game.load.image("PowerBar", "Graphics/Buttons/Power-Bar.png");
+        this.game.load.image("PowerFill", "Graphics/Buttons/Gradient.png");
+        this.game.load.image("Arrow", "Graphics/Player/Arrow.png");
+        this.game.load.image("Star", "Graphics/Level_Assets/star.png");
+        this.game.load.image("Block", "Graphics/Player/Block.png");
+        this.game.load.image("BackgroundP", "Graphics/Background/Background-Pause.png");
+        this.game.load.image("Scoreboard", "Graphics/Background/Scoreboard.png");
+        this.game.load.audio("GolfClap", "Music/GolfClap.ogg");
+        this.game.load.audio("GolfSwing", "Music/GolfSwing.ogg");
+        this.game.load.spritesheet("Water", "Graphics/Level_Assets/Wave.png", 640, 360);
+        this.game.load.audio("Splash", "Music/Splash.ogg");
+        this.game.load.image("Sand", "Graphics/Level_Assets/Sand.png");
+        this.game.load.image("MovingB", "Graphics/Level_Assets/Spaced_Out/Level6/MovingBlock.png");
 
-        this.game.world.setBounds(0, 0, 1500, 1500);
+        this.game.world.setBounds(0, 0, 1920, 3000);
     },
 
     /**
@@ -35,7 +57,7 @@ level2_2.prototype = {
         SavedBallVelY = 0;
         prevBallX = 0;
         prevBallY = 0;
-        HoleNumber = 1;
+        HoleNumber = 5;
         FinishSwing = false;
         Paused = false;
         ballMaterial = null;
@@ -44,34 +66,84 @@ level2_2.prototype = {
         Radian = 0.0174532925;
         WaterHazard = false;
         BackgroundP = null;
+        dx = 5;
+        dx2 = 5;
 
         this.game.physics.startSystem(Phaser.Physics.P2JS);
         this.game.physics.p2.gravity.y = 0;
 
         Space = this.game.add.sprite(0,0, "Space");
-        Space.scale.setTo(1, 1);
+        Space.scale.setTo(3, 3);
 
-        Player = this.game.add.sprite(1350, 1300, "Shot");
+        Player = this.game.add.sprite(1280, 570, "Shot");
         Player.animations.add("Swing");
         Player.anchor.setTo(0.5, 0.5);
 
-        Ball = this.game.add.sprite(Player.x, 1300, "Ball");
+        Ball = this.game.add.sprite(Player.x, 570, "Ball");
         Ball.anchor.setTo(0.5, 0.5);
         this.game.physics.p2.enable(Ball);
         Ball.body.clearShapes();
         Ball.body.loadPolygon("Physics", "Ball");
 
-        Block = this.game.add.sprite(155, 85, "Block");
+        Water = this.game.add.sprite(410, 2445, "Water");
+        Water.scale.setTo(0.3, 0.3);
+        Water.animations.add("Water");
+        Water.animations.play("Water", 5, true);
+
+        Water2 = this.game.add.sprite(1500, 1095, "Water");
+        Water2.scale.setTo(1, 0.6);
+        Water2.animations.add("Water");
+        Water2.animations.play("Water", 5, true);
+
+        Sand = this.game.add.sprite(325, 1305, "Sand");
+        Sand.scale.setTo(0.3, 0.3);
+        this.game.physics.p2.enable(Sand);
+        Sand.body.static = true;
+
+        Sand2 = this.game.add.sprite(1490, 2565, "Sand");
+        Sand2.scale.setTo(0.3, 0.3);
+        this.game.physics.p2.enable(Sand2);
+        Sand2.body.static = true;
+
+        Block = this.game.add.sprite(940, 2990, "Block");
         Block.scale.setTo(6);
         this.game.physics.p2.enable(Block);
         Block.body.static = true;
 
-        Fairway = this.game.add.sprite(this.game.world.centerX, 750, "Fairway");
+        MovingBlock = this.game.add.sprite(850, 850, "MovingB");
+        MovingBlock.anchor.setTo(0.5);
+        this.game.physics.p2.enable(MovingBlock);
+        MovingBlock.body.static = true;
+
+        MovingBlock2 = this.game.add.sprite(1000, 2100, "MovingB");
+        MovingBlock2.anchor.setTo(0.5);
+        this.game.physics.p2.enable(MovingBlock2);
+        MovingBlock2.body.static = true;
+
+        Fairway = this.game.add.sprite(this.game.world.centerX, 1500, "Fairway");
         Fairway.anchor.setTo(0.5,0.5);
         this.game.physics.p2.enable(Fairway);
         Fairway.body.static = true;
         Fairway.body.clearShapes();
-        Fairway.body.loadPolygon("Physics", "Level2-2-Hole");
+        Fairway.body.loadPolygon("Physics", "Level2-6-Hole");
+
+        ballMaterial = this.game.physics.p2.createMaterial("ballMaterial", Ball.body);
+        groundMaterial = this.game.physics.p2.createMaterial("groundMaterial", Fairway.body);
+        this.game.physics.p2.setWorldMaterial(groundMaterial, true, true, true, true);
+        fairwayMaterial = this.game.physics.p2.createContactMaterial(ballMaterial, groundMaterial);
+        fairwayMaterial.friction = 0.5;
+        fairwayMaterial.restitution = 0.5;
+
+        sandMaterial = this.game.physics.p2.createMaterial("sandMaterial", Sand.body);
+        sandMaterial2 = this.game.physics.p2.createMaterial("sandMaterial2", Sand2.body);
+
+        bunkerMaterial = this.game.physics.p2.createContactMaterial(ballMaterial, sandMaterial);
+        bunkerMaterial.friction = 30;
+        bunkerMaterial.restitution = 0;
+
+        bunkerMaterial2 = this.game.physics.p2.createContactMaterial(ballMaterial, sandMaterial2);
+        bunkerMaterial2.friction = 30;
+        bunkerMaterial2.restitution = 0;
 
         MusicControl = this.game.add.audio("Course2Music", 1, true);
         if (Music == true) MusicControl.play();
@@ -81,19 +153,12 @@ level2_2.prototype = {
 
         Emitter = this.game.add.emitter(Block.x, Block.y);
         Emitter.makeParticles("Star");
-        Emitter.minParticleSpeed.setTo(100, 300);
-        Emitter.maxParticleSpeed.setTo(-100, 1000);
+        Emitter.minParticleSpeed.setTo(-100, -300);
+        Emitter.maxParticleSpeed.setTo(100, -1000);
         Emitter.minParticleScale = 0.1;
         Emitter.maxParticleScale = 0.1;
         Emitter.setAlpha(0.1, 0.6);
         Emitter.gravity = -250;
-
-        ballMaterial = this.game.physics.p2.createMaterial("ballMaterial", Ball.body);
-        groundMaterial = this.game.physics.p2.createMaterial("groundMaterial", Fairway.body);
-        this.game.physics.p2.setWorldMaterial(groundMaterial, true, true, true, true);
-        fairwayMaterial = this.game.physics.p2.createContactMaterial(ballMaterial, groundMaterial);
-        fairwayMaterial.friction = 0.5;
-        fairwayMaterial.restitution = 0.5;
 
         //Set up GUI - Arrow, Left + Right Buttons, Swing Button, Pause Button, Power Bar
         Arrow = this.game.add.sprite(Ball.x, Ball.y, "Arrow");
@@ -151,8 +216,8 @@ level2_2.prototype = {
         ScoreText.scale.setTo(0.67);
         ScoreText.fixedToCamera = true;
 
-        this.game.camera.x = 0;
-        this.game.camera.y = 720;
+        this.game.camera.x = 960;
+        this.game.camera.y = 0;
 
     },
 
@@ -196,6 +261,25 @@ level2_2.prototype = {
         }
 
 
+        if (MovingBlock != undefined){
+            if (MovingBlock.body.x >= 1000){
+                dx = -5
+            }
+            else if (MovingBlock.body.x <= 700) {
+                dx = 5;
+            }
+            MovingBlock.body.x += dx;
+        }
+
+        if (MovingBlock2 != undefined){
+            if (MovingBlock2.body.x >= 1000){
+                dx2 = -5
+            }
+            else if (MovingBlock2.body.x <= 700) {
+                dx2 = 5;
+            }
+            MovingBlock2.body.x += dx2;
+        }
 
         //if (Ball != undefined) console.log(Ball.body.velocity.x, Ball.body.velocity.y);
 
@@ -220,7 +304,7 @@ level2_2.prototype = {
 
         if (this.game.input.activePointer.isDown && Paused != true && Scoreboard != undefined) {
             if (Scoreboard.input.checkPointerOver(this.game.input.activePointer)){
-                this.game.state.start("Level2-3");
+                this.game.state.start("Level2-6");
                 MusicControl.stop();
             }
         }
@@ -269,6 +353,9 @@ level2_2.prototype = {
         }
 
         if (Ball.x >= Water.x && Ball.x <= Water.x + Water.width && Ball.y >= Water.y && Ball.y <= Water.y + Water.height && WaterHazard == false){
+            this.WaterHazard();
+        }
+        if (Ball.x >= Water2.x && Ball.x <= Water2.x + Water2.width && Ball.y >= Water2.y && Ball.y <= Water2.y + Water2.height && WaterHazard == false){
             this.WaterHazard();
         }
 
@@ -343,8 +430,8 @@ level2_2.prototype = {
      */
     FinishSwing: function() {
         this.game.camera.follow(Ball, Phaser.Camera.FOLLOW_TOPDOWN);
-        var VelocityX = ((Power * Math.cos((Arrow.angle -90) * Radian) * 10)) * 1.1;
-        var VelocityY = ((Power * Math.sin((Arrow.angle -90) * Radian) * 10)) * 1.1;
+        var VelocityX = ((Power * Math.cos((Arrow.angle -90) * Radian) * 10)) * 1.5;
+        var VelocityY = ((Power * Math.sin((Arrow.angle -90) * Radian) * 10)) * 1.5;
         Ball.body.velocity.x += VelocityX;
         Ball.body.velocity.y += VelocityY;
 
@@ -518,11 +605,11 @@ level2_2.prototype = {
         CourseTitle.anchor.setTo(0.5);
 
         var Hole = this.game.add.bitmapText(Scoreboard.x - 210, Scoreboard.y + 15, "8Bit", "Hole\n\n\n   1\n\n   2\n\n   3\n\n   4\n\n " +
-        "  5\n\n   6\n\n   7\n\n   8\n\n   9", 22);
+            "  5\n\n   6\n\n   7\n\n   8\n\n   9", 22);
 
         var Par = this.game.add.bitmapText (Scoreboard.x - 10, Scoreboard.y + 15, "8Bit", "Par\n\n\n  "+ ParArrayCourse1[0] + "\n\n  " + ParArrayCourse1[1] + "\n\n  " +
-        ParArrayCourse1[2] + "\n\n  " + ParArrayCourse1[3] + "\n\n  " + ParArrayCourse1[4] + "\n\n  " + ParArrayCourse1[5] + "\n\n  " +
-        ParArrayCourse1[6] + "\n\n  " + ParArrayCourse1[7] + "\n\n  " + ParArrayCourse1[8], 22);
+            ParArrayCourse1[2] + "\n\n  " + ParArrayCourse1[3] + "\n\n  " + ParArrayCourse1[4] + "\n\n  " + ParArrayCourse1[5] + "\n\n  " +
+            ParArrayCourse1[6] + "\n\n  " + ParArrayCourse1[7] + "\n\n  " + ParArrayCourse1[8], 22);
 
         var ScoreText = this.game.add.bitmapText(Scoreboard.x + 110, Scoreboard.y - 30, "8Bit", "Strokes", 22);
 
@@ -657,7 +744,7 @@ level2_2.prototype = {
         console.log("TurnOnCollisions");
         this.game.physics.p2.enable(Fairway);
         this.game.physics.p2.enable(Ball);
-        Fairway.body.loadPolygon("Physics", "Level2-2-Hole");
+        Fairway.body.loadPolygon("Physics", "Level2-6-Hole");
         Fairway.static = true;
         Ball.body.loadPolygon("Physics", "Ball");
         Ball.body.velocity.x = SavedBallVelX;

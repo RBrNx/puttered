@@ -95,6 +95,13 @@ level2_3.prototype = {
         Fairway.body.clearShapes();
         Fairway.body.loadPolygon("Physics", "Level2-3-Hole");
 
+        ballMaterial = this.game.physics.p2.createMaterial("ballMaterial", Ball.body);
+        groundMaterial = this.game.physics.p2.createMaterial("groundMaterial", Fairway.body);
+        this.game.physics.p2.setWorldMaterial(groundMaterial, true, true, true, true);
+        fairwayMaterial = this.game.physics.p2.createContactMaterial(ballMaterial, groundMaterial);
+        fairwayMaterial.friction = 0.5;
+        fairwayMaterial.restitution = 0.5;
+
         MusicControl = this.game.add.audio("Course2Music", 1, true);
         if (Music == true) MusicControl.play();
         GolfClap = this.game.add.audio("GolfClap");
