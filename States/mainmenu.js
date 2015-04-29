@@ -1,5 +1,5 @@
 /**
- * Created by b00231929 on 20/03/2015.
+ * Created by B00231929 on 20/03/2015.
  */
 
 /**
@@ -427,7 +427,7 @@ mainMenu.prototype = {
 
             BackgroundP = this.game.add.sprite(this.game.camera.x, this.game.camera.y, "BackgroundP");
             BackgroundP.scale.setTo(0.67);
-            Title = this.game.add.bitmapText(this.game.world.centerX, 75, "8Bit2", "Sticky Icky\n  Complete!", 64);
+            Title = this.game.add.bitmapText(this.game.world.centerX, 75, "8Bit2", "Spaced Out\n  Complete!", 64);
             Title.anchor.setTo(0.5);
 
             Hole = this.game.add.bitmapText(this.game.world.centerX - 550, this.game.world.centerY - 150, "8Bit2", "Hole\n\n\n   1\n\n   2\n\n   3\n\n   4\n\n " +
@@ -576,7 +576,7 @@ mainMenu.prototype = {
         Level1 = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 75, "Level1", this.GoToCourse1, this, 0, 0, 1, 0);
         Level1Text = this.game.add.bitmapText(Level1.x, Level1.y - 100, "8Bit", "Grassy Land", 48);
         Level2 = this.game.add.button(Level1.x+320, this.game.world.centerY + 75, "Level2", this.GoToCourse2, this, 0, 0, 1, 0);
-        Level2Text = this.game.add.bitmapText(Level2.x, Level2.y - 100, "8Bit", "Sticky Icky", 48);
+        Level2Text = this.game.add.bitmapText(Level2.x, Level2.y - 100, "8Bit", "Spaced Out", 48);
         Level1.anchor.setTo(0.5, 0.5);
         Level1Text.anchor.setTo(0.5, 0.5);
         Level1.scale.setTo(0.67);
@@ -600,7 +600,7 @@ mainMenu.prototype = {
             this.game.state.start("Level1");
         }
         if (LastCourse == 2){
-            this.game.state.start("Level2");
+            this.game.state.start("Level2-1");
         }
 
     },
@@ -807,7 +807,7 @@ mainMenu.prototype = {
             StatBoard = this.game.add.sprite(this.game.world.centerX - 350, this.game.world.centerY + 75, "Scoreboard");
             StatBoard.anchor.setTo(0.5);
             StatBoard.scale.setTo(0.6, 0.6);
-            Title = this.game.add.bitmapText(this.game.world.centerX, 60, "8Bit", "Sticky Icky", 84);
+            Title = this.game.add.bitmapText(this.game.world.centerX, 60, "8Bit", "Spaced Out", 84);
             Title.anchor.setTo(0.5);
             Statistics = this.game.add.bitmapText(StatBoard.x, this.game.world.centerY - 130, "8Bit", "Statistics", 48);
             Statistics.anchor.setTo(0.5);
@@ -911,7 +911,7 @@ mainMenu.prototype = {
         WaterHitText.destroy();
         TimesPlayedText.destroy();
         HighScoreBoard.destroy();
-        this.game.state.start("Level2-1")
+        this.game.state.start("Level2-3");
     },
 
     /**

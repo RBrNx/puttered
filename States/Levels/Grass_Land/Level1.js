@@ -5,11 +5,10 @@ var level1 = function(game){};
 
 var StrokeArrayCourse1 = [];   //Array to hold the number of strokes per hole
 var ParArrayCourse1 = [2, 3, 5, 4, 3, 4, 4, 6, 8];     //Array to hold the par for each hole
-var TotalShots = Number(localStorage.getItem("TotalShots"));    //Stores the total shots for the course
-var WaterHit = Number(localStorage.getItem("WaterHit"));    //Stores the number of water hazards hit for the course
+var TotalShots = Number(localStorage.getItem("Course1TotalShots"));    //Stores the total shots for the course
+var WaterHit = Number(localStorage.getItem("Course1WaterHit"));    //Stores the number of water hazards hit for the course
 var CourseTimer = 0;    //Sets the timer to 0
 
-//TODO Clean up this code
 level1.prototype = {
     /**
      * Pre-loads data required for level 1

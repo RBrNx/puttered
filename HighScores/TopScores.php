@@ -6,7 +6,7 @@
 	$courseValue = $_POST['coursevalue']; 
 	if ($courseValue == '1'){
      //This query grabs the top 10 scores, sorting by score and timestamp.
-    $query = "SELECT * FROM Course1Scores ORDER by score ASC, ts ASC LIMIT 10";
+    $query = "SELECT * FROM Course1Scores ORDER by score ASC, ts ASC LIMIT 5";
     $result = mysql_query($query) or die('Query failed: ' . mysql_error());
  
     //We find our number of rows
@@ -16,7 +16,7 @@
 	
 	if ($courseValue == '2'){
      //This query grabs the top 10 scores, sorting by score and timestamp.
-    $query = "SELECT * FROM Course2Scores ORDER by score ASC, ts ASC LIMIT 10";
+    $query = "SELECT * FROM Course2Scores ORDER by score ASC, ts ASC LIMIT 5";
     $result = mysql_query($query) or die('Query failed: ' . mysql_error());
  
     //We find our number of rows

@@ -3,6 +3,12 @@
  */
 var level2_1 = function(game){};
 
+var StrokeArrayCourse2 = [];   //Array to hold the number of strokes per hole
+var ParArrayCourse2 = [4, 3, 8, 4, 3, 4, 4, 6, 8];     //Array to hold the par for each hole
+var TotalShots = Number(localStorage.getItem("Course2TotalShots"));    //Stores the total shots for the course
+var WaterHit = Number(localStorage.getItem("Course2WaterHit"));    //Stores the number of water hazards hit for the course
+var CourseTimer = 0;    //Sets the timer to 0
+
 level2_1.prototype = {
     /**
      * Pre-loads data for use in level 1
@@ -235,7 +241,7 @@ level2_1.prototype = {
 
         if (this.game.input.activePointer.isDown && Paused != true && Scoreboard != undefined) {
             if (Scoreboard.input.checkPointerOver(this.game.input.activePointer)){
-                this.game.state.start("Level4");
+                this.game.state.start("Level2-2");
                 MusicControl.stop();
             }
         }

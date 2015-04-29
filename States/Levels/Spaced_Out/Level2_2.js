@@ -12,26 +12,9 @@ level2_2.prototype = {
         loadingBar.anchor.setTo(0.5,0.5);
         this.load.setPreloadSprite(loadingBar);
 
-        this.game.load.spritesheet("ButtonSq", "Graphics/Buttons/Button-Square.png", 150, 150);
-        this.game.load.spritesheet("Shot", "Graphics/Player/Swing.png", 140, 140);
-        this.game.load.image("Ball", "Graphics/Player/Ball.png");
-        this.game.load.physics("Physics", "Graphics/Level_Assets/Spaced_Out/Physics.json");
         this.game.load.image("Fairway", "Graphics/Level_Assets/Spaced_Out/Level2/Level2-2.png");
-        this.game.load.image("Space", "Graphics/Background/Space.png");
-        this.game.load.image("SwingButton", "Graphics/Buttons/Swing-Button.png");
-        this.game.load.image("PowerBar", "Graphics/Buttons/Power-Bar.png");
-        this.game.load.image("PowerFill", "Graphics/Buttons/Gradient.png");
-        this.game.load.image("Arrow", "Graphics/Player/Arrow.png");
-        this.game.load.image("Star", "Graphics/Level_Assets/star.png");
-        this.game.load.image("Block", "Graphics/Player/Block.png");
-        this.game.load.image("BackgroundP", "Graphics/Background/Background-Pause.png");
-        this.game.load.image("Scoreboard", "Graphics/Background/Scoreboard.png");
-        this.game.load.audio("GolfClap", "Music/GolfClap.ogg");
-        this.game.load.audio("GolfSwing", "Music/GolfSwing.ogg");
-        this.game.load.spritesheet("Water", "Graphics/Level_Assets/Wave.png", 640, 360);
-        this.game.load.audio("Splash", "Music/Splash.ogg");
 
-        this.game.world.setBounds(0, 0, 3000, 3000);
+        this.game.world.setBounds(0, 0, 1500, 1500);
     },
 
     /**
@@ -52,7 +35,7 @@ level2_2.prototype = {
         SavedBallVelY = 0;
         prevBallX = 0;
         prevBallY = 0;
-        HoleNumber = 0;
+        HoleNumber = 1;
         FinishSwing = false;
         Paused = false;
         ballMaterial = null;
@@ -66,34 +49,29 @@ level2_2.prototype = {
         this.game.physics.p2.gravity.y = 0;
 
         Space = this.game.add.sprite(0,0, "Space");
-        Space.scale.setTo(1.5, 1.5);
+        Space.scale.setTo(1, 1);
 
-        Player = this.game.add.sprite(150, 530, "Shot");
+        Player = this.game.add.sprite(1350, 1300, "Shot");
         Player.animations.add("Swing");
         Player.anchor.setTo(0.5, 0.5);
 
-        Ball = this.game.add.sprite(Player.x, 530, "Ball");
+        Ball = this.game.add.sprite(Player.x, 1300, "Ball");
         Ball.anchor.setTo(0.5, 0.5);
         this.game.physics.p2.enable(Ball);
         Ball.body.clearShapes();
         Ball.body.loadPolygon("Physics", "Ball");
 
-        Water = this.game.add.sprite(3515, 235, "Water");
-        Water.scale.setTo(0.6);
-        Water.animations.add("Water");
-        Water.animations.play("Water", 5, true);
-
-        Block = this.game.add.sprite(2065, 60, "Block");
+        Block = this.game.add.sprite(155, 85, "Block");
         Block.scale.setTo(6);
         this.game.physics.p2.enable(Block);
         Block.body.static = true;
 
-        Fairway = this.game.add.sprite(this.game.world.centerX, 360, "Fairway");
+        Fairway = this.game.add.sprite(this.game.world.centerX, 750, "Fairway");
         Fairway.anchor.setTo(0.5,0.5);
         this.game.physics.p2.enable(Fairway);
         Fairway.body.static = true;
         Fairway.body.clearShapes();
-        Fairway.body.loadPolygon("Physics", "Level2-1-Hole");
+        Fairway.body.loadPolygon("Physics", "Level2-2-Hole");
 
         MusicControl = this.game.add.audio("Course1Music", 1, true);
         if (Music == true) MusicControl.play();
@@ -114,7 +92,7 @@ level2_2.prototype = {
         Arrow = this.game.add.sprite(Ball.x, Ball.y, "Arrow");
         Arrow.anchor.setTo(0.5, 1);
         Arrow.rotation = 181 * Radian;
-        Arrow.angle = 60;
+        Arrow.angle = -60;
 
         LeftB = this.game.add.sprite(20, 610, "Button");
         LeftB.scale.setTo(0.67);
@@ -158,7 +136,7 @@ level2_2.prototype = {
         HoleText.scale.setTo(0.67);
         HoleText.fixedToCamera = true;
 
-        ParText = this.game.add.bitmapText(115, 16, "8Bit", "Par: " + ParArrayCourse1[HoleNumber], 24);
+        ParText = this.game.add.bitmapText(115, 16, "8Bit", "Par: " + ParArrayCourse2[HoleNumber], 24);
         ParText.scale.setTo(0.67);
         ParText.fixedToCamera = true;
 
@@ -672,7 +650,7 @@ level2_2.prototype = {
         console.log("TurnOnCollisions");
         this.game.physics.p2.enable(Fairway);
         this.game.physics.p2.enable(Ball);
-        Fairway.body.loadPolygon("Physics", "Level2-1-Hole");
+        Fairway.body.loadPolygon("Physics", "Level2-2-Hole");
         Fairway.static = true;
         Ball.body.loadPolygon("Physics", "Ball");
         Ball.body.velocity.x = SavedBallVelX;
