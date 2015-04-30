@@ -812,7 +812,7 @@ mainMenu.prototype = {
             HighScoreBoard.scale.setTo(0.625, 0.475);
 
             //Leaderboard
-            LeaderboardText = this.game.add.bitmapText(HighScoreBoard.x, this.game.world.centerY - 140, "8Bit", "Leaderboard", 45);
+            LeaderboardText = this.game.add.bitmapText(HighScoreBoard.x, this.game.world.centerY - 140, "8Bit", "     Online\nLeaderboard", 45);
             LeaderboardText.anchor.setTo(0.5);
             $.ajax({
                 url: 'HighScores/TopScores.php',
@@ -897,7 +897,7 @@ mainMenu.prototype = {
             HighScoreBoard.scale.setTo(0.625, 0.475);
 
             //Leaderboard
-            LeaderboardText = this.game.add.bitmapText(HighScoreBoard.x, this.game.world.centerY - 140, "8Bit", "Leaderboard", 45);
+            LeaderboardText = this.game.add.bitmapText(HighScoreBoard.x, this.game.world.centerY - 140, "8Bit", "     Online\nLeaderboard", 45);
             LeaderboardText.anchor.setTo(0.5);
             $.ajax({
                 url: 'HighScores/TopScores.php',
