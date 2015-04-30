@@ -183,7 +183,7 @@ level2_8.prototype = {
 
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.SHIFT)){
             if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
-                StrokeCount = ParArrayCourse1[HoleNumber];
+                StrokeCount = ParArrayCourse2[HoleNumber];
                 MusicControl.stop();
                 this.LevelComplete();
             }
