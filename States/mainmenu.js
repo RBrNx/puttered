@@ -777,9 +777,9 @@ mainMenu.prototype = {
             BackText.destroy();
             Logo.visible = false;
 
-            StatBoard = this.game.add.sprite(this.game.world.centerX - 350, this.game.world.centerY + 75, "Scoreboard");
+            StatBoard = this.game.add.sprite(this.game.world.centerX - 340, this.game.world.centerY + 75, "Scoreboard");
             StatBoard.anchor.setTo(0.5);
-            StatBoard.scale.setTo(0.6, 0.6);
+            StatBoard.scale.setTo(0.65, 0.6);
             Title = this.game.add.bitmapText(this.game.world.centerX, 60, "8Bit", "Grassy Land", 84);
             Title.anchor.setTo(0.5);
             Statistics = this.game.add.bitmapText(StatBoard.x, this.game.world.centerY - 130, "8Bit", "Statistics", 48);
@@ -862,9 +862,9 @@ mainMenu.prototype = {
             BackText.destroy();
             Logo.visible = false;
 
-            StatBoard = this.game.add.sprite(this.game.world.centerX - 350, this.game.world.centerY + 75, "Scoreboard");
+            StatBoard = this.game.add.sprite(this.game.world.centerX - 340, this.game.world.centerY + 75, "Scoreboard");
             StatBoard.anchor.setTo(0.5);
-            StatBoard.scale.setTo(0.6, 0.6);
+            StatBoard.scale.setTo(0.65, 0.6);
             Title = this.game.add.bitmapText(this.game.world.centerX, 60, "8Bit", "Spaced Out", 84);
             Title.anchor.setTo(0.5);
             Statistics = this.game.add.bitmapText(StatBoard.x, this.game.world.centerY - 130, "8Bit", "Statistics", 48);
