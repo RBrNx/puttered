@@ -920,7 +920,7 @@ mainMenu.prototype = {
         WaterHitText.destroy();
         TimesPlayedText.destroy();
         HighScoreBoard.destroy();
-        this.game.state.start("Level2-1");
+        this.game.state.start("Level2-9");
     },
 
     /**

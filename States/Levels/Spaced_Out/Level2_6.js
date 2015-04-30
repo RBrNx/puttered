@@ -15,24 +15,7 @@ level2_6.prototype = {
         loadingBar.anchor.setTo(0.5,0.5);
         this.load.setPreloadSprite(loadingBar);
 
-        this.game.load.spritesheet("ButtonSq", "Graphics/Buttons/Button-Square.png", 150, 150);
-        this.game.load.spritesheet("Shot", "Graphics/Player/Swing.png", 140, 140);
-        this.game.load.image("Ball", "Graphics/Player/Ball.png");
-        this.game.load.physics("Physics", "Graphics/Level_Assets/Spaced_Out/Physics.json");
-        this.game.load.image("Fairway", "Graphics/Level_Assets/Spaced_Out/Level6/Level2-6-Hole.png");
-        this.game.load.image("Space", "Graphics/Background/Space.png");
-        this.game.load.image("SwingButton", "Graphics/Buttons/Swing-Button.png");
-        this.game.load.image("PowerBar", "Graphics/Buttons/Power-Bar.png");
-        this.game.load.image("PowerFill", "Graphics/Buttons/Gradient.png");
-        this.game.load.image("Arrow", "Graphics/Player/Arrow.png");
-        this.game.load.image("Star", "Graphics/Level_Assets/star.png");
-        this.game.load.image("Block", "Graphics/Player/Block.png");
-        this.game.load.image("BackgroundP", "Graphics/Background/Background-Pause.png");
-        this.game.load.image("Scoreboard", "Graphics/Background/Scoreboard.png");
-        this.game.load.audio("GolfClap", "Music/GolfClap.ogg");
-        this.game.load.audio("GolfSwing", "Music/GolfSwing.ogg");
-        this.game.load.spritesheet("Water", "Graphics/Level_Assets/Wave.png", 640, 360);
-        this.game.load.audio("Splash", "Music/Splash.ogg");
+        this.game.load.image("Fairway", "Graphics/Level_Assets/Spaced_Out/Level6/Level2-6.png");
         this.game.load.image("Sand", "Graphics/Level_Assets/Sand.png");
         this.game.load.image("MovingB", "Graphics/Level_Assets/Spaced_Out/Level6/MovingBlock.png");
 
@@ -158,7 +141,7 @@ level2_6.prototype = {
         Emitter.minParticleScale = 0.1;
         Emitter.maxParticleScale = 0.1;
         Emitter.setAlpha(0.1, 0.6);
-        Emitter.gravity = -250;
+        Emitter.gravity = 0;
 
         //Set up GUI - Arrow, Left + Right Buttons, Swing Button, Pause Button, Power Bar
         Arrow = this.game.add.sprite(Ball.x, Ball.y, "Arrow");
@@ -310,7 +293,7 @@ level2_6.prototype = {
 
         if (this.game.input.activePointer.isDown && Paused != true && Scoreboard != undefined) {
             if (Scoreboard.input.checkPointerOver(this.game.input.activePointer)){
-                this.game.state.start("Level2-6");
+                this.game.state.start("Level2-7");
                 MusicControl.stop();
             }
         }
@@ -408,7 +391,7 @@ level2_6.prototype = {
     render: function(){
         this.game.debug.text(this.game.time.fps || '--', 2, 14, "#00ff00");
         //if (Ball != undefined) this.game.debug.spriteInfo(Ball, 32, 32);
-        this.game.debug.inputInfo(32, 32);
+        //this.game.debug.inputInfo(32, 32);
         //if (Ball != undefined) console.log(Ball.body.velocity.x, Ball.body.velocity.y);
     },
 
@@ -590,7 +573,7 @@ level2_6.prototype = {
             LevelComplete = true;
             Arrow.visible = false;
             //this.TurnOffCollisions();
-            StrokeArrayCourse1[HoleNumber] = StrokeCount;
+            StrokeArrayCourse2[HoleNumber] = StrokeCount;
             if(Sound == true)GolfClap.play();
         }
     },
@@ -613,9 +596,9 @@ level2_6.prototype = {
         var Hole = this.game.add.bitmapText(Scoreboard.x - 210, Scoreboard.y + 15, "8Bit", "Hole\n\n\n   1\n\n   2\n\n   3\n\n   4\n\n " +
             "  5\n\n   6\n\n   7\n\n   8\n\n   9", 22);
 
-        var Par = this.game.add.bitmapText (Scoreboard.x - 10, Scoreboard.y + 15, "8Bit", "Par\n\n\n  "+ ParArrayCourse1[0] + "\n\n  " + ParArrayCourse1[1] + "\n\n  " +
-            ParArrayCourse1[2] + "\n\n  " + ParArrayCourse1[3] + "\n\n  " + ParArrayCourse1[4] + "\n\n  " + ParArrayCourse1[5] + "\n\n  " +
-            ParArrayCourse1[6] + "\n\n  " + ParArrayCourse1[7] + "\n\n  " + ParArrayCourse1[8], 22);
+        var Par = this.game.add.bitmapText (Scoreboard.x - 10, Scoreboard.y + 15, "8Bit", "Par\n\n\n  "+ ParArrayCourse2[0] + "\n\n  " + ParArrayCourse2[1] + "\n\n  " +
+            ParArrayCourse2[2] + "\n\n  " + ParArrayCourse2[3] + "\n\n  " + ParArrayCourse2[4] + "\n\n  " + ParArrayCourse2[5] + "\n\n  " +
+            ParArrayCourse2[6] + "\n\n  " + ParArrayCourse2[7] + "\n\n  " + ParArrayCourse2[8], 22);
 
         var ScoreText = this.game.add.bitmapText(Scoreboard.x + 110, Scoreboard.y - 30, "8Bit", "Strokes", 22);
 
@@ -635,16 +618,16 @@ level2_6.prototype = {
         this.game.add.tween(Continue).to({y: CameraCenterY + 265}, 200, Phaser.Easing.Linear.NONE, true);
 
 
-        for (var i = 0, space = 44; i < StrokeArrayCourse1.length; i++, space += 44){
-            var Score = this.game.add.bitmapText(Scoreboard.x + 125, (CameraCenterY - 199) + space, "8Bit2","\n     " + StrokeArrayCourse1[i], 22);
-            //var Score = this.game.add.bitmapText(Scoreboard.x + 190, Scoreboard.y + 15 + space, "8Bit", "\n     " + StrokeArrayCourse1[i], 22);
-            if (StrokeArrayCourse1[i] < ParArrayCourse1[i]){
+        for (var i = 0, space = 44; i < StrokeArrayCourse2.length; i++, space += 44){
+            var Score = this.game.add.bitmapText(Scoreboard.x + 125, (CameraCenterY - 199) + space, "8Bit2","\n     " + StrokeArrayCourse2[i], 22);
+            //var Score = this.game.add.bitmapText(Scoreboard.x + 190, Scoreboard.y + 15 + space, "8Bit", "\n     " + StrokeArrayCourse2[i], 22);
+            if (StrokeArrayCourse2[i] < ParArrayCourse2[i]){
                 Score.tint = 0x00FF00;
             }
-            else if (StrokeArrayCourse1[i] > ParArrayCourse1[i]){
+            else if (StrokeArrayCourse2[i] > ParArrayCourse2[i]){
                 Score.tint = 0xFF0000;
             }
-            else if (StrokeArrayCourse1[i] == ParArrayCourse1[i]){
+            else if (StrokeArrayCourse2[i] == ParArrayCourse2[i]){
                 Score.tint = 0xDF7401;
             }
         }
@@ -709,7 +692,7 @@ level2_6.prototype = {
      * Restarts the current course
      */
     RestartCourse: function(){
-        this.game.state.start("Level1");
+        this.game.state.start("Level2-1");
         MusicControl.stop();
     },
 
