@@ -1054,7 +1054,9 @@ mainMenu.prototype = {
         "\n\n Tap again on the swing button to set " +
         "\n your power." +
         "\n\n You can Restart the Course from " +
-        "\n the Pause Menu", 32);
+        "\n the Pause Menu." +
+            "\n\n Move around the course by " +
+            "\n tapping and dragging. ", 32);
         ControlInfo.tint = "0x000000";
     },
 
