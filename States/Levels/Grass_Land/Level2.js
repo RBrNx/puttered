@@ -164,7 +164,6 @@ level2.prototype = {
 
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
             StrokeCount = ParArrayCourse1[HoleNumber];
-            console.log(StrokeCount);
             MusicControl.stop();
             this.LevelComplete();
         }

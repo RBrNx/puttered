@@ -192,6 +192,12 @@ level2_1.prototype = {
         CameraCenterX = this.game.camera.x + this.game.camera.width/2;
         CameraCenterY = this.game.camera.y + this.game.camera.height/2;
 
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
+            StrokeCount = ParArrayCourse2[HoleNumber];
+            MusicControl.stop();
+            this.LevelComplete();
+        }
+
         var PercentX, PercentY;
         PercentX = (Math.abs(Ball.body.velocity.x)/100) * 2;
         PercentY = (Math.abs(Ball.body.velocity.y)/100) * 2;
