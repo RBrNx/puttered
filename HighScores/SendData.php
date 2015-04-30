@@ -23,7 +23,7 @@
 		}
 	}
 	
-	if ($courseValue = '2'){	
+	if ($courseValue == '2'){	
 		if ($expected_hash == $hash){
 			$query = "INSERT INTO Course2Scores
 			SET name = '$username'
