@@ -301,8 +301,8 @@ level9.prototype = {
     },
 
     moveBackground: function(background){
-        if (background.x > 2500){
-            background.x = -2498;
+        if (background.x > 2000){
+            background.x = -1998;
             background.x += 1;
         }
         else{
