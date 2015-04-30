@@ -327,7 +327,6 @@ mainMenu.prototype = {
          * If Course Played was Course 1...
          */
         if (LastCourse == 1) {
-            console.log("Last Course1");
             BackgroundP = this.game.add.sprite(this.game.camera.x, this.game.camera.y, "BackgroundP");
             BackgroundP.scale.setTo(0.67);
             Title = this.game.add.bitmapText(this.game.world.centerX, 75, "8Bit2", "Grassy Land\n  Complete!", 64);
@@ -364,7 +363,12 @@ mainMenu.prototype = {
             CoursePar = this.game.add.bitmapText(this.game.world.centerX + 100, this.game.world.centerY - 150, "8Bit2", "Par: " + sum2 + "\n\nStrokes: " + sum);
             var OverallScore = sum - sum2;
             Overall = this.game.add.bitmapText(this.game.world.centerX + 100, this.game.world.centerY, "8Bit2", "Overall\n Score\n");
-            OverallText = this.game.add.bitmapText(this.game.world.centerX + 140, this.game.world.centerY + 75, "8Bit2", OverallScore.toString(), 64);
+            if (OverallScore > 0) {
+                OverallText = this.game.add.bitmapText(this.game.world.centerX + 140, this.game.world.centerY + 75, "8Bit2", "+" + OverallScore.toString(), 64);
+            }
+            else if (OverallScore <= 0){
+                OverallText = this.game.add.bitmapText(this.game.world.centerX + 140, this.game.world.centerY + 75, "8Bit2", OverallScore.toString(), 64);
+            }
             if (OverallScore < 0) {
                 OverallText.tint = "0x00FF00";
             }
@@ -425,7 +429,6 @@ mainMenu.prototype = {
          * If Course Played was Course 2...
          */
         if (LastCourse == 2) {
-            console.log("Last Course2");
             BackgroundP = this.game.add.sprite(this.game.camera.x, this.game.camera.y, "BackgroundP");
             BackgroundP.scale.setTo(0.67);
             Title = this.game.add.bitmapText(this.game.world.centerX, 75, "8Bit2", "Spaced Out\n  Complete!", 64);
@@ -462,7 +465,12 @@ mainMenu.prototype = {
             CoursePar = this.game.add.bitmapText(this.game.world.centerX + 100, this.game.world.centerY - 150, "8Bit2", "Par: " + sum2 + "\n\nStrokes: " + sum);
             var OverallScore = sum - sum2;
             Overall = this.game.add.bitmapText(this.game.world.centerX + 100, this.game.world.centerY, "8Bit2", "Overall\n Score\n");
-            OverallText = this.game.add.bitmapText(this.game.world.centerX + 140, this.game.world.centerY + 75, "8Bit2", OverallScore.toString(), 64);
+            if (OverallScore > 0) {
+                OverallText = this.game.add.bitmapText(this.game.world.centerX + 140, this.game.world.centerY + 75, "8Bit2", "+" + OverallScore.toString(), 64);
+            }
+            else if (OverallScore <= 0){
+                OverallText = this.game.add.bitmapText(this.game.world.centerX + 140, this.game.world.centerY + 75, "8Bit2", OverallScore.toString(), 64);
+            }
             if (OverallScore < 0) {
                 OverallText.tint = "0x00FF00";
             }
