@@ -199,7 +199,7 @@ level9.prototype = {
         }
 
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
-            StrokeCount = (ParArrayCourse1[HoleNumber]);
+            StrokeCount = (ParArrayCourse1[HoleNumber]+1);
             console.log(StrokeCount);
             MusicControl.stop();
             this.LevelComplete();
