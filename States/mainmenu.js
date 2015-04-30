@@ -27,6 +27,13 @@ var Level1;
 var Level2;
 var Level1Text;
 var Level2Text;
+var ClearLocal;
+var ClearLocalText;
+var AboutPage;
+var Names;
+var Controls;
+var ControlsText;
+var ControlInfo;
 
 /**
  * Variables for the Local Storage and Online Leaderboards
@@ -68,6 +75,7 @@ var LoadedScoreCourse2 = [];
 var LeaderboardFoundCourse1 = false;
 var LeaderboardFoundCourse2 = false;
 var results;
+var ClearCheck = false;
 
 var CourseTimer = 0;
 
@@ -98,7 +106,7 @@ mainMenu.prototype = {
 
 
         //Create Play Button
-        Play = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 75, "Button", this.CourseSelect, this, 0, 0, 1, 0);
+        Play = this.game.add.button(this.game.world.centerX, this.game.world.centerY - 50, "Button", this.CourseSelect, this, 0, 0, 1, 0);
         Play.anchor.setTo(0.5, 0.5);
         Play.scale.setTo(0.67);
         PlayText = this.game.add.bitmapText(Play.x, Play.y-8, "8Bit", "Play", 84);
@@ -106,12 +114,19 @@ mainMenu.prototype = {
         PlayText.scale.setTo(0.67);
 
         //Create Options Button
-        Options = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 200, "Button", this.StartOptions, this, 0, 0, 1, 0);
+        Options = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 65, "Button", this.StartOptions, this, 0, 0, 1, 0);
         Options.anchor.setTo(0.5, 0.5);
         Options.scale.setTo(0.67);
         OptionsText = this.game.add.bitmapText(Options.x, Options.y-5, "8Bit", "Options", 52);
         OptionsText.anchor.setTo(0.5, 0.5);
         OptionsText.scale.setTo(0.67);
+
+        About = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 180, "Button", this.About, this, 0 ,0 ,1, 0);
+        About.anchor.setTo(0.5, 0.5);
+        About.scale.setTo(0.67);
+        AboutText = this.game.add.bitmapText(About.x, About.y-5, "8Bit", "About", 64);
+        AboutText.anchor.setTo(0.5, 0.5);
+        AboutText.scale.setTo(0.67);
 
         //Set Room Number to Main Menu
         RoomNumber = 1;
@@ -272,40 +287,54 @@ mainMenu.prototype = {
      * Function sets up the menu for the options in the games main menu and handles buttons for sfx, music and full screen mode
      */
     StartOptions: function(){
-        Back = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 200, "Button", this.GoBack, this, 0, 0, 1, 0);
+        Back = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 180, "Button", this.GoBack, this, 0, 0, 1, 0);
         Back.anchor.setTo(0.5, 0.5);
         Back.scale.setTo(0.67);
         BackText = this.game.add.bitmapText(Back.x, Back.y-10, "8Bit", "Back", 84);
         BackText.anchor.setTo(0.5, 0.5);
         BackText.scale.setTo(0.67);
 
-        Fullscreen = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 75, "Button", this.Fullscreen, this, 0 ,0 ,1, 0);
+        Fullscreen = this.game.add.button(this.game.world.centerX, this.game.world.centerY -50, "Button", this.Fullscreen, this, 0 ,0 ,1, 0);
         Fullscreen.anchor.setTo(0.5, 0.5);
         Fullscreen.scale.setTo(0.67);
         FullscreenText = this.game.add.bitmapText(Fullscreen.x, Fullscreen.y-5, "8Bit", "Fullscreen", 36);
         FullscreenText.anchor.setTo(0.5, 0.5);
         FullscreenText.scale.setTo(0.67);
 
+        ClearLocal = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 65, "Button", this.ClearLocal, this, 0 ,0 ,1, 0);
+        ClearLocal.anchor.setTo(0.5, 0.5);
+        ClearLocal.scale.setTo(0.67);
+        ClearLocalText = this.game.add.bitmapText(ClearLocal.x, ClearLocal.y-5, "8Bit", "    Clear\nStatistics", 40);
+        ClearLocalText.anchor.setTo(0.5, 0.5);
+        ClearLocalText.scale.setTo(0.67);
+
         if(Music == true){
-            MusicOn = this.game.add.button(this.game.world.centerX - 135, this.game.world.centerY - 100, "MusicOn", this.TurnMusicOff, this, 0, 0, 1, 0);
+            MusicOn = this.game.add.button(this.game.world.centerX - 210, this.game.world.centerY - 50, "MusicOn", this.TurnMusicOff, this, 0, 0, 1, 0);
             MusicOn.scale.setTo(0.67);
+            MusicOn.anchor.setTo(0.5);
         }
         if(Sound == true){
-            SoundOn = this.game.add.button(this.game.world.centerX + 25, this.game.world.centerY - 100, "SoundOn", this.TurnSoundOff, this, 0, 0, 1, 0);
+            SoundOn = this.game.add.button(this.game.world.centerX - 210, this.game.world.centerY + 65, "SoundOn", this.TurnSoundOff, this, 0, 0, 1, 0);
             SoundOn.scale.setTo(0.67);
+            SoundOn.anchor.setTo(0.5);
         }
         if(Music == false) {
-            MusicOff = this.game.add.button(this.game.world.centerX - 135, this.game.world.centerY - 100, "MusicOff", this.TurnMusicOn, this, 0, 0, 1, 0);
+            MusicOff = this.game.add.button(this.game.world.centerX - 210, this.game.world.centerY - 50, "MusicOff", this.TurnMusicOn, this, 0, 0, 1, 0);
             MusicOff.scale.setTo(0.67);
+            MusicOff.anchor.setTo(0.5);
         }
         if(Sound == false) {
-            SoundOff = this.game.add.button(this.game.world.centerX + 25, this.game.world.centerY - 100, "SoundOff", this.TurnSoundOn, this, 0, 0, 1, 0);
+            SoundOff = this.game.add.button(this.game.world.centerX - 210, this.game.world.centerY + 65, "SoundOff", this.TurnSoundOn, this, 0, 0, 1, 0);
             SoundOff.scale.setTo(0.67);
+            SoundOff.anchor.setTo(0.5);
+
         }
         Play.destroy();
         PlayText.destroy();
         Options.destroy();
         OptionsText.destroy();
+        About.destroy();
+        AboutText.destroy();
 
         //Set Room Number to Options
         RoomNumber = 2;
@@ -552,6 +581,8 @@ mainMenu.prototype = {
             PlayText.destroy();
             Options.destroy();
             OptionsText.destroy();
+            About.destroy();
+            AboutText.destroy();
         }
 
         if (RoomNumber == 4) {
@@ -636,7 +667,7 @@ mainMenu.prototype = {
 
 
         //Create Play Button
-        Play = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 75, "Button", this.CourseSelect, this, 0, 0, 1, 0);
+        Play = this.game.add.button(this.game.world.centerX, this.game.world.centerY -50, "Button", this.CourseSelect, this, 0, 0, 1, 0);
         Play.anchor.setTo(0.5, 0.5);
         Play.scale.setTo(0.67);
         PlayText = this.game.add.bitmapText(Play.x, Play.y-8, "8Bit", "Play", 84);
@@ -644,12 +675,20 @@ mainMenu.prototype = {
         PlayText.scale.setTo(0.67);
 
         //Create Options Button
-        Options = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 200, "Button", this.StartOptions, this, 0, 0, 1, 0);
+        Options = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 65, "Button", this.StartOptions, this, 0, 0, 1, 0);
         Options.anchor.setTo(0.5, 0.5);
         Options.scale.setTo(0.67);
         OptionsText = this.game.add.bitmapText(Options.x, Options.y - 5, "8Bit", "Options", 52);
         OptionsText.anchor.setTo(0.5, 0.5);
         OptionsText.scale.setTo(0.67);
+
+        //Create About Button
+        About = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 180, "Button", this.About, this, 0 ,0 ,1, 0);
+        About.anchor.setTo(0.5, 0.5);
+        About.scale.setTo(0.67);
+        AboutText = this.game.add.bitmapText(About.x, About.y-5, "8Bit", "About", 64);
+        AboutText.anchor.setTo(0.5, 0.5);
+        AboutText.scale.setTo(0.67);
 
         Back.destroy();
         BackText.destroy();
@@ -663,7 +702,13 @@ mainMenu.prototype = {
         if (Level2 != undefined) Level2.destroy();
         if (Level1Text != undefined) Level1Text.destroy();
         if (Level2Text != undefined) Level2Text.destroy();
-
+        if (ClearLocal != undefined) ClearLocal.destroy();
+        if (ClearLocalText != undefined) ClearLocalText.destroy();
+        if (AboutPage != undefined) AboutPage.destroy();
+        if (Names != undefined) Names.destroy();
+        if (ControlInfo != undefined) ControlInfo.destroy();
+        if (ControlsText != undefined) ControlsText.destroy();
+        if (Controls != undefined) Controls.destroy();
         RoomNumber = 1;
     },
 
@@ -671,8 +716,9 @@ mainMenu.prototype = {
      * Turns off the menu music
      */
     TurnMusicOff: function(){
-        MusicOff = this.game.add.button(this.game.world.centerX - 135, this.game.world.centerY - 100, "MusicOff", this.TurnMusicOn, this, 0, 0, 1, 0); MusicOff.scale.setTo(0.67);
+        MusicOff = this.game.add.button(this.game.world.centerX - 210, this.game.world.centerY - 50, "MusicOff", this.TurnMusicOn, this, 0, 0, 1, 0); MusicOff.scale.setTo(0.67);
         MusicOn.destroy();
+        MusicOff.anchor.setTo(0.5);
         Music = false;
         //Turn Music Off here
         MusicControl.pause();
@@ -682,8 +728,9 @@ mainMenu.prototype = {
      * Turns on the menu music
      */
     TurnMusicOn: function(){
-        MusicOn = this.game.add.button(this.game.world.centerX - 135, this.game.world.centerY - 100, "MusicOn", this.TurnMusicOff, this, 0, 0, 1, 0); MusicOn.scale.setTo(0.67);
+        MusicOn = this.game.add.button(this.game.world.centerX - 210, this.game.world.centerY - 50, "MusicOn", this.TurnMusicOff, this, 0, 0, 1, 0); MusicOn.scale.setTo(0.67);
         MusicOff.destroy();
+        MusicOn.anchor.setTo(0.5);
         Music = true;
         //Turn Music On here
         MusicControl.play();
@@ -694,8 +741,9 @@ mainMenu.prototype = {
      * Turns off sound effects in the game
      */
     TurnSoundOff: function(){
-        SoundOff = this.game.add.button(this.game.world.centerX + 25, this.game.world.centerY - 100, "SoundOff", this.TurnSoundOn, this, 0, 0, 1, 0); SoundOff.scale.setTo(0.67);
+        SoundOff = this.game.add.button(this.game.world.centerX - 210, this.game.world.centerY + 65, "SoundOff", this.TurnSoundOn, this, 0, 0, 1, 0); SoundOff.scale.setTo(0.67);
         SoundOn.destroy();
+        SoundOff.anchor.setTo(0.5);
         Sound = false;
         //Turn Sound Off here
     },
@@ -704,8 +752,9 @@ mainMenu.prototype = {
      * Turns on sound effects in the game
      */
     TurnSoundOn: function() {
-        SoundOn = this.game.add.button(this.game.world.centerX + 25, this.game.world.centerY - 100, "SoundOn", this.TurnSoundOff, this, 0, 0, 1, 0); SoundOn.scale.setTo(0.67);
+        SoundOn = this.game.add.button(this.game.world.centerX - 210, this.game.world.centerY + 65, "SoundOn", this.TurnSoundOff, this, 0, 0, 1, 0); SoundOn.scale.setTo(0.67);
         SoundOff.destroy();
+        SoundOn.anchor.setTo(0.5);
         Sound = true;
         //Turn Sound On here
     },
@@ -718,7 +767,6 @@ mainMenu.prototype = {
      */
     GoToCourse1: function(button, pointer, isOver){
         if (isOver) {
-            MusicControl.stop();
             Level1.destroy();
             Level2.destroy();
             Level1Text.destroy();
@@ -804,7 +852,6 @@ mainMenu.prototype = {
      */
     GoToCourse2: function(button, pointer, isOver){
         if (isOver) {
-            MusicControl.stop();
             Level1.destroy();
             Level2.destroy();
             Level1Text.destroy();
@@ -952,6 +999,104 @@ mainMenu.prototype = {
         } else {
             this.game.scale.startFullScreen();
         }
-    }
+    },
+
+    About: function() {
+        Play.destroy();
+        PlayText.destroy();
+        Options.destroy();
+        OptionsText.destroy();
+        About.destroy();
+        AboutText.destroy();
+        Logo.visible = false;
+
+        Back = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 285, "Button", this.GoBack, this, 0, 0, 1, 0);
+        Back.anchor.setTo(0.5, 0.5);
+        Back.scale.setTo(0.67);
+        BackText = this.game.add.bitmapText(Back.x, Back.y - 10, "8Bit", "Back", 84);
+        BackText.anchor.setTo(0.5, 0.5);
+        BackText.scale.setTo(0.67);
+
+        Controls = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 165, "Button", this.Controls, this, 0, 0, 1, 0);
+        Controls.anchor.setTo(0.5, 0.5);
+        Controls.scale.setTo(0.67);
+        ControlsText = this.game.add.bitmapText(Controls.x, Controls.y - 5, "8Bit", "Controls", 45);
+        ControlsText.anchor.setTo(0.5, 0.5);
+        ControlsText.scale.setTo(0.67);
+
+        AboutPage = this.game.add.bitmapText(50, 50, "8Bit2", " 'Puttered!' is a HTML5 + JavaScript game " +
+        "\n made by                         and                         ." +
+        "\n All Assets were made by us and we spent " +
+        "\n around 4-5 Weeks Coding and Tweaking to" +
+        "\n get everything just right. " + "The Game " +
+        "\n features 2 individual golf courses, one " +
+        "\n which resembles a normal course and the " +
+        "\n other which is set in Space." +
+        "\n\n We have implemented Local Statistics and " +
+        "\n an Online Leaderboard along with " +
+        "\n several other features.", 32);
+        AboutPage.tint = "0x000000";
+        Names = this.game.add.bitmapText(300, 81, "8Bit", "Conor Watson       Mark Smellie", 32);
+    },
+
+    Controls: function(){
+        Controls.destroy();
+        ControlsText.destroy();
+        AboutPage.destroy();
+        Names.destroy();
+        ControlInfo = this.game.add.bitmapText(50, 50, "8Bit2", " The Controls are as follows: " +
+        "\n\n Tap on the left and right arrow buttons " +
+        "\n to move the Shot Arrow." +
+        "\n\n Tap on the swing button to start " +
+        "\n your swing." +
+        "\n\n Tap again on the swing button to set " +
+        "\n your power." +
+        "\n\n You can Restart the Course from " +
+        "\n the Pause Menu", 32);
+        ControlInfo.tint = "0x000000";
+    },
+
+    ClearLocal: function() {
+        if (ClearCheck == false){
+            ClearLocal.destroy();
+            ClearLocalText.destroy();
+            ClearLocal = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 65, "Button", this.ClearLocal, this, 0 ,0 ,1, 0);
+            ClearLocal.anchor.setTo(0.5, 0.5);
+            ClearLocal.scale.setTo(0.67);
+            ClearLocalText = this.game.add.bitmapText(ClearLocal.x, ClearLocal.y-5, "8Bit", "Are You\n  Sure?", 42);
+            ClearLocalText.anchor.setTo(0.5, 0.5);
+            ClearLocalText.scale.setTo(0.67);
+            ClearCheck = true;
+        }
+        else if (ClearCheck == true){
+            /**
+             * Deals with Course 1 Storage
+             */
+                localStorage.setItem("Course1BestScore", "0");
+                localStorage.setItem("Course1BestTime", "0");
+                localStorage.setItem("Course1TotalShots", "0");
+                localStorage.setItem("Course1WaterHit", "0");
+                localStorage.setItem("Course1TimesPlayed", "0");
+
+            /**
+             * Deals with Course 2 Storage
+             */
+                localStorage.setItem("Course2BestScore", "0");
+                localStorage.setItem("Course2BestTime", "0");
+                localStorage.setItem("Course2TotalShots", "0");
+                localStorage.setItem("Course2WaterHit", "0");
+                localStorage.setItem("Course2TimesPlayed", "0");
+
+                ClearLocal.destroy();
+                ClearLocalText.destroy();
+                ClearLocal = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 65, "Button", this.ClearLocal, this, 0 ,0 ,1, 0);
+                ClearLocal.anchor.setTo(0.5, 0.5);
+                ClearLocal.scale.setTo(0.67);
+                ClearLocalText = this.game.add.bitmapText(ClearLocal.x, ClearLocal.y-5, "8Bit", "Statistics\n  Cleared", 40);
+                ClearLocalText.anchor.setTo(0.5, 0.5);
+                ClearLocalText.scale.setTo(0.67);
+                ClearCheck = false;
+            }
+        }
 
 };
