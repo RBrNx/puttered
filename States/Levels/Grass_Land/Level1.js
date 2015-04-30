@@ -68,16 +68,20 @@ level1.prototype = {
         this.game.physics.startSystem(Phaser.Physics.P2JS);
         this.game.physics.p2.gravity.y = 1400;
 
-        Clouds = this.game.add.tileSprite(0, -1000, 5000, 2440, "Clouds"); //Values are doubled so that scale is still correct
-        Clouds.scale.setTo(0.67);
-        Hills = this.game.add.sprite(0,-200,"Hills");
+        Clouds = this.game.add.sprite(0, -500, "Clouds"); //Values are doubled so that scale is still correct
+        Clouds.scale.setTo(1);
+        Clouds2 = this.game.add.sprite(-2500, -500, "Clouds"); //Values are doubled so that scale is still correct
+        Clouds2.scale.setTo(1);
+
+        Hills = this.game.add.sprite(0,-200,"Hills1");
         Hills.scale.setTo(1.67,0.75);
+        Hills2 = this.game.add.sprite(0,-200,"Hills");
+        Hills2.scale.setTo(1.67,0.75);
 
         Player = this.game.add.sprite(100, 360, "Shot");
         Player.animations.add("Swing");
         Player.anchor.setTo(0.5, 0.5);
 
-        //TODO fix ball size
         Ball = this.game.add.sprite(Player.x, 365, "Ball");
         Ball.anchor.setTo(0.5, 0.5);
         this.game.physics.p2.enable(Ball);
@@ -182,9 +186,15 @@ level1.prototype = {
      * Handles game logic, physics and positions
      */
     update: function(){
-        Clouds.tilePosition.x += 1;
+        this.moveBackground(Clouds);
+        this.moveBackground(Clouds2);
         CameraCenterX = this.game.camera.x + this.game.camera.width/2;
         CameraCenterY = this.game.camera.y + this.game.camera.height/2;
+
+        Hills.x = this.game.camera.x * 0.4;
+        Hills.y = (this.game.camera.y * 0.4) - 150;
+        Hills2.x = this.game.camera.x * 0.2;
+        Hills2.y = (this.game.camera.y * 0.2) - 150;
 
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.SHIFT)){
             if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
@@ -302,6 +312,16 @@ level1.prototype = {
         //if (Ball != undefined) this.game.debug.body(Ball);
         //this.game.debug.inputInfo(32, 32);
         //if (Ball != undefined) console.log(Ball.body.velocity.x, Ball.body.velocity.y);
+    },
+
+    moveBackground: function(background){
+        if (background.x > 2500){
+            background.x = -2498;
+            background.x += 1;
+        }
+        else{
+            background.x +=1;
+        }
     },
 
     /**

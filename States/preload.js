@@ -20,6 +20,7 @@ preload.prototype = {
         this.game.load.image("Logo", "Graphics/Logo-Resized.png");
         this.game.load.image("Clouds", "Graphics/Background/Background-Clouds.png");
         this.game.load.image("Hills", "Graphics/Background/Background-Hills4.png");
+        this.game.load.image("Hills1", "Graphics/Background/Background-Hills.png");
 
         this.game.load.spritesheet("Button", "Graphics/Buttons/Button.png", 400, 150);
         this.game.load.spritesheet("SoundOn", "Graphics/Buttons/Sound-On-Button.png", 150, 150);

@@ -98,8 +98,10 @@ mainMenu.prototype = {
         //Load Background and Logo
         Clouds = this.game.add.tileSprite(0,0, 1920, 1080, "Clouds");
         Clouds.scale.setTo(0.67);
-        var Hills = this.game.add.sprite(0,0,"Hills");
+        var Hills = this.game.add.sprite(0,0,"Hills1");
         Hills.scale.setTo(0.67);
+        var Hills2 = this.game.add.sprite(0,0,"Hills");
+        Hills2.scale.setTo(0.67);
         Logo = this.game.add.sprite(this.game.world.width/2, this.game.world.height/5, "Logo");
         Logo.anchor.setTo(0.5, 0.5);
         //Logo.scale.set(0.34);
