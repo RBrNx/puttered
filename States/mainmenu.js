@@ -547,7 +547,7 @@ mainMenu.prototype = {
                     $.ajax({
                         url: 'HighScores/SendData.php',
                         type: 'post',
-                        ddata: {"name": Name, "score": OverallScore, "hash": CryptoJS.MD5(Name + OverallScore + "15111994").toString(), "coursevalue" : 2},
+                        data: {"name": Name, "score": OverallScore, "hash": CryptoJS.MD5(Name + OverallScore + "15111994").toString(), "coursevalue" : 2},
                         success: function (data) {
                             console.log(data);
                         }
