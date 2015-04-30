@@ -163,6 +163,9 @@ level2_7.prototype = {
         CameraCenterX = this.game.camera.x + this.game.camera.width/2;
         CameraCenterY = this.game.camera.y + this.game.camera.height/2;
 
+        Space.x = this.game.camera.x * 0.4;
+        Space.y = (this.game.camera.y * 0.4);
+
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.SHIFT)){
             if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
                 StrokeCount = ParArrayCourse2[HoleNumber];

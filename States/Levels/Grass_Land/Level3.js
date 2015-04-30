@@ -58,9 +58,9 @@ level3.prototype = {
         Clouds2.scale.setTo(1);
 
         Hills = this.game.add.sprite(0,0,"Hills1");
-        Hills.scale.setTo(1.67,0.75);
+        Hills.scale.setTo(2,1);
         Hills2 = this.game.add.sprite(0,0,"Hills");
-        Hills2.scale.setTo(1.67,0.75);
+        Hills2.scale.setTo(2,1);
 
         Player = this.game.add.sprite(100, 860, "Shot");
         Player.animations.add("Swing");
