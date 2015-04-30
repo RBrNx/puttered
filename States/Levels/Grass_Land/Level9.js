@@ -198,10 +198,12 @@ level9.prototype = {
             }
         }
 
-        if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
-            StrokeCount = (ParArrayCourse1[HoleNumber]);
-            MusicControl.stop();
-            this.LevelComplete();
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.SHIFT)){
+            if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+                StrokeCount = ParArrayCourse1[HoleNumber];
+                MusicControl.stop();
+                this.LevelComplete();
+            }
         }
 
         if (this.PowerF != undefined && Paused != true) {

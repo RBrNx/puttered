@@ -186,10 +186,12 @@ level1.prototype = {
         CameraCenterX = this.game.camera.x + this.game.camera.width/2;
         CameraCenterY = this.game.camera.y + this.game.camera.height/2;
 
-        if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
-            StrokeCount = ParArrayCourse1[HoleNumber];
-            MusicControl.stop();
-            this.LevelComplete();
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.SHIFT)){
+            if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+                StrokeCount = ParArrayCourse1[HoleNumber];
+                MusicControl.stop();
+                this.LevelComplete();
+            }
         }
 
         if (Fairway != undefined) {
