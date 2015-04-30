@@ -51,16 +51,6 @@ level2_2.prototype = {
         Space = this.game.add.sprite(0,0, "Space");
         Space.scale.setTo(1, 1);
 
-        Player = this.game.add.sprite(1350, 1300, "Shot");
-        Player.animations.add("Swing");
-        Player.anchor.setTo(0.5, 0.5);
-
-        Ball = this.game.add.sprite(Player.x, 1300, "Ball");
-        Ball.anchor.setTo(0.5, 0.5);
-        this.game.physics.p2.enable(Ball);
-        Ball.body.clearShapes();
-        Ball.body.loadPolygon("Physics", "Ball");
-
         Block = this.game.add.sprite(155, 85, "Block");
         Block.scale.setTo(6);
         this.game.physics.p2.enable(Block);
@@ -72,6 +62,16 @@ level2_2.prototype = {
         Fairway.body.static = true;
         Fairway.body.clearShapes();
         Fairway.body.loadPolygon("Physics", "Level2-2-Hole");
+
+        Player = this.game.add.sprite(1350, 1300, "Shot");
+        Player.animations.add("Swing");
+        Player.anchor.setTo(0.5, 0.5);
+
+        Ball = this.game.add.sprite(Player.x, 1300, "Ball");
+        Ball.anchor.setTo(0.5, 0.5);
+        this.game.physics.p2.enable(Ball);
+        Ball.body.clearShapes();
+        Ball.body.loadPolygon("Physics", "Ball");
 
         MusicControl = this.game.add.audio("Course2Music", 1, true);
         if (Music == true) MusicControl.play();

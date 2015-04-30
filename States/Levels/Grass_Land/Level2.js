@@ -55,16 +55,6 @@ level2.prototype = {
         Hills2 = this.game.add.sprite(0,-100,"Hills");
         Hills2.scale.setTo(1.67,0.75);
 
-        Player = this.game.add.sprite(100, 290, "Shot");
-        Player.animations.add("Swing");
-        Player.anchor.setTo(0.5, 0.5);
-
-        Ball = this.game.add.sprite(Player.x, 235, "Ball");
-        Ball.anchor.setTo(0.5, 0.5);
-        this.game.physics.p2.enable(Ball);
-        Ball.body.clearShapes();
-        Ball.body.loadPolygon("Physics", "Ball");
-
         Block = this.game.add.sprite(2553, 670, "Block");
         Block.scale.setTo(5);
         this.game.physics.p2.enable(Block);
@@ -76,6 +66,16 @@ level2.prototype = {
         Fairway.body.static = true;
         Fairway.body.clearShapes();
         Fairway.body.loadPolygon("Physics", "Level2-Hole");
+
+        Player = this.game.add.sprite(100, 290, "Shot");
+        Player.animations.add("Swing");
+        Player.anchor.setTo(0.5, 0.5);
+
+        Ball = this.game.add.sprite(Player.x, 235, "Ball");
+        Ball.anchor.setTo(0.5, 0.5);
+        this.game.physics.p2.enable(Ball);
+        Ball.body.clearShapes();
+        Ball.body.loadPolygon("Physics", "Ball");
 
         ballMaterial = this.game.physics.p2.createMaterial("ballMaterial", Ball.body);
         groundMaterial = this.game.physics.p2.createMaterial("groundMaterial", Fairway.body);
