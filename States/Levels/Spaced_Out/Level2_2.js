@@ -151,8 +151,8 @@ level2_2.prototype = {
         ScoreText.scale.setTo(0.67);
         ScoreText.fixedToCamera = true;
 
-        this.game.camera.x = 0;
-        this.game.camera.y = 720;
+        this.game.camera.x = 1500;
+        this.game.camera.y = 1500;
 
     },
 

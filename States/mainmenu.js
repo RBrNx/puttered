@@ -350,6 +350,8 @@ mainMenu.prototype = {
         PlayText.destroy();
         Options.destroy();
         OptionsText.destroy();
+        About.destroy();
+        AboutText.destroy();
         Logo.visible = false;
 
         /**

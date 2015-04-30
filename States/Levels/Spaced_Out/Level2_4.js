@@ -280,7 +280,7 @@ level2_4.prototype = {
             Arrow.visible = false;
         }
 
-        if (Ball.x >= Water.x && Ball.x <= Water.x + Water.width && Ball.y >= Water.y && Ball.y <= Water.y + Water.height && WaterHazard == false){
+        if (Ball.x >= Water.x && Ball.x <= Water.x + Water.height && Ball.y <= Water.y && Ball.y >= Water.y - Water.width && WaterHazard == false){
             this.WaterHazard();
         }
 
@@ -327,7 +327,7 @@ level2_4.prototype = {
     render: function(){
         this.game.debug.text(this.game.time.fps || '--', 2, 14, "#00ff00");
         //if (Ball != undefined) this.game.debug.spriteInfo(Ball, 32, 32);
-        //this.game.debug.inputInfo(32, 32);
+        this.game.debug.inputInfo(32, 32);
         //if (Ball != undefined) console.log(Ball.body.velocity.x, Ball.body.velocity.y);
     },
 
@@ -397,8 +397,8 @@ level2_4.prototype = {
             WaterHit += 1;
             this.game.camera.follow(null);
             WaterHazard = true;
-            Ball.body.velocity.x = 7;
-            Ball.body.velocity.y = 7;
+            //Ball.body.velocity.x = 7;
+            //Ball.body.velocity.y = 7;
             BackgroundP = this.game.add.sprite(this.game.camera.x, this.game.camera.y, "BackgroundP");
             PenaltyStroke = this.game.add.bitmapText(CameraCenterX, CameraCenterY, "8Bit", "      Water Hazard!\n   +1 Penalty Stroke!", 50);
             PenaltyStroke.anchor.setTo(0.5);

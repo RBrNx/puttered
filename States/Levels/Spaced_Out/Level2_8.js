@@ -292,13 +292,13 @@ level2_8.prototype = {
             Arrow.visible = false;
         }
 
-        if (Ball.x >= Water.x && Ball.x <= Water.x + Water.width && Ball.y >= Water.y && Ball.y <= Water.y + Water.height && WaterHazard == false){
+        if (Ball.x <= Water.x && Ball.x >= Water.x - Water.height && Ball.y >= Water.y && Ball.y <= Water.y + Water.width && WaterHazard == false){
             this.WaterHazard();
         }
-        if (Ball.x >= Water2.x && Ball.x <= Water2.x + Water2.width && Ball.y >= Water2.y && Ball.y <= Water2.y + Water2.height && WaterHazard == false){
+        if (Ball.x >= Water2.x && Ball.x <= Water2.x + Water2.height && Ball.y <= Water2.y && Ball.y >= Water2.y - Water2.width && WaterHazard == false){
             this.WaterHazard();
         }
-        if (Ball.x >= Water3.x && Ball.x <= Water3.x + Water3.width && Ball.y >= Water3.y && Ball.y <= Water3.y + Water3.height && WaterHazard == false){
+        if (Ball.x <= Water3.x && Ball.x >= Water3.x - Water3.width && Ball.y <= Water3.y && Ball.y >= Water3.y - Water3.height && WaterHazard == false){
             this.WaterHazard();
         }
 
@@ -415,8 +415,6 @@ level2_8.prototype = {
             WaterHit += 1;
             this.game.camera.follow(null);
             WaterHazard = true;
-            Ball.body.velocity.x = 7;
-            Ball.body.velocity.y = 7;
             BackgroundP = this.game.add.sprite(this.game.camera.x, this.game.camera.y, "BackgroundP");
             PenaltyStroke = this.game.add.bitmapText(CameraCenterX, CameraCenterY, "8Bit", "      Water Hazard!\n   +1 Penalty Stroke!", 50);
             PenaltyStroke.anchor.setTo(0.5);

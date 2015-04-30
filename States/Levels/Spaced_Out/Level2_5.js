@@ -283,7 +283,7 @@ level2_5.prototype = {
             Arrow.visible = false;
         }
 
-        if (Ball.x >= Water.x && Ball.x <= Water.x + Water.width && Ball.y >= Water.y && Ball.y <= Water.y + Water.height && WaterHazard == false){
+        if (Ball.x >= Water.x && Ball.x <= Water.x + Water.height && Ball.y <= Water.y && Ball.y >= Water.y - Water.width && WaterHazard == false){
             this.WaterHazard();
         }
 
@@ -362,7 +362,6 @@ level2_5.prototype = {
         var VelocityY = ((Power * Math.sin((Arrow.angle -90) * Radian) * 10)) * 1.5;
         Ball.body.velocity.x += VelocityX;
         Ball.body.velocity.y += VelocityY;
-
         Power = 0;
         this.PowerF.angle = -179;
         StrokeCount += 1;
@@ -400,8 +399,6 @@ level2_5.prototype = {
             WaterHit += 1;
             this.game.camera.follow(null);
             WaterHazard = true;
-            Ball.body.velocity.x = 7;
-            Ball.body.velocity.y = 7;
             BackgroundP = this.game.add.sprite(this.game.camera.x, this.game.camera.y, "BackgroundP");
             PenaltyStroke = this.game.add.bitmapText(CameraCenterX, CameraCenterY, "8Bit", "      Water Hazard!\n   +1 Penalty Stroke!", 50);
             PenaltyStroke.anchor.setTo(0.5);

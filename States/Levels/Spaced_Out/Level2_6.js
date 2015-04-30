@@ -461,8 +461,6 @@ level2_6.prototype = {
             WaterHit += 1;
             this.game.camera.follow(null);
             WaterHazard = true;
-            Ball.body.velocity.x = 7;
-            Ball.body.velocity.y = 7;
             BackgroundP = this.game.add.sprite(this.game.camera.x, this.game.camera.y, "BackgroundP");
             PenaltyStroke = this.game.add.bitmapText(CameraCenterX, CameraCenterY, "8Bit", "      Water Hazard!\n   +1 Penalty Stroke!", 50);
             PenaltyStroke.anchor.setTo(0.5);
