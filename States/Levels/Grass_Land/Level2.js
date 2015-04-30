@@ -221,7 +221,7 @@ level2.prototype = {
         }
 
 
-        if (Ball.body.velocity.x < 0.75 && Ball.body.velocity.y < 0.75 && Ball.body.velocity.x > -0.75 && Ball.body.velocity.y > -0.75){
+        if (Ball.body.velocity.x < 0.75 && Ball.body.velocity.y < 0.75 && Ball.body.velocity.x > -0.75 && Ball.body.velocity.y > -0.75 && Paused != true){
             Ball.body.velocity.x = 0;
             Ball.body.velocity.y = 0;
             BallStationary = true;

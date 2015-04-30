@@ -14,22 +14,6 @@ level9.prototype = {
         this.load.setPreloadSprite(loadingBar);
         this.game.load.image("Fairway", "Graphics/Level_Assets/Grass_Land/Level9/Level9.png");
 
-        this.game.load.spritesheet("ButtonSq", "Graphics/Buttons/Button-Square.png", 150, 150);
-        this.game.load.spritesheet("Shot", "Graphics/Player/Swing.png", 140, 140);
-        this.game.load.image("Ball", "Graphics/Player/Ball.png");
-        this.game.load.physics("Physics", "Graphics/Level_Assets/Grass_Land/Physics.json");
-        //this.game.load.image("Fairway", "Graphics/Level_Assets/Grass_Land/Level1/Level1.png");
-        this.game.load.image("SwingButton", "Graphics/Buttons/Swing-Button.png");
-        this.game.load.image("PowerBar", "Graphics/Buttons/Power-Bar.png");
-        this.game.load.image("PowerFill", "Graphics/Buttons/Gradient.png");
-        this.game.load.image("Arrow", "Graphics/Player/Arrow.png");
-        this.game.load.image("Star", "Graphics/Level_Assets/star.png");
-        this.game.load.image("Block", "Graphics/Player/Block.png");
-        this.game.load.image("BackgroundP", "Graphics/Background/Background-Pause.png");
-        this.game.load.image("Scoreboard", "Graphics/Background/Scoreboard.png");
-        this.game.load.audio("GolfClap", "Music/GolfClap.ogg");
-        this.game.load.audio("GolfSwing", "Music/GolfSwing.ogg");
-
         this.game.world.setBounds(0, -500, 2000, 4500);
     },
 
@@ -215,7 +199,7 @@ level9.prototype = {
         }
 
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
-            StrokeCount = ParArrayCourse1[HoleNumber];
+            StrokeCount = (ParArrayCourse1[HoleNumber]);
             console.log(StrokeCount);
             MusicControl.stop();
             this.LevelComplete();
@@ -246,7 +230,7 @@ level9.prototype = {
         }
 
 
-        if (Ball.body.velocity.x < 0.75 && Ball.body.velocity.y < 0.75 && Ball.body.velocity.x > -0.75 && Ball.body.velocity.y > -0.75 && WaterHazard == false){
+        if (Ball.body.velocity.x < 0.75 && Ball.body.velocity.y < 0.75 && Ball.body.velocity.x > -0.75 && Ball.body.velocity.y > -0.75 && WaterHazard == false && Paused != true){
             Ball.body.velocity.x = 0;
             Ball.body.velocity.y = 0;
             BallStationary = true;

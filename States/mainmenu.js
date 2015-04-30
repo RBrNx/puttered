@@ -365,13 +365,13 @@ mainMenu.prototype = {
             var OverallScore = sum - sum2;
             Overall = this.game.add.bitmapText(this.game.world.centerX + 100, this.game.world.centerY, "8Bit2", "Overall\n Score\n");
             OverallText = this.game.add.bitmapText(this.game.world.centerX + 140, this.game.world.centerY + 75, "8Bit2", OverallScore.toString(), 64);
-            if (OverallScore < sum2) {
+            if (OverallScore < 0) {
                 OverallText.tint = "0x00FF00";
             }
-            else if (OverallScore > sum2) {
+            else if (OverallScore > 0) {
                 OverallText.tint = "0xFF0000";
             }
-            else if (OverallScore == sum2) {
+            else if (OverallScore == 0) {
                 OverallText.tint = "0xFFFF00";
             }
 
@@ -417,24 +417,6 @@ mainMenu.prototype = {
                     })
                 }
             }
-
-
-
-            /*var PostScores = confirm("Would you like to upload your score to the High Score table?");
-             if (PostScores == true){
-             var Name = prompt("Please enter your name");
-             if (Name != null){
-
-             $.ajax({
-             url: 'HighScores/SendData.php',
-             type: 'post',
-             data: {"name" : Name, "score" : -10, "hash": CryptoJS.MD5(Name + -10 + "15111994").toString(), "coursevalue" : 2},
-             success: function(data){
-             console.log(data);
-             }
-             })
-             }
-             }*/
         }
 
 
@@ -481,13 +463,13 @@ mainMenu.prototype = {
             var OverallScore = sum - sum2;
             Overall = this.game.add.bitmapText(this.game.world.centerX + 100, this.game.world.centerY, "8Bit2", "Overall\n Score\n");
             OverallText = this.game.add.bitmapText(this.game.world.centerX + 140, this.game.world.centerY + 75, "8Bit2", OverallScore.toString(), 64);
-            if (OverallScore < sum2) {
+            if (OverallScore < 0) {
                 OverallText.tint = "0x00FF00";
             }
-            else if (OverallScore > sum2) {
+            else if (OverallScore > 0) {
                 OverallText.tint = "0xFF0000";
             }
-            else if (OverallScore == sum2) {
+            else if (OverallScore == 0) {
                 OverallText.tint = "0xFFFF00";
             }
 
@@ -911,7 +893,7 @@ mainMenu.prototype = {
         WaterHitText.destroy();
         TimesPlayedText.destroy();
         HighScoreBoard.destroy();
-        this.game.state.start("Level1")
+        this.game.state.start("Level3")
     },
 
     /**
