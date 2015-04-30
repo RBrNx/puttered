@@ -50,9 +50,9 @@ level9.prototype = {
         this.game.physics.p2.gravity.y = 1400;
 
         Clouds = this.game.add.sprite(0, -500, "Clouds"); //Values are doubled so that scale is still correct
-        Clouds.scale.setTo(1);
+        Clouds.scale.setTo(1.5);
         Clouds2 = this.game.add.sprite(-4000, -500, "Clouds"); //Values are doubled so that scale is still correct
-        Clouds2.scale.setTo(1);
+        Clouds2.scale.setTo(1.5);
 
         Hills = this.game.add.sprite(0,3000,"Hills1");
         Hills.scale.setTo(2,1);
@@ -174,9 +174,9 @@ level9.prototype = {
         CameraCenterY = this.game.camera.y + this.game.camera.height/2;
 
         Hills.x = this.game.camera.x * 0.4;
-        Hills.y = (this.game.camera.y * 0.4) - 150;
+        Hills.y = (this.game.camera.y * 0.4) + 1500;
         Hills2.x = this.game.camera.x * 0.2;
-        Hills2.y = (this.game.camera.y * 0.2) - 150;
+        Hills2.y = (this.game.camera.y * 0.2) + 2200;
 
         if (Fairway != undefined) {
 

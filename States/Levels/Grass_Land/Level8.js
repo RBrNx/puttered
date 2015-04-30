@@ -13,25 +13,6 @@ level8.prototype = {
         loadingBar.anchor.setTo(0.5,0.5);
         this.load.setPreloadSprite(loadingBar);
         this.game.load.image("Fairway", "Graphics/Level_Assets/Grass_Land/Level8/Level8.png");
-        this.game.load.image("FairwayHole", "Graphics/Level_Assets/Grass_Land/Level8/Level8-Hole.png");
-
-        this.game.load.spritesheet("ButtonSq", "Graphics/Buttons/Button-Square.png", 150, 150);
-        this.game.load.spritesheet("Shot", "Graphics/Player/Swing.png", 140, 140);
-        this.game.load.image("Ball", "Graphics/Player/Ball.png");
-        this.game.load.physics("Physics", "Graphics/Level_Assets/Grass_Land/Physics.json");
-        //this.game.load.image("Fairway", "Graphics/Level_Assets/Grass_Land/Level1/Level1.png");
-        this.game.load.image("SwingButton", "Graphics/Buttons/Swing-Button.png");
-        this.game.load.image("PowerBar", "Graphics/Buttons/Power-Bar.png");
-        this.game.load.image("PowerFill", "Graphics/Buttons/Gradient.png");
-        this.game.load.image("Arrow", "Graphics/Player/Arrow.png");
-        this.game.load.image("Star", "Graphics/Level_Assets/star.png");
-        this.game.load.image("Block", "Graphics/Player/Block.png");
-        this.game.load.image("BackgroundP", "Graphics/Background/Background-Pause.png");
-        this.game.load.image("Scoreboard", "Graphics/Background/Scoreboard.png");
-        this.game.load.audio("GolfClap", "Music/GolfClap.ogg");
-        this.game.load.audio("GolfSwing", "Music/GolfSwing.ogg");
-        this.game.load.spritesheet("Water", "Graphics/Level_Assets/Wave.png", 640, 360);
-        this.game.load.audio("Splash", "Music/Splash.ogg");
 
         this.game.world.setBounds(0, -500, 4000, 2500);
     },
@@ -196,9 +177,9 @@ level8.prototype = {
         CameraCenterY = this.game.camera.y + this.game.camera.height/2;
 
         Hills.x = this.game.camera.x * 0.4;
-        Hills.y = (this.game.camera.y * 0.4) - 150;
-        Hills2.x = this.game.camera.x * 0.2;
-        Hills2.y = (this.game.camera.y * 0.2) - 150;
+        Hills.y = (this.game.camera.y * 0.4) + 450;
+        Hills2.x = this.game.camera.x * 0.2 - 20;
+        Hills2.y = (this.game.camera.y * 0.2) + 600;
 
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.SHIFT)){
             if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {

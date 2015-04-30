@@ -178,10 +178,10 @@ level6.prototype = {
         CameraCenterX = this.game.camera.x + this.game.camera.width/2;
         CameraCenterY = this.game.camera.y + this.game.camera.height/2;
 
-        Hills.x = this.game.camera.x * 0.4;
-        Hills.y = (this.game.camera.y * 0.4) - 150;
-        Hills2.x = this.game.camera.x * 0.2;
-        Hills2.y = (this.game.camera.y * 0.2) - 150;
+        Hills.x = this.game.camera.x * 0.4 - 300;
+        Hills.y = (this.game.camera.y * 0.4) - 650;
+        Hills2.x = this.game.camera.x * 0.2 - 300;
+        Hills2.y = (this.game.camera.y * 0.2) - 750;
 
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.SHIFT)){
             if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
