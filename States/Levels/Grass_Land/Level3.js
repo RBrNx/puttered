@@ -52,10 +52,15 @@ level3.prototype = {
         this.game.physics.startSystem(Phaser.Physics.P2JS);
         this.game.physics.p2.gravity.y = 1400;
 
-        Clouds = this.game.add.tileSprite(0,-1000, 8000, 3160, "Clouds"); //Values are doubled so that scale is still correct
-        Clouds.scale.setTo(0.67);
-        Hills = this.game.add.sprite(0,0,"Hills");
-        Hills.scale.setTo(2,1);
+        Clouds = this.game.add.sprite(0, -500, "Clouds"); //Values are doubled so that scale is still correct
+        Clouds.scale.setTo(1);
+        Clouds2 = this.game.add.sprite(-4000, -500, "Clouds"); //Values are doubled so that scale is still correct
+        Clouds2.scale.setTo(1);
+
+        Hills = this.game.add.sprite(0,0,"Hills1");
+        Hills.scale.setTo(1.67,0.75);
+        Hills2 = this.game.add.sprite(0,0,"Hills");
+        Hills2.scale.setTo(1.67,0.75);
 
         Player = this.game.add.sprite(100, 860, "Shot");
         Player.animations.add("Swing");
@@ -193,9 +198,15 @@ level3.prototype = {
      * Handles game logic, positions and physics
      */
     update: function(){
-        Clouds.tilePosition.x += 1;
+        this.moveBackground(Clouds);
+        this.moveBackground(Clouds2);
         CameraCenterX = this.game.camera.x + this.game.camera.width/2;
         CameraCenterY = this.game.camera.y + this.game.camera.height/2;
+
+        Hills.x = this.game.camera.x * 0.4;
+        Hills.y = (this.game.camera.y * 0.4) - 150;
+        Hills2.x = this.game.camera.x * 0.2;
+        Hills2.y = (this.game.camera.y * 0.2) - 150;
 
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.SHIFT)){
             if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
@@ -323,6 +334,16 @@ level3.prototype = {
         //if (Ball != undefined) this.game.debug.spriteInfo(Ball, 32, 32);
         //this.game.debug.inputInfo(32, 32);
         //if (Ball != undefined) console.log(Ball.body.velocity.x, Ball.body.velocity.y);
+    },
+
+    moveBackground: function(background){
+        if (background.x > 4000){
+            background.x = -3998;
+            background.x += 1;
+        }
+        else{
+            background.x +=1;
+        }
     },
 
     /**

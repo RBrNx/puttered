@@ -70,7 +70,7 @@ level1.prototype = {
 
         Clouds = this.game.add.sprite(0, -500, "Clouds"); //Values are doubled so that scale is still correct
         Clouds.scale.setTo(1);
-        Clouds2 = this.game.add.sprite(-2500, -500, "Clouds"); //Values are doubled so that scale is still correct
+        Clouds2 = this.game.add.sprite(-4000, -500, "Clouds"); //Values are doubled so that scale is still correct
         Clouds2.scale.setTo(1);
 
         Hills = this.game.add.sprite(0,-200,"Hills1");
