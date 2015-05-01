@@ -170,22 +170,6 @@ mainMenu.prototype = {
         if (!localStorage.getItem("Course2TimesPlayed")){
             localStorage.setItem("Course2TimesPlayed", "0")
         }
-
-        /*var PostScores = confirm("Would you like to upload your score to the High Score table?");
-        if (PostScores == true){
-            var Name = prompt("Please enter your name");
-            if (Name != null){
-
-                $.ajax({
-                    url: 'HighScores/SendData.php',
-                    type: 'post',
-                    data: {"name" : Name, "score" : -10, "hash": CryptoJS.MD5(Name + -10 + "15111994").toString(), "coursevalue" : 2},
-                    success: function(data){
-                        console.log(data);
-                    }
-                })
-            }
-        }*/
     },
 
     /**
@@ -952,7 +936,7 @@ mainMenu.prototype = {
         WaterHitText.destroy();
         TimesPlayedText.destroy();
         HighScoreBoard.destroy();
-        this.game.state.start("Level8")
+        this.game.state.start("Level1")
     },
 
     /**
