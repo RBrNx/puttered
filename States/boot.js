@@ -1,5 +1,5 @@
 /**
- * Created by b00231929 on 20/03/2015.
+ * Created by B00231929 & B00236216.
  */
        var boot = function(game){
         console.log("%cStarting the Game", "color:white; background:red");

@@ -1,8 +1,5 @@
 /**
- * Created by Conor on 21/04/2015.
- */
-/**
- * Created by Conor on 14/04/2015.
+ * Created by B00231929 & B00236216.
  */
 var level4 = function(game){};
 
