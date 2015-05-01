@@ -96,8 +96,10 @@ mainMenu.prototype = {
         if (Music == true) MusicControl.play();
 
         //Load Background and Logo
-        Clouds = this.game.add.tileSprite(0,0, 1920, 1080, "Clouds");
-        Clouds.scale.setTo(0.67);
+        Clouds = this.game.add.sprite(0, -500, "Clouds"); //Values are doubled so that scale is still correct
+        Clouds.scale.setTo(1);
+        Clouds2 = this.game.add.sprite(-4000, -500, "Clouds"); //Values are doubled so that scale is still correct
+        Clouds2.scale.setTo(1);
         var Hills = this.game.add.sprite(0,0,"Hills1");
         Hills.scale.setTo(0.67);
         var Hills2 = this.game.add.sprite(0,0,"Hills");
@@ -105,7 +107,6 @@ mainMenu.prototype = {
         Logo = this.game.add.sprite(this.game.world.width/2, this.game.world.height/5, "Logo");
         Logo.anchor.setTo(0.5, 0.5);
         //Logo.scale.set(0.34);
-
 
         //Create Play Button
         Play = this.game.add.button(this.game.world.centerX, this.game.world.centerY - 50, "Button", this.CourseSelect, this, 0, 0, 1, 0);
@@ -176,7 +177,8 @@ mainMenu.prototype = {
      * Handles the game logic - physics, positions and rendering
      */
     update: function(){
-        Clouds.tilePosition.x += 1;
+        this.moveBackground(Clouds);
+        this.moveBackground(Clouds2);
 
         if (RoomNumber == 3) {
             if (Level2 != undefined && Level1 != undefined && Level1Text != undefined && Level2Text != undefined) {
@@ -267,6 +269,16 @@ mainMenu.prototype = {
      */
     render: function(){
         this.game.debug.text(this.game.time.fps || '--', 2, 14, "#00ff00");
+    },
+
+    moveBackground: function(background){
+        if (background.x > 1920){
+            background.x = -1918;
+            background.x += 1;
+        }
+        else{
+            background.x +=1;
+        }
     },
 
     /**
