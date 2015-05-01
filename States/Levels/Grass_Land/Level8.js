@@ -14,6 +14,25 @@ level8.prototype = {
         this.load.setPreloadSprite(loadingBar);
         this.game.load.image("Fairway", "Graphics/Level_Assets/Grass_Land/Level8/Level8.png");
 
+        this.game.load.image("Sand", "Graphics/Level_Assets/Sand.png");
+        this.game.load.spritesheet("Water", "Graphics/Level_Assets/Wave.png", 640, 360);
+        this.game.load.audio("Splash", "Music/Splash.ogg");
+        this.game.load.spritesheet("ButtonSq", "Graphics/Buttons/Button-Square.png", 150, 150);
+        this.game.load.spritesheet("Shot", "Graphics/Player/Swing.png", 140, 140);
+        this.game.load.image("Ball", "Graphics/Player/Ball.png");
+        this.game.load.physics("Physics", "Graphics/Level_Assets/Grass_Land/Physics.json");
+        //this.game.load.image("Fairway", "Graphics/Level_Assets/Grass_Land/Level1/Level1.png");
+        this.game.load.image("SwingButton", "Graphics/Buttons/Swing-Button.png");
+        this.game.load.image("PowerBar", "Graphics/Buttons/Power-Bar.png");
+        this.game.load.image("PowerFill", "Graphics/Buttons/Gradient.png");
+        this.game.load.image("Arrow", "Graphics/Player/Arrow.png");
+        this.game.load.image("Star", "Graphics/Level_Assets/star.png");
+        this.game.load.image("Block", "Graphics/Player/Block.png");
+        this.game.load.image("BackgroundP", "Graphics/Background/Background-Pause.png");
+        this.game.load.image("Scoreboard", "Graphics/Background/Scoreboard.png");
+        this.game.load.audio("GolfClap", "Music/GolfClap.ogg");
+        this.game.load.audio("GolfSwing", "Music/GolfSwing.ogg");
+
         this.game.world.setBounds(0, -500, 4000, 2500);
     },
 
@@ -63,6 +82,21 @@ level8.prototype = {
         Water.animations.add("Water");
         Water.animations.play("Water", 5, true);
 
+        Sand = this.game.add.sprite(1390, 1395, "Sand");
+        Sand.scale.setTo(0.1, 0.1);
+        this.game.physics.p2.enable(Sand);
+        Sand.body.static = true;
+
+        Sand2 = this.game.add.sprite(2155, 1060, "Sand");
+        Sand2.scale.setTo(0.1, 0.1);
+        this.game.physics.p2.enable(Sand2);
+        Sand2.body.static = true;
+
+        Sand3 = this.game.add.sprite(2940, 730, "Sand");
+        Sand3.scale.setTo(0.1, 0.1);
+        this.game.physics.p2.enable(Sand3);
+        Sand3.body.static = true;
+
         Block = this.game.add.sprite(3685, 435, "Block");
         Block.scale.setTo(6);
         this.game.physics.p2.enable(Block);
@@ -91,6 +125,22 @@ level8.prototype = {
         fairwayMaterial = this.game.physics.p2.createContactMaterial(ballMaterial, groundMaterial);
         fairwayMaterial.friction = 0.5;
         fairwayMaterial.restitution = 0.5;
+
+        sandMaterial = this.game.physics.p2.createMaterial("sandMaterial", Sand.body);
+        sandMaterial2 = this.game.physics.p2.createMaterial("sandMaterial2", Sand2.body);
+        sandMaterial3 = this.game.physics.p2.createMaterial("sandMaterial3", Sand3.body);
+
+        bunkerMaterial = this.game.physics.p2.createContactMaterial(ballMaterial, sandMaterial);
+        bunkerMaterial.friction = 30;
+        bunkerMaterial.restitution = 0;
+
+        bunkerMaterial2 = this.game.physics.p2.createContactMaterial(ballMaterial, sandMaterial2);
+        bunkerMaterial2.friction = 30;
+        bunkerMaterial2.restitution = 0;
+
+        bunkerMaterial3 = this.game.physics.p2.createContactMaterial(ballMaterial, sandMaterial3);
+        bunkerMaterial3.friction = 30;
+        bunkerMaterial3.restitution = 0;
 
         MusicControl = this.game.add.audio("Course1Music", 1, true);
         if (Music == true) MusicControl.play();
@@ -307,7 +357,7 @@ level8.prototype = {
     render: function(){
         this.game.debug.text(this.game.time.fps || '--', 2, 14, "#00ff00");
         //if (Ball != undefined) this.game.debug.spriteInfo(Ball, 32, 32);
-        //this.game.debug.inputInfo(32, 32);
+        this.game.debug.inputInfo(32, 32);
         //if (Ball != undefined) console.log(Ball.body.velocity.x, Ball.body.velocity.y);
     },
 
