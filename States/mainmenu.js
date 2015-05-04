@@ -88,7 +88,7 @@ mainMenu.prototype = {
      * Creates objects required for use within the main menu
      */
     create: function(){
-        //Set Menu Size to 1920 x 1080
+        //Set Menu Size to 1280 x 1080
         this.game.world.setBounds(0, 0, 1280, 720);
 
         //Start Menu Music
@@ -96,9 +96,9 @@ mainMenu.prototype = {
         if (Music == true) MusicControl.play();
 
         //Load Background and Logo
-        Clouds = this.game.add.sprite(0, -500, "Clouds"); //Values are doubled so that scale is still correct
+        Clouds = this.game.add.sprite(this.game.world.width - 4000, -500, "Clouds");
         Clouds.scale.setTo(1);
-        Clouds2 = this.game.add.sprite(-4000, -500, "Clouds"); //Values are doubled so that scale is still correct
+        Clouds2 = this.game.add.sprite(this.game.world.width - 8000, -500, "Clouds");
         Clouds2.scale.setTo(1);
         var Hills = this.game.add.sprite(0,0,"Hills1");
         Hills.scale.setTo(0.67);
@@ -272,8 +272,8 @@ mainMenu.prototype = {
     },
 
     moveBackground: function(background){
-        if (background.x > 1920){
-            background.x = -1918;
+        if (background.x > this.game.world.width){
+            background.x = this.game.world.width - 8000;
             background.x += 1;
         }
         else{

@@ -45,9 +45,9 @@ level2.prototype = {
         this.game.physics.startSystem(Phaser.Physics.P2JS);
         this.game.physics.p2.gravity.y = 1400;
 
-        Clouds = this.game.add.sprite(0, -500, "Clouds"); //Values are doubled so that scale is still correct
+        Clouds = this.game.add.sprite(this.game.world.width - 4000, -500, "Clouds");
         Clouds.scale.setTo(1);
-        Clouds2 = this.game.add.sprite(-4000, -500, "Clouds"); //Values are doubled so that scale is still correct
+        Clouds2 = this.game.add.sprite(this.game.world.width - 8000, -500, "Clouds");
         Clouds2.scale.setTo(1);
 
         Hills = this.game.add.sprite(0,-100,"Hills1");
@@ -286,15 +286,14 @@ level2.prototype = {
     },
 
     moveBackground: function(background){
-        if (background.x > 3000){
-            background.x = -2998;
+        if (background.x > this.game.world.width){
+            background.x = this.game.world.width - 8000;
             background.x += 1;
         }
         else{
             background.x +=1;
         }
     },
-
     /**
      * Starts the players swing
      */
