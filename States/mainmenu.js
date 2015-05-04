@@ -460,7 +460,7 @@ mainMenu.prototype = {
         if (LastCourse == 2) {
             BackgroundP = this.game.add.sprite(this.game.camera.x, this.game.camera.y, "BackgroundP");
             BackgroundP.scale.setTo(0.67);
-            Title = this.game.add.bitmapText(this.game.world.centerX, 75, "8Bit2", "Spaced Out\n  Complete!", 64);
+            Title = this.game.add.bitmapText(this.game.world.centerX, 75, "8Bit2", "Spaced Out\nComplete!", 64);
             Title.anchor.setTo(0.5);
 
             Hole = this.game.add.bitmapText(this.game.world.centerX - 550, this.game.world.centerY - 150, "8Bit2", "Hole\n\n\n   1\n\n   2\n\n   3\n\n   4\n\n " +
@@ -592,11 +592,11 @@ mainMenu.prototype = {
             Hole.destroy();
             Par.destroy();
             ScoreText.destroy();
-            for (i = 0; i < StrokeArrayCourse1.length; i++){ ScoreArrayCourse1[i].destroy();}
-            for (i = 0; i < StrokeArrayCourse2.length; i++){ ScoreArrayCourse2[i].destroy();}
+            if (ScoreArrayCourse1 != undefined) for (i = 0; i < StrokeArrayCourse1.length; i++){ ScoreArrayCourse1[i].destroy();}
+            if (ScoreArrayCourse2 != undefined) for (i = 0; i < StrokeArrayCourse2.length; i++){ ScoreArrayCourse2[i].destroy();}
             CoursePar.destroy();
             Overall.destroy();
-            OverallText.destroy();
+            if (OverallText != undefined) OverallText.destroy();
             CourseSelect.destroy();
             CourseSelectText.destroy();
             Retry.destroy();

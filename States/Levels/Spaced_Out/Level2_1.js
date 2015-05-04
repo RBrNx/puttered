@@ -67,6 +67,7 @@ level2_1.prototype = {
         Radian = 0.0174532925;
         WaterHazard = false;
         BackgroundP = null;
+        CourseTimer = 0;
         StrokeArrayCourse2 = ["-","-","-","-","-","-","-","-","-"];
 
         this.game.physics.startSystem(Phaser.Physics.P2JS);
