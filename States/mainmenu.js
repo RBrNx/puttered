@@ -49,8 +49,8 @@ var Overall;
 var OverallText;
 var CourseSelect;
 var CourseSelectText;
-var Retry;
-var RetryText;
+var UploadScore;
+var UploadScoreText;
 var BackgroundP;
 var StatBoard;
 var Statistics;
@@ -350,8 +350,8 @@ mainMenu.prototype = {
         PlayText.destroy();
         Options.destroy();
         OptionsText.destroy();
-        About.destroy();
-        AboutText.destroy();
+        Controls.destroy();
+        ControlsText.destroy();
         Logo.visible = false;
 
         /**
@@ -435,22 +435,6 @@ mainMenu.prototype = {
             }
             if (Course1TimesPlayed > Number(localStorage.getItem("Course1TimesPlayed"))) {
                 localStorage.setItem("Course1TimesPlayed", Course1TimesPlayed.toString());
-            }
-
-            var PostScores = confirm("Would you like to upload your score to the High Score table?");
-            if (PostScores == true) {
-                var Name = prompt("Please enter your name");
-                if (Name != null) {
-
-                    $.ajax({
-                        url: 'HighScores/SendData.php',
-                        type: 'post',
-                        data: {"name": Name, "score": OverallScore, "hash": CryptoJS.MD5(Name + OverallScore + "15111994").toString(), "coursevalue" : 1},
-                        success: function (data) {
-                            console.log(data);
-                        }
-                    })
-                }
             }
         }
 
@@ -539,37 +523,22 @@ mainMenu.prototype = {
                 localStorage.setItem("Course2TimesPlayed", Course2TimesPlayed.toString());
             }
 
-            var PostScores = confirm("Would you like to upload your score to the High Score table?");
-            if (PostScores == true) {
-                var Name = prompt("Please enter your name");
-                if (Name != null) {
-
-                    $.ajax({
-                        url: 'HighScores/SendData.php',
-                        type: 'post',
-                        data: {"name": Name, "score": OverallScore, "hash": CryptoJS.MD5(Name + OverallScore + "15111994").toString(), "coursevalue" : 2},
-                        success: function (data) {
-                            console.log(data);
-                        }
-                    })
-                }
-            }
         }
 
 
-            CourseSelect = this.game.add.button(this.game.world.centerX + 150, this.game.world.centerY + 275, "Button", this.CourseSelect, this, 0, 0, 1, 0);
-            CourseSelect.anchor.setTo(0.5, 0.5);
-            CourseSelect.scale.setTo(0.67);
-            CourseSelectText = this.game.add.bitmapText(CourseSelect.x, CourseSelect.y-5, "8Bit", "Course\nSelect", 52);
-            CourseSelectText.anchor.setTo(0.5, 0.5);
-            CourseSelectText.scale.setTo(0.67);
+        CourseSelect = this.game.add.button(this.game.world.centerX + 150, this.game.world.centerY + 275, "Button", this.CourseSelect, this, 0, 0, 1, 0);
+        CourseSelect.anchor.setTo(0.5, 0.5);
+        CourseSelect.scale.setTo(0.67);
+        CourseSelectText = this.game.add.bitmapText(CourseSelect.x, CourseSelect.y-5, "8Bit", "Course\nSelect", 52);
+        CourseSelectText.anchor.setTo(0.5, 0.5);
+        CourseSelectText.scale.setTo(0.67);
 
-            Retry = this.game.add.button(this.game.world.centerX + 450, this.game.world.centerY + 275, "Button", this.Retry, this, 0, 0, 1, 0);
-            Retry.anchor.setTo(0.5, 0.5);
-            Retry.scale.setTo(0.67);
-            RetryText = this.game.add.bitmapText(Retry.x, Retry.y-7, "8Bit", "Retry", 72);
-            RetryText.anchor.setTo(0.5, 0.5);
-            RetryText.scale.setTo(0.67);
+        UploadScore = this.game.add.button(this.game.world.centerX + 450, this.game.world.centerY + 275, "Button", this.UploadScores, this, 0, 0, 1, 0);
+        UploadScore.anchor.setTo(0.5, 0.5);
+        UploadScore.scale.setTo(0.67);
+        UploadScoreText = this.game.add.bitmapText(UploadScore.x, UploadScore.y-5, "8Bit", "Upload High\n    Score?", 35);
+        UploadScoreText.anchor.setTo(0.5, 0.5);
+        UploadScoreText.scale.setTo(0.67);
 
     },
 
@@ -601,8 +570,8 @@ mainMenu.prototype = {
             if (OverallText != undefined) OverallText.destroy();
             CourseSelect.destroy();
             CourseSelectText.destroy();
-            Retry.destroy();
-            RetryText.destroy();
+            UploadScore.destroy();
+            UploadScoreText.destroy();
             BackgroundP.destroy();
             Logo = this.game.add.sprite(this.game.world.width/2, this.game.world.height/5, "Logo");
             Logo.anchor.setTo(0.5, 0.5);
@@ -635,16 +604,23 @@ mainMenu.prototype = {
     },
 
     /**
-     * Handles resarting a course
+     * Uploads High Score Data
+     * @param CourseLevel
+     * @constructor
      */
-    Retry: function(){
-        if (LastCourse == 1){
-            this.game.state.start("Level1");
-        }
-        if (LastCourse == 2){
-            this.game.state.start("Level2-1");
-        }
+    UploadScores: function(CourseLevel){
+        var Name = prompt("Please enter your name");
+        if (Name != null) {
 
+            $.ajax({
+                url: 'HighScores/SendData.php',
+                type: 'post',
+                data: {"name": Name, "score": OverallScore, "hash": CryptoJS.MD5(Name + OverallScore + "15111994").toString(), "coursevalue" : LastCourse},
+                success: function (data) {
+                    console.log(data);
+                }
+            })
+        }
     },
 
     /**
