@@ -14,7 +14,8 @@ level9.prototype = {
         this.load.setPreloadSprite(loadingBar);
         this.game.load.image("Fairway", "Graphics/Level_Assets/Grass_Land/Level9/Level9.png");
 
-        this.game.world.setBounds(0, -500, 2000, 4500);
+
+        this.game.world.setBounds(0, 0, 3000, 3500);
     },
 
     /**
@@ -54,30 +55,40 @@ level9.prototype = {
         Clouds2 = this.game.add.sprite(this.game.world.width - 8000, -500, "Clouds");
         Clouds2.scale.setTo(1);
 
-        Hills = this.game.add.sprite(0,3000,"Hills1");
+        Hills = this.game.add.sprite(0,2000,"Hills1");
         Hills.scale.setTo(2,1);
-        Hills2 = this.game.add.sprite(0,3000,"Hills");
+        Hills2 = this.game.add.sprite(0,2000,"Hills");
         Hills2.scale.setTo(2,1);
 
-        Block = this.game.add.sprite(1530, 1390, "Block");
+        Block = this.game.add.sprite(2650, 2880, "Block");
         Block.scale.setTo(6);
         this.game.physics.p2.enable(Block);
         Block.body.static = true;
 
-        Ball = this.game.add.sprite(1000, 3750, "Ball");
+        Ball = this.game.add.sprite(90, 2665, "Ball");
         Ball.anchor.setTo(0.5, 0.5);
         this.game.physics.p2.enable(Ball);
         Ball.body.clearShapes();
         Ball.body.loadPolygon("Physics", "Ball");
 
-        Fairway = this.game.add.sprite(this.game.world.centerX, 2400, "Fairway");
+        Water = this.game.add.sprite(575, 3320, "Water");
+        Water.scale.setTo(0.6);
+        Water.animations.add("Water");
+        Water.animations.play("Water", 5, true);
+
+        Water2 = this.game.add.sprite(1525, 1545, "Water");
+        Water2.scale.setTo(1.8, 0.9);
+        Water2.animations.add("Water");
+        Water2.animations.play("Water", 5, true);
+
+        Fairway = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY + 500, "Fairway");
         Fairway.anchor.setTo(0.5,0.5);
         this.game.physics.p2.enable(Fairway);
         Fairway.body.static = true;
         Fairway.body.clearShapes();
         Fairway.body.loadPolygon("Physics", "Level9-Hole");
 
-        Player = this.game.add.sprite(1000, 3750, "Shot");
+        Player = this.game.add.sprite(90, 2665, "Shot");
         Player.animations.add("Swing");
         Player.anchor.setTo(0.5, 0.5);
 
@@ -92,6 +103,7 @@ level9.prototype = {
         if (Music == true) MusicControl.play();
         GolfClap = this.game.add.audio("GolfClap");
         GolfSwing = this.game.add.audio("GolfSwing");
+        Splash = this.game.add.audio("Splash");
 
         Emitter = this.game.add.emitter(Block.x, Block.y);
         Emitter.makeParticles("Star");
@@ -159,8 +171,8 @@ level9.prototype = {
         ScoreText.scale.setTo(0.67);
         ScoreText.fixedToCamera = true;
 
-        this.game.camera.x = 500;
-        this.game.camera.y = 4000;
+        this.game.camera.x = 0;
+        this.game.camera.y = 2200;
 
     },
 
@@ -180,7 +192,7 @@ level9.prototype = {
 
         if (Fairway != undefined) {
 
-            if (this.game.input.activePointer.isDown && Paused != true && LevelComplete != true) {
+            if (this.game.input.activePointer.isDown && Paused != true && LevelComplete != true && WaterHazard != true) {
                 if (LeftB.input.checkPointerOver(this.game.input.activePointer) != true && RightB.input.checkPointerOver(this.game.input.activePointer) != true && SwingB.input.checkPointerOver(this.game.input.activePointer) != true) {
                     if (this.game.origDragPoint) {
                         // move the camera by the amount the mouse has moved since last update
@@ -256,6 +268,18 @@ level9.prototype = {
         else if (Ball.body.velocity.x >= 0.75 || Ball.body.velocity.y >= 0.75 || Ball.body.velocity.x <= -0.75 || Ball.body.velocity.y <= -0.75 ){
             BallStationary = false;
             Arrow.visible = false;
+        }
+
+        if (Ball.x >= Water.x && Ball.x <= Water.x + Water.width && Ball.y >= Water.y && Ball.y <= Water.y + Water.height && WaterHazard == false){
+            this.WaterHazard();
+        }
+
+        if (Ball.x >= Water2.x && Ball.x <= Water2.x + Water2.width && Ball.y >= Water2.y && Ball.y <= Water2.y + Water2.height && WaterHazard == false){
+            this.WaterHazard();
+        }
+
+        if (Timer == 240 && WaterHazard == true){
+            this.WaterHazard();
         }
 
         if (LevelComplete == true && Timer < 300 && ScoreboardShown == false){
@@ -338,7 +362,6 @@ level9.prototype = {
         var VelocityY = ((Power * Math.sin((Arrow.angle -90) * Radian) * 10)) * 1.1;
         Ball.body.velocity.x += VelocityX;
         Ball.body.velocity.y += VelocityY;
-
         Power = 0;
         this.PowerF.angle = -179;
         StrokeCount += 1;
@@ -356,6 +379,33 @@ level9.prototype = {
         ScoreText = this.game.add.bitmapText(115, 43, "8Bit", "Strokes: " + StrokeCount, 24);
         ScoreText.scale.setTo(0.67);
         ScoreText.fixedToCamera = true;
+    },
+
+    /**
+     * Handles player collisions with water hazards incrementing their stroke count and resets the ball
+     */
+    WaterHazard: function() {
+        if (WaterHazard == true) {
+            this.game.camera.follow(Ball, Phaser.Camera.FOLLOW_TOPDOWN);
+            Timer = 0;
+            Ball.reset(prevBallX, prevBallY);
+            StrokeCount += 1;
+            PenaltyStroke.destroy();
+            BackgroundP.destroy();
+            WaterHazard = false;
+        }
+        else if (WaterHazard == false) {
+            if(Sound == true)Splash.play();
+            WaterHit += 1;
+            this.game.camera.follow(null);
+            WaterHazard = true;
+            Ball.body.velocity.x = 7;
+            Ball.body.velocity.y = 7;
+            BackgroundP = this.game.add.sprite(this.game.camera.x, this.game.camera.y, "BackgroundP");
+            PenaltyStroke = this.game.add.bitmapText(CameraCenterX, CameraCenterY, "8Bit", "      Water Hazard!\n   +1 Penalty Stroke!", 50);
+            PenaltyStroke.anchor.setTo(0.5);
+
+        }
     },
 
     /**
