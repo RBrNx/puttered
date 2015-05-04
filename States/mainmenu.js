@@ -74,6 +74,8 @@ var LoadedNameCourse2 = [];
 var LoadedScoreCourse2 = [];
 var LeaderboardFoundCourse1 = false;
 var LeaderboardFoundCourse2 = false;
+var About;
+var AboutText;
 var results;
 var ClearCheck = false;
 
@@ -124,12 +126,12 @@ mainMenu.prototype = {
         OptionsText.anchor.setTo(0.5, 0.5);
         OptionsText.scale.setTo(0.67);
 
-        About = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 180, "Button", this.About, this, 0 ,0 ,1, 0);
-        About.anchor.setTo(0.5, 0.5);
-        About.scale.setTo(0.67);
-        AboutText = this.game.add.bitmapText(About.x, About.y-5, "8Bit", "About", 64);
-        AboutText.anchor.setTo(0.5, 0.5);
-        AboutText.scale.setTo(0.67);
+        Controls = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 180, "Button", this.Controls, this, 0, 0, 1, 0);
+        Controls.anchor.setTo(0.5, 0.5);
+        Controls.scale.setTo(0.67);
+        ControlsText = this.game.add.bitmapText(Controls.x, Controls.y - 5, "8Bit", "Controls", 45);
+        ControlsText.anchor.setTo(0.5, 0.5);
+        ControlsText.scale.setTo(0.67);
 
         //Set Room Number to Main Menu
         RoomNumber = 1;
@@ -331,8 +333,8 @@ mainMenu.prototype = {
         PlayText.destroy();
         Options.destroy();
         OptionsText.destroy();
-        About.destroy();
-        AboutText.destroy();
+        ControlsText.destroy();
+        Controls.destroy();
 
         //Set Room Number to Options
         RoomNumber = 2;
@@ -581,8 +583,8 @@ mainMenu.prototype = {
             PlayText.destroy();
             Options.destroy();
             OptionsText.destroy();
-            About.destroy();
-            AboutText.destroy();
+            Controls.destroy();
+            ControlsText.destroy();
         }
 
         if (RoomNumber == 4) {
@@ -682,13 +684,13 @@ mainMenu.prototype = {
         OptionsText.anchor.setTo(0.5, 0.5);
         OptionsText.scale.setTo(0.67);
 
-        //Create About Button
-        About = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 180, "Button", this.About, this, 0 ,0 ,1, 0);
-        About.anchor.setTo(0.5, 0.5);
-        About.scale.setTo(0.67);
-        AboutText = this.game.add.bitmapText(About.x, About.y-5, "8Bit", "About", 64);
-        AboutText.anchor.setTo(0.5, 0.5);
-        AboutText.scale.setTo(0.67);
+        //Create Controls Button
+        Controls = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 180, "Button", this.Controls, this, 0, 0, 1, 0);
+        Controls.anchor.setTo(0.5, 0.5);
+        Controls.scale.setTo(0.67);
+        ControlsText = this.game.add.bitmapText(Controls.x, Controls.y - 5, "8Bit", "Controls", 45);
+        ControlsText.anchor.setTo(0.5, 0.5);
+        ControlsText.scale.setTo(0.67);
 
         Back.destroy();
         BackText.destroy();
@@ -707,8 +709,8 @@ mainMenu.prototype = {
         if (AboutPage != undefined) AboutPage.destroy();
         if (Names != undefined) Names.destroy();
         if (ControlInfo != undefined) ControlInfo.destroy();
-        if (ControlsText != undefined) ControlsText.destroy();
-        if (Controls != undefined) Controls.destroy();
+        if (About != undefined) About.destroy();
+        if (AboutText != undefined) AboutText.destroy();
         RoomNumber = 1;
     },
 
@@ -1002,12 +1004,11 @@ mainMenu.prototype = {
     },
 
     About: function() {
-        Play.destroy();
-        PlayText.destroy();
-        Options.destroy();
-        OptionsText.destroy();
         About.destroy();
         AboutText.destroy();
+        Back.destroy();
+        BackText.destroy();
+        ControlInfo.destroy();
         Logo.visible = false;
 
         Back = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 285, "Button", this.GoBack, this, 0, 0, 1, 0);
@@ -1016,13 +1017,6 @@ mainMenu.prototype = {
         BackText = this.game.add.bitmapText(Back.x, Back.y - 10, "8Bit", "Back", 84);
         BackText.anchor.setTo(0.5, 0.5);
         BackText.scale.setTo(0.67);
-
-        Controls = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 165, "Button", this.Controls, this, 0, 0, 1, 0);
-        Controls.anchor.setTo(0.5, 0.5);
-        Controls.scale.setTo(0.67);
-        ControlsText = this.game.add.bitmapText(Controls.x, Controls.y - 5, "8Bit", "Controls", 45);
-        ControlsText.anchor.setTo(0.5, 0.5);
-        ControlsText.scale.setTo(0.67);
 
         AboutPage = this.game.add.bitmapText(50, 50, "8Bit2", " 'Puttered!' is a HTML5 + JavaScript game " +
         "\n made by                         and                         ." +
@@ -1040,10 +1034,15 @@ mainMenu.prototype = {
     },
 
     Controls: function(){
+        Play.destroy();
+        PlayText.destroy();
+        Options.destroy();
+        OptionsText.destroy();
         Controls.destroy();
         ControlsText.destroy();
-        AboutPage.destroy();
-        Names.destroy();
+        Logo.visible = false;
+        //AboutPage.destroy();
+        //Names.destroy();
         ControlInfo = this.game.add.bitmapText(50, 50, "8Bit2", " The Controls are as follows: " +
         "\n\n Tap on the left and right arrow buttons " +
         "\n to move the Shot Arrow." +
@@ -1056,6 +1055,20 @@ mainMenu.prototype = {
             "\n\n Move around the course by " +
             "\n tapping and dragging. ", 32);
         ControlInfo.tint = "0x000000";
+
+        About = this.game.add.button(this.game.world.centerX - 200, this.game.world.centerY + 285, "Button", this.About, this, 0 ,0 ,1, 0);
+        About.anchor.setTo(0.5, 0.5);
+        About.scale.setTo(0.67);
+        AboutText = this.game.add.bitmapText(About.x, About.y-5, "8Bit", "About", 64);
+        AboutText.anchor.setTo(0.5, 0.5);
+        AboutText.scale.setTo(0.67);
+
+        Back = this.game.add.button(this.game.world.centerX + 200, this.game.world.centerY + 285, "Button", this.GoBack, this, 0, 0, 1, 0);
+        Back.anchor.setTo(0.5, 0.5);
+        Back.scale.setTo(0.67);
+        BackText = this.game.add.bitmapText(Back.x, Back.y - 10, "8Bit", "Back", 84);
+        BackText.anchor.setTo(0.5, 0.5);
+        BackText.scale.setTo(0.67);
     },
 
     ClearLocal: function() {
