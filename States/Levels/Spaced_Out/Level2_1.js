@@ -4,7 +4,7 @@
 var level2_1 = function(game){};
 
 var StrokeArrayCourse2 = [];   //Array to hold the number of strokes per hole
-var ParArrayCourse2 = [4, 4, 8, 5, 5, 6, 4, 3, 5];     //Array to hold the par for each hole
+var ParArrayCourse2 = [4, 4, 8, 5, 5, 6, 5, 4, 5];     //Array to hold the par for each hole
 var TotalShots = Number(localStorage.getItem("Course2TotalShots"));    //Stores the total shots for the course
 var WaterHit = Number(localStorage.getItem("Course2WaterHit"));    //Stores the number of water hazards hit for the course
 var CourseTimer = 0;    //Sets the timer to 0
