@@ -75,6 +75,12 @@ level2_1.prototype = {
         Space = this.game.add.sprite(0,0, "Space");
         Space.scale.setTo(1.5, 1.5);
 
+        Ball = this.game.add.sprite(150, 530, "Ball");
+        Ball.anchor.setTo(0.5, 0.5);
+        this.game.physics.p2.enable(Ball);
+        Ball.body.clearShapes();
+        Ball.body.loadPolygon("Physics", "Ball");
+
         Water = this.game.add.sprite(3515, 235, "Water");
         Water.scale.setTo(0.6);
         Water.animations.add("Water");
@@ -84,12 +90,6 @@ level2_1.prototype = {
         Block.scale.setTo(6);
         this.game.physics.p2.enable(Block);
         Block.body.static = true;
-
-        Ball = this.game.add.sprite(150, 530, "Ball");
-        Ball.anchor.setTo(0.5, 0.5);
-        this.game.physics.p2.enable(Ball);
-        Ball.body.clearShapes();
-        Ball.body.loadPolygon("Physics", "Ball");
 
         Fairway = this.game.add.sprite(this.game.world.centerX, 360, "Fairway");
         Fairway.anchor.setTo(0.5,0.5);
