@@ -224,9 +224,7 @@ level1.prototype = {
 
         if (this.game.input.activePointer.isDown && Paused != true && Scoreboard != undefined) {
             if (Scoreboard.input.checkPointerOver(this.game.input.activePointer)){
-                this.game.state.start("MainMenu");
-                CourseEnded = true;
-                LastCourse = 1;
+                this.game.state.start("Level2");
                 MusicControl.stop();
                 //console.log("Level2");
             }
