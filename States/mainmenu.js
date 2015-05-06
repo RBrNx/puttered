@@ -78,6 +78,7 @@ var About;
 var AboutText;
 var results;
 var ClearCheck = false;
+var OverallScore;
 
 var CourseTimer = 0;
 
@@ -392,7 +393,7 @@ mainMenu.prototype = {
             }
 
             CoursePar = this.game.add.bitmapText(this.game.world.centerX + 100, this.game.world.centerY - 150, "8Bit2", "Par: " + sum2 + "\n\nStrokes: " + sum);
-            var OverallScore = sum - sum2;
+            OverallScore = sum - sum2;
             Overall = this.game.add.bitmapText(this.game.world.centerX + 100, this.game.world.centerY, "8Bit2", "Overall\n Score\n");
             if (OverallScore > 0) {
                 OverallText = this.game.add.bitmapText(this.game.world.centerX + 140, this.game.world.centerY + 75, "8Bit2", "+" + OverallScore.toString(), 64);
@@ -478,7 +479,7 @@ mainMenu.prototype = {
             }
 
             CoursePar = this.game.add.bitmapText(this.game.world.centerX + 100, this.game.world.centerY - 150, "8Bit2", "Par: " + sum2 + "\n\nStrokes: " + sum);
-            var OverallScore = sum - sum2;
+            OverallScore = sum - sum2;
             Overall = this.game.add.bitmapText(this.game.world.centerX + 100, this.game.world.centerY, "8Bit2", "Overall\n Score\n");
             if (OverallScore > 0) {
                 OverallText = this.game.add.bitmapText(this.game.world.centerX + 140, this.game.world.centerY + 75, "8Bit2", "+" + OverallScore.toString(), 64);
