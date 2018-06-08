@@ -1,6 +1,7 @@
 {
   "show": true,
-  "image": "img/Puttered_Showcase.png",
+  "imageMain": "img/puttered.PNG",
+  "imageDrop": "img/puttered.PNG",
   "title": "Puttered!",
   "description": "A 2D Golf Game written in Javascript."
 }
