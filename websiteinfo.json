@@ -4,4 +4,11 @@
   "imageDrop": "img/puttered_2.png",
   "title": "Puttered!",
   "description": "A 2D Golf Game written in Javascript."
+  "carouselImages": [ "puttered.png", "puttered_2.png", "puttered_3.png" ],
+  "aboutProject": "<p>Puttered is a 2D golf game that was created by my friend and I as a requirement for the Mobile Game Development module of our University Course. It is based on the popular mobile game <strong>Super Stickman Golf</strong> and contains two courses, each with 9 holes to play.</p><p>The game was built for mobiles but is also playable in a desktop browser. It was written in Javascript and HTML5, using the <strong>Phaser.js</strong> framework for all the loading, rendering and general gameplay, along with <strong>Box2D</strong> as the physics engine. Each course has its own online leaderboard with playres scores stored in a MYSQL Database, which the game communicates with using a PHP layer and some AJAX requests.</p>",
+  "techSheet": [ "UI/UX Design", "UI/UX Animations", "HTML5 - Canvas, Audio", "Javascript", "Phaser.js", "Box2D Physics", "PHP", "AJAX Requests" ],
+  "links": [ { "linkText": "Play Puttered", "link": "http://www.redbarongames.co.uk/Puttered/index.html" },
+             { "linkText": "Phaser.js", "link": "https://phaser.io/" }
+    ]
+}
 }
