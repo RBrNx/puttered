@@ -1,7 +1,7 @@
 {
   "show": true,
-  "imageMain": "img/puttered.png",
-  "imageDrop": "img/puttered_2.png",
+  "imageMain": "/img/puttered.png",
+  "imageDrop": "/img/puttered_2.png",
   "title": "Puttered!",
   "description": "A 2D Golf Game written in Javascript.",
   "carouselImages": [ "puttered.png", "puttered_2.png", "puttered_3.png" ],
