@@ -2,4 +2,4 @@ We were tasked with creating a HTML and Javascript game that would function on m
 
 The game is now as feature complete as we could get it before it was handed in. However we do plan to add some extras to it during the summer.
 
-See it running here: http://redbarongames.co.uk/Puttered/index.html
+See it running here: https://puttered.redbarongames.co.uk/
